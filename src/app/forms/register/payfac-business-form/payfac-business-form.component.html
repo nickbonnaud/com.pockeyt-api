@@ -23,7 +23,7 @@
       [ngClass]="{'form-control-danger': zip.invalid && (zip.dirty || zip.touched)}">
 
     <nb-select placeholder="Business Type" class="form-control" formControlName="entityType">
-      <nb-option *ngFor="let type of entityTypes" [value]="type">{{ type }}</nb-option>
+      <nb-option *ngFor="let type of entityTypes" [value]="type.value">{{ type.title }}</nb-option>
     </nb-select>
 
     <input *ngIf="" nbInput type="string" placeholder="EIN (Employee ID Number)" class="form-control" formControlName="ein"

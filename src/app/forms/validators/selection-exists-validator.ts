@@ -1,5 +1,4 @@
 import { ValidatorFn, AbstractControl } from '@angular/forms';
-import { STATE_OPTIONS } from 'src/assets/data/states-select';
 
 export function selectionExistsValidator(options: string[]): ValidatorFn {
 
