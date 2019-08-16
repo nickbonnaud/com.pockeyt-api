@@ -1,0 +1,32 @@
+<form [formGroup]="payFacBusinessForm" (ngSubmit)="payFacBusinessSubmit()" class="step-container">
+  <p class="lorem">
+    Great, we are on our way! Next, lets get some information about your business so you can get paid!
+  </p>
+  <div class="input-group">
+    <input nbInput type="text" placeholder="Official Business Name" class="form-control" formControlName="businessName"
+      [ngClass]="{'form-control-danger': businessName.invalid && (businessName.dirty || businessName.touched)}">
+
+    <input nbInput type="text" placeholder="Business Address" class="form-control" formControlName="address"
+      [ngClass]="{'form-control-danger': address.invalid && (address.dirty || address.touched)}">
+
+    <input nbInput type="text" placeholder="Unit, Number, Etc. (optional)" class="form-control" formControlName="addressSecondary"
+      [ngClass]="{'form-control-danger': addressSecondary.invalid && (addressSecondary.dirty || addressSecondary.touched)}">
+
+    <input nbInput type="text" placeholder="city" class="form-control" formControlName="city"
+      [ngClass]="{'form-control-danger': city.invalid && (city.dirty || city.touched)}">
+
+    <nb-select placeholder="State" class="form-control" formControlName="state">
+      <nb-option *ngFor="let state of states" [value]="state">{{ state }}</nb-option>
+    </nb-select>
+
+    <input nbInput type="number" placeholder="Zip/Postal Code" class="form-control" formControlName="zip"
+      [ngClass]="{'form-control-danger': zip.invalid && (zip.dirty || zip.touched)}">
+
+    <nb-select placeholder="Business Type" class="form-control" formControlName="entityType">
+      <nb-option *ngFor="let type of entityTypes" [value]="type">{{ type }}</nb-option>
+    </nb-select>
+
+    <input *ngIf="" nbInput type="string" placeholder="EIN (Employee ID Number)" class="form-control" formControlName="ein"
+      [ngClass]="{'form-control-danger': ein.invalid && (ein.dirty || ein.touched)}">
+  </div>
+</form>
