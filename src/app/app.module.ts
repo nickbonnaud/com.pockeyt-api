@@ -12,14 +12,19 @@ import { HttpClientModule } from '@angular/common/http';
 import { NbAuthModule, NbPasswordAuthStrategy, NbAuthJWTToken } from '@nebular/auth';
 import { environment } from 'src/environments/environment';
 import { ProfileFormComponent } from './forms/register/profile-form/profile-form.component';
+import { IConfig, NgxMaskModule } from 'ngx-mask';
+import { ConfirmOrCancelComponent } from './dialogs/confirm-or-cancel/confirm-or-cancel.component';
+import { ConfirmOrCancelDialogComponent } from './dialogs/confirm-or-cancel-dialog/confirm-or-cancel-dialog.component';
+
+
+export let options: Partial<IConfig> | (() => Partial<IConfig>);
 
 @NgModule({
-  declarations: [AppComponent, ProfileFormComponent],
+  declarations: [AppComponent, ProfileFormComponent, ConfirmOrCancelComponent, ConfirmOrCancelDialogComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    NbThemeModule.forRoot({ name: 'cosmic' }),
     NbLayoutModule,
     NbEvaIconsModule,
     NbActionsModule,
@@ -27,7 +32,9 @@ import { ProfileFormComponent } from './forms/register/profile-form/profile-form
     NbMenuModule,
     HttpClientModule,
     LayoutModule,
+    NbThemeModule.forRoot({ name: 'cosmic' }),
     NbSidebarModule.forRoot(),
+    NgxMaskModule.forRoot(options),
 
     NbAuthModule.forRoot({
       strategies: [
@@ -60,11 +67,11 @@ import { ProfileFormComponent } from './forms/register/profile-form/profile-form
       ],
       forms: {
         login: {
-          rememberMe: false,
+          rememberMe: false
         },
         validation: {
           password: {
-            minLength: 6,
+            minLength: 6
           }
         }
       }

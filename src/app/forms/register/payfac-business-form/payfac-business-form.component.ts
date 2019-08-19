@@ -48,7 +48,7 @@ export class PayfacBusinessFormComponent implements OnInit {
         '',
         Validators.compose([
           Validators.pattern(patterns.numbers_only),
-          lengthMatchValidator(9),
+          lengthMatchValidator(10),
           requiredIfValidator(
             this.payFacBusinessForm.get('entityType'),
             this.entityTypesRequiringEin()

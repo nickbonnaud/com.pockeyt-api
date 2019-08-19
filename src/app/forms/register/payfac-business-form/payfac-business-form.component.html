@@ -19,14 +19,14 @@
       <nb-option *ngFor="let state of states" [value]="state">{{ state }}</nb-option>
     </nb-select>
 
-    <input nbInput type="number" placeholder="Zip/Postal Code" class="form-control" formControlName="zip"
+    <input nbInput type="tel" placeholder="Zip/Postal Code" class="form-control" formControlName="zip"
       [ngClass]="{'form-control-danger': zip.invalid && (zip.dirty || zip.touched)}">
 
     <nb-select placeholder="Business Type" class="form-control" formControlName="entityType">
       <nb-option *ngFor="let type of entityTypes" [value]="type.value">{{ type.title }}</nb-option>
     </nb-select>
 
-    <input *ngIf="" nbInput type="string" placeholder="EIN (Employee ID Number)" class="form-control" formControlName="ein"
+    <input mask="00-0000000" *ngIf="" nbInput type="tel" placeholder="EIN (Employee ID Number)" class="form-control" formControlName="ein"
       [ngClass]="{'form-control-danger': ein.invalid && (ein.dirty || ein.touched)}">
   </div>
 </form>
