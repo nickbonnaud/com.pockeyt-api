@@ -1,7 +1,6 @@
 import { AuthGuardService } from './auth/services/auth-guard.service';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { NbAuthComponent, NbLoginComponent, NbRegisterComponent, NbLogoutComponent } from '@nebular/auth';
 
 const routes: Routes = [
   {

@@ -2,6 +2,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { PagesComponent } from './pages.component';
+import { OnBoardComponent } from './on-board/on-board.component';
 
 
 const routes: Routes = [{
@@ -9,8 +10,16 @@ const routes: Routes = [{
   component: PagesComponent,
   children: [
     {
-      path: 'dashboard',
+      path: 'home',
       component: DashboardComponent
+    },
+    {
+      path: 'onboard',
+      component: OnBoardComponent
+    },
+    {
+      path: '',
+      redirectTo: 'home',
     }
   ]
 }];

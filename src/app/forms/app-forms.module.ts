@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
 import { ProfileFormComponent } from './register/profile-form/profile-form.component';
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PayfacBusinessFormComponent } from './register/payfac-business-form/payfac-business-form.component';
@@ -7,9 +7,8 @@ import { NbInputModule, NbSelectModule, NbCheckboxModule, NbDialogModule } from 
 import { PayfacOwnerFormComponent } from './register/payfac-owner-form/payfac-owner-form.component';
 import { NgxMaskModule } from 'ngx-mask';
 
-
 @NgModule({
-  declarations: [ProfileFormComponent, PayfacBusinessFormComponent, PayfacOwnerFormComponent],
+  declarations: [PayfacBusinessFormComponent, PayfacOwnerFormComponent, ProfileFormComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -19,6 +18,6 @@ import { NgxMaskModule } from 'ngx-mask';
     NgxMaskModule.forChild(),
     NbDialogModule.forChild()
   ],
-  exports: []
+  exports: [PayfacBusinessFormComponent, PayfacOwnerFormComponent, ProfileFormComponent]
 })
-export class FormsModule { }
+export class AppFormsModule {}

@@ -1,14 +1,9 @@
-<form [formGroup]="profileForm" (ngSubmit)="profileSubmit()" class="step-container">
-  <p class="lorem">
-    Alright, lets get started! First lets get some basic information about your business.
-  </p>
-  <div class="input-group">
-    <input nbInput type="text" placeholder="Business Name" class="form-control" formControlName="name"
-      [ngClass]="{'form-control-danger': name.invalid && (name.dirty || name.touched)}">
-    <input nbInput type="url" placeholder="Business Website" class="form-control" formControlName="website"
-      [ngClass]="{'form-control-danger': website.invalid && (website.dirty || website.touched)}">
-    <input nbInput type="text" placeholder="Business Description" class="form-control" formControlName="description"
-        [ngClass]="{'form-control-danger': description.invalid && (description.dirty || description.touched)}">
-  </div>
-  <button nbButton nbStepperNext>next</button>
-</form>
+<div class="input-group" [formGroup]="parentFormGroup">
+  <input nbInput type="text" placeholder="Business Name" class="form-control" formControlName="name"
+    [ngClass]="{'form-control-danger': parentFormGroup.controls.name.invalid && (parentFormGroup.controls.name.dirty || parentFormGroup.controls.name.touched)}">
+  <input nbInput type="url" placeholder="Business Website" class="form-control" formControlName="website"
+    [ngClass]="{'form-control-danger': parentFormGroup.controls.website.invalid && (parentFormGroup.controls.website.dirty || parentFormGroup.controls.website.touched)}">
+  <input nbInput type="text" placeholder="Business Description" class="form-control" formControlName="description"
+    [ngClass]="{'form-control-danger': parentFormGroup.controls.description.invalid && (parentFormGroup.controls.description.dirty || parentFormGroup.controls.description.touched)}">
+</div>
+

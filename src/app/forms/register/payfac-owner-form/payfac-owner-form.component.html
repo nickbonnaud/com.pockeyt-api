@@ -1,48 +1,43 @@
-<form [formGroup]="payFacOwnerForm" (ngSubmit)="payFacOwnerSubmit()" class="step-container">
-  <p class="lorem">
-    Looking good, we are almost done! Help us out with some info about the ownership of your business. Please add anyone that has a 25% stake or higher.
-  </p>
-  <div class="input-group">
-    <input nbInput type="text" placeholder="First Name" class="form-control" formControlName="firstName"
-      [ngClass]="{'form-control-danger': firstName.invalid && (firstName.dirty || firstName.touched)}">
+<div class="input-group" [formGroup]="parentFormGroup">
+  <input nbInput type="text" placeholder="First Name" class="form-control" formControlName="firstName"
+    [ngClass]="{'form-control-danger': parentFormGroup.controls.firstName.invalid && (parentFormGroup.controls.firstName.dirty || parentFormGroup.controls.firstName.touched)}">
 
-    <input nbInput type="text" placeholder="Last Name" class="form-control" formControlName="lastName"
-      [ngClass]="{'form-control-danger': lastName.invalid && (lastName.dirty || lastName.touched)}">
+  <input nbInput type="text" placeholder="Last Name" class="form-control" formControlName="lastName"
+    [ngClass]="{'form-control-danger': parentFormGroup.controls.lastName.invalid && (parentFormGroup.controls.lastName.dirty || parentFormGroup.controls.lastName.touched)}">
 
-    <input nbInput type="text" placeholder="Title i.e. Owner, CEO, etc." class="form-control" formControlNam="title"
-      [ngClass]="{'form-control-danger': title.invalid && (title.dirty || title.touched)}">
+  <input nbInput type="text" placeholder="Title i.e. Owner, CEO, etc." class="form-control" formControlNam="title"
+    [ngClass]="{'form-control-danger': parentFormGroup.controls.title.invalid && (parentFormGroup.controls.title.dirty || parentFormGroup.controls.title.touched)}">
 
-    <input nbInput type="email" placeholder="Email" class="form-control" formControlName="email"
-      [ngClass]="{'form-control-danger': email.invalid && (email.dirty || email.touched)}">
+  <input nbInput type="email" placeholder="Email" class="form-control" formControlName="email"
+    [ngClass]="{'form-control-danger': parentFormGroup.controls.email.invalid && (parentFormGroup.controls.email.dirty || parentFormGroup.controls.email.touched)}">
 
-    <input mask="(000) 000-0000" nbInput type="tel" placeholder="Phone" class="form-control" formControlName="phone"
-      [ngClass]="{'form-control-danger': phone.invalid && (phone.dirty || phone.touched)}">
+  <input mask="(000) 000-0000" nbInput type="tel" placeholder="Phone" class="form-control" formControlName="phone"
+    [ngClass]="{'form-control-danger': parentFormGroup.controls.phone.invalid && (parentFormGroup.controls.phone.dirty || parentFormGroup.controls.phone.touched)}">
 
-    <input mask="00/00/0000" nbInput type="date" placeholder="Date of Birth" class="form-control" formControlName="dob"
-      [ngClass]="{'form-control-danger': dob.invalid && (dob.dirty || dob.touched)}">
+  <input mask="00/00/0000" nbInput type="date" placeholder="Date of Birth" class="form-control" formControlName="dob"
+    [ngClass]="{'form-control-danger': parentFormGroup.controls.dob.invalid && (parentFormGroup.controls.dob.dirty || parentFormGroup.controls.dob.touched)}">
 
-    <input mask="XXX-XX-0000" [hiddenInput]="true" nbInput type="tel" placeholder="SSN" class="form-control" formControlName="ssn"
-      [ngClass]="{'form-control-danger': ssn.invalid && (ssn.dirty || ssn.touched)}">
+  <input mask="XXX-XX-0000" [hiddenInput]="true" nbInput type="tel" placeholder="SSN" class="form-control" formControlName="ssn"
+    [ngClass]="{'form-control-danger': parentFormGroup.controls.ssn.invalid && (parentFormGroup.controls.ssn.dirty || parentFormGroup.controls.ssn.touched)}">
 
-    <input nbInput type="text" placeholder="Street Address" class="form-control" formControlName="address"
-      [ngClass]="{'form-control-danger': address.invalid && (address.dirty || address.touched)}">
+  <input nbInput type="text" placeholder="Street Address" class="form-control" formControlName="address"
+    [ngClass]="{'form-control-danger': parentFormGroup.controls.address.invalid && (parentFormGroup.controls.address.dirty || parentFormGroup.controls.address.touched)}">
 
-    <input nbInput type="text" placeholder="Unit, Number, Etc. (optional)" class="form-control" formControlName="addressSecondary"
-      [ngClass]="{'form-control-danger': addressSecondary.invalid && (addressSecondary.dirty || addressSecondary.touched)}">
+  <input nbInput type="text" placeholder="Unit, Number, Etc. (optional)" class="form-control" formControlName="addressSecondary"
+    [ngClass]="{'form-control-danger': parentFormGroup.controls.addressSecondary.invalid && (parentFormGroup.controls.addressSecondary.dirty || parentFormGroup.controls.addressSecondary.touched)}">
 
-    <input nbInput type="text" placeholder="City" class="form-control" formControlName="city"
-      [ngClass]="{'form-control-danger': city.invalid && (city.dirty || city.touched)}">
+  <input nbInput type="text" placeholder="City" class="form-control" formControlName="city"
+    [ngClass]="{'form-control-danger': parentFormGroup.controls.city.invalid && (parentFormGroup.controls.city.dirty || parentFormGroup.controls.city.touched)}">
 
-    <nb-select placeholder="State" class="form-control" formControlName="state">
-      <nb-option *ngFor="let state of states" [value]="state">{{ state }}</nb-option>
-    </nb-select>
+  <nb-select placeholder="State" class="form-control" formControlName="state">
+    <nb-option *ngFor="let state of states" [value]="state">{{ state }}</nb-option>
+  </nb-select>
 
-    <input nbInput type="tel" placeholder="Zip/Postal Code" class="form-control" formControlName="zip"
-      [ngClass]="{'form-control-danger': zip.invalid && (zip.dirty || zip.touched)}">
+  <input nbInput type="tel" placeholder="Zip/Postal Code" class="form-control" formControlName="zip"
+    [ngClass]="{'form-control-danger': parentFormGroup.controls.zip.invalid && (parentFormGroup.controls.zip.dirty || parentFormGroup.controls.zip.touched)}">
 
-    <input nbInput type="tel" placeholder="Percent Ownership" class="form-control" formControlName="percentOwnership"
-      [ngClass]="{'form-control-danger': percentOwnership.invalid && (percentOwnership.dirty || percentOwnership.touched)}">
+  <input nbInput type="tel" placeholder="Percent Ownership" class="form-control" formControlName="percentOwnership"
+    [ngClass]="{'form-control-danger': parentFormGroup.controls.percentOwnership.invalid && (parentFormGroup.controls.percentOwnership.dirty || parentFormGroup.controls.percentOwnership.touched)}">
 
-    <nb-checkbox (checkedChange)="togglePrimary($event)">Primary Owner</nb-checkbox>
-  </div>
-</form>
+  <nb-checkbox (checkedChange)="togglePrimary($event)">Primary Owner</nb-checkbox>
+</div>

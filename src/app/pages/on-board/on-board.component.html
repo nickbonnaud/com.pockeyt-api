@@ -1,0 +1,39 @@
+<nb-card>
+  <nb-card-body>
+    <nb-stepper #stepper>
+
+      <nb-step [stepControl]="profileForm" label="Profile">
+        <form [formGroup]="profileForm" (ngSubmit)="profileSubmit()" class="step-container">
+          <p class="lorem">
+            Alright, lets get started! First lets get some basic information about your business.
+          </p>
+          <app-profile-form [parentFormGroup]="profileForm"></app-profile-form>
+          <button nbButton nbStepperNext>next</button>
+        </form>
+      </nb-step>
+
+      <nb-step [stepControl]="payFacBusinessForm" label="Business Info">
+        <form [formGroup]="payFacBusinessForm" (ngSubmit)="payFacBusinessSubmit()" class="step-container">
+          <p class="lorem">
+            Great, we are on our way! Next, lets get some information about your business so you can get paid!
+          </p>
+          <app-payfac-business-form [parentFormGroup]="payFacBusinessForm"></app-payfac-business-form>
+          <button nbButton nbStepperPrevious>prev</button>
+          <button nbButton nbStepperNext>next</button>
+        </form>
+      </nb-step>
+
+      <nb-step [stepControl]="payFacOwnerForm" label="Owner Info">
+        <form [formGroup]="payFacOwnerForm" (ngSubmit)="payFacOwnerSubmit()" class="step-container">
+          <p class="lorem">
+            Looking good, we are almost done! Help us out with some info about the ownership of your business. Please add anyone
+            that has a 25% stake or higher.
+          </p>
+          <app-payfac-owner-form [parentFormGroup]="payFacOwnerForm"></app-payfac-owner-form>
+          <button nbButton nbStepperPrevious>prev</button>
+          <button nbButton nbStepperNext>next</button>
+        </form>
+      </nb-step>
+    </nb-stepper>
+  </nb-card-body>
+</nb-card>

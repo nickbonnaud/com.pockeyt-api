@@ -1,32 +1,28 @@
-<form [formGroup]="payFacBusinessForm" (ngSubmit)="payFacBusinessSubmit()" class="step-container">
-  <p class="lorem">
-    Great, we are on our way! Next, lets get some information about your business so you can get paid!
-  </p>
-  <div class="input-group">
-    <input nbInput type="text" placeholder="Official Business Name" class="form-control" formControlName="businessName"
-      [ngClass]="{'form-control-danger': businessName.invalid && (businessName.dirty || businessName.touched)}">
+<div class="input-group" [formGroup]="parentFormGroup">
+  <input nbInput type="text" placeholder="Official Business Name" class="form-control" formControlName="businessName"
+    [ngClass]="{'form-control-danger': parentFormGroup.controls.businessName.invalid && (parentFormGroup.controls.businessName.dirty || parentFormGroup.controls.businessName.touched)}">
 
-    <input nbInput type="text" placeholder="Business Address" class="form-control" formControlName="address"
-      [ngClass]="{'form-control-danger': address.invalid && (address.dirty || address.touched)}">
+  <input nbInput type="text" placeholder="Business Address" class="form-control" formControlName="address"
+    [ngClass]="{'form-control-danger': parentFormGroup.controls.address.invalid && (parentFormGroup.controls.address.dirty || parentFormGroup.controls.address.touched)}">
 
-    <input nbInput type="text" placeholder="Unit, Number, Etc. (optional)" class="form-control" formControlName="addressSecondary"
-      [ngClass]="{'form-control-danger': addressSecondary.invalid && (addressSecondary.dirty || addressSecondary.touched)}">
+  <input nbInput type="text" placeholder="Unit, Number, Etc. (optional)" class="form-control"
+    formControlName="addressSecondary"
+    [ngClass]="{'form-control-danger': parentFormGroup.controls.addressSecondary.invalid && (parentFormGroup.controls.addressSecondary.dirty || parentFormGroup.controls.addressSecondary.touched)}">
 
-    <input nbInput type="text" placeholder="city" class="form-control" formControlName="city"
-      [ngClass]="{'form-control-danger': city.invalid && (city.dirty || city.touched)}">
+  <input nbInput type="text" placeholder="city" class="form-control" formControlName="city"
+    [ngClass]="{'form-control-danger': parentFormGroup.controls.city.invalid && (parentFormGroup.controls.city.dirty || parentFormGroup.controls.city.touched)}">
 
-    <nb-select placeholder="State" class="form-control" formControlName="state">
-      <nb-option *ngFor="let state of states" [value]="state">{{ state }}</nb-option>
-    </nb-select>
+  <nb-select placeholder="State" class="form-control" formControlName="state">
+    <nb-option *ngFor="let state of states" [value]="state">{{ state }}</nb-option>
+  </nb-select>
 
-    <input nbInput type="tel" placeholder="Zip/Postal Code" class="form-control" formControlName="zip"
-      [ngClass]="{'form-control-danger': zip.invalid && (zip.dirty || zip.touched)}">
+  <input nbInput type="tel" placeholder="Zip/Postal Code" class="form-control" formControlName="zip"
+    [ngClass]="{'form-control-danger': parentFormGroup.controls.zip.invalid && (parentFormGroup.controls.zip.dirty || parentFormGroup.controls.zip.touched)}">
 
-    <nb-select placeholder="Business Type" class="form-control" formControlName="entityType">
-      <nb-option *ngFor="let type of entityTypes" [value]="type.value">{{ type.title }}</nb-option>
-    </nb-select>
+  <nb-select placeholder="Business Type" class="form-control" formControlName="entityType">
+    <nb-option *ngFor="let type of entityTypes" [value]="type.value">{{ type.title }}</nb-option>
+  </nb-select>
 
-    <input mask="00-0000000" *ngIf="" nbInput type="tel" placeholder="EIN (Employee ID Number)" class="form-control" formControlName="ein"
-      [ngClass]="{'form-control-danger': ein.invalid && (ein.dirty || ein.touched)}">
-  </div>
-</form>
+  <input mask="00-0000000" *ngIf="" nbInput type="tel" placeholder="EIN (Employee ID Number)" class="form-control"
+    formControlName="ein" [ngClass]="{'form-control-danger': parentFormGroup.controls.ein.invalid && (parentFormGroup.controls.ein.dirty || parentFormGroup.controls.ein.touched)}">
+</div>
