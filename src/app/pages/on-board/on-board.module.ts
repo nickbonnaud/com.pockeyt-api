@@ -1,7 +1,7 @@
 import { AppFormsModule } from './../../forms/app-forms.module';
 import { NgModule } from '@angular/core';
 import { OnBoardComponent } from './on-board.component';
-import { NbCardModule, NbStepperModule } from '@nebular/theme';
+import { NbCardModule, NbStepperModule, NbButtonModule } from '@nebular/theme';
 import { ReactiveFormsModule } from '@angular/forms';
 
 
@@ -12,6 +12,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     NbCardModule,
     NbStepperModule,
+    NbButtonModule,
     AppFormsModule
   ]
 })

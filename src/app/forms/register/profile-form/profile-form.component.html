@@ -1,9 +1,29 @@
-<div class="input-group" [formGroup]="parentFormGroup">
-  <input nbInput type="text" placeholder="Business Name" class="form-control" formControlName="name"
-    [ngClass]="{'form-control-danger': parentFormGroup.controls.name.invalid && (parentFormGroup.controls.name.dirty || parentFormGroup.controls.name.touched)}">
-  <input nbInput type="url" placeholder="Business Website" class="form-control" formControlName="website"
-    [ngClass]="{'form-control-danger': parentFormGroup.controls.website.invalid && (parentFormGroup.controls.website.dirty || parentFormGroup.controls.website.touched)}">
-  <input nbInput type="text" placeholder="Business Description" class="form-control" formControlName="description"
-    [ngClass]="{'form-control-danger': parentFormGroup.controls.description.invalid && (parentFormGroup.controls.description.dirty || parentFormGroup.controls.description.touched)}">
+<div [formGroup]="parentFormGroup">
+
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="form-group">
+        <input nbInput fullWidth shape="round" id="name" type="text" placeholder="Business Name" class="form-control" formControlName="name"
+          [ngClass]="{'form-control-danger': parentFormGroup.controls.name.invalid && (parentFormGroup.controls.name.dirty || parentFormGroup.controls.name.touched)}">
+      </div>
+    </div>
+
+    <div class="col-sm-6">
+      <div class="form-group">
+        <input nbInput fullWidth shape="round" id="website" type="url" placeholder="Business Website" class="form-control" formControlName="website"
+            [ngClass]="{'form-control-danger': parentFormGroup.controls.website.invalid && (parentFormGroup.controls.website.dirty || parentFormGroup.controls.website.touched)}">
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="form-group">
+        <textarea rows="5" nbInput fullWidth shape="round" id="description" placeholder="Business Description" class="form-control"
+          formControlName="description" [ngClass]="{'form-control-danger': parentFormGroup.controls.description.invalid && (parentFormGroup.controls.description.dirty || parentFormGroup.controls.description.touched)}"></textarea>
+      </div>
+    </div>
+  </div>
+
 </div>
 
