@@ -1,28 +1,72 @@
-<div class="input-group" [formGroup]="parentFormGroup">
-  <input nbInput type="text" placeholder="Official Business Name" class="form-control" formControlName="businessName"
-    [ngClass]="{'form-control-danger': parentFormGroup.controls.businessName.invalid && (parentFormGroup.controls.businessName.dirty || parentFormGroup.controls.businessName.touched)}">
+<div [formGroup]="parentFormGroup">
 
-  <input nbInput type="text" placeholder="Business Address" class="form-control" formControlName="address"
-    [ngClass]="{'form-control-danger': parentFormGroup.controls.address.invalid && (parentFormGroup.controls.address.dirty || parentFormGroup.controls.address.touched)}">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="form-group">
+        <input nbInput fullWidth shape="round" id="businessName" type="text" placeholder="Official Business Name i.e Acme llc." class="form-control" formControlName="businessName"
+          [ngClass]="{'form-control-danger': parentFormGroup.controls.businessName.invalid && (parentFormGroup.controls.businessName.dirty || parentFormGroup.controls.businessName.touched)}">
+      </div>
+    </div>
+  </div>
 
-  <input nbInput type="text" placeholder="Unit, Number, Etc. (optional)" class="form-control"
-    formControlName="addressSecondary"
-    [ngClass]="{'form-control-danger': parentFormGroup.controls.addressSecondary.invalid && (parentFormGroup.controls.addressSecondary.dirty || parentFormGroup.controls.addressSecondary.touched)}">
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="form-group">
+        <input nbInput fullWidth shape="round" id="address" type="text" placeholder="Business Address" class="form-control" formControlName="address"
+          [ngClass]="{'form-control-danger': parentFormGroup.controls.address.invalid && (parentFormGroup.controls.address.dirty || parentFormGroup.controls.address.touched)}">
+      </div>
+    </div>
 
-  <input nbInput type="text" placeholder="city" class="form-control" formControlName="city"
-    [ngClass]="{'form-control-danger': parentFormGroup.controls.city.invalid && (parentFormGroup.controls.city.dirty || parentFormGroup.controls.city.touched)}">
+    <div class="col-sm-6">
+      <div class="form-group">
+        <input nbInput fullWidth shape="round" id="addressSecondary" type="text" placeholder="Unit, Number, Etc. (optional)" class="form-control" formControlName="addressSecondary"
+          [ngClass]="{'form-control-danger': parentFormGroup.controls.addressSecondary.invalid && (parentFormGroup.controls.addressSecondary.dirty || parentFormGroup.controls.addressSecondary.touched)}">
+      </div>
+    </div>
+  </div>
 
-  <nb-select placeholder="State" class="form-control" formControlName="state">
-    <nb-option *ngFor="let state of states" [value]="state">{{ state }}</nb-option>
-  </nb-select>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="form-group">
+        <input nbInput fullWidth shape="round" id="city" type="text" placeholder="city" class="form-control" formControlName="city"
+          [ngClass]="{'form-control-danger': parentFormGroup.controls.city.invalid && (parentFormGroup.controls.city.dirty || parentFormGroup.controls.city.touched)}">
+      </div>
+    </div>
 
-  <input nbInput type="tel" placeholder="Zip/Postal Code" class="form-control" formControlName="zip"
-    [ngClass]="{'form-control-danger': parentFormGroup.controls.zip.invalid && (parentFormGroup.controls.zip.dirty || parentFormGroup.controls.zip.touched)}">
+    <div class="col-sm-3">
+      <div class="form-group">
+        <nb-select fullWidth shape="round" id="state" placeholder="State" class="form-control" formControlName="state"
+            [ngClass]="{'form-control-danger': parentFormGroup.controls.state.invalid && (parentFormGroup.controls.state.dirty || parentFormGroup.controls.state.touched)}">
+          <nb-option *ngFor="let state of states" [value]="state">{{ state }}</nb-option>
+        </nb-select>
+      </div>
+    </div>
 
-  <nb-select placeholder="Business Type" class="form-control" formControlName="entityType">
-    <nb-option *ngFor="let type of entityTypes" [value]="type.value">{{ type.title }}</nb-option>
-  </nb-select>
+    <div class="col-sm-3">
+      <div class="form-group">
+        <input nbInput fullWidth shape="round" id="zip" type="tel" placeholder="Zip/Postal Code" class="form-control" formControlName="zip"
+          [ngClass]="{'form-control-danger': parentFormGroup.controls.zip.invalid && (parentFormGroup.controls.zip.dirty || parentFormGroup.controls.zip.touched)}">
+      </div>
+    </div>
+  </div>
 
-  <input mask="00-0000000" *ngIf="" nbInput type="tel" placeholder="EIN (Employee ID Number)" class="form-control"
-    formControlName="ein" [ngClass]="{'form-control-danger': parentFormGroup.controls.ein.invalid && (parentFormGroup.controls.ein.dirty || parentFormGroup.controls.ein.touched)}">
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="form-group">
+        <nb-select fullWidth shape="round" id="entityType" placeholder="Business Type" class="form-control" formControlName="entityType"
+            [ngClass]="{'form-control-danger': parentFormGroup.controls.entityType.invalid && (parentFormGroup.controls.entityType.dirty || parentFormGroup.controls.entityType.touched)}">
+          <nb-option *ngFor="let type of entityTypes" [value]="type.value">{{ type.title }}</nb-option>
+        </nb-select>
+      </div>
+    </div>
+
+    <div class="col-sm-6">
+      <div class="form-group">
+        <input mask="00-0000000" nbInput fullWidth shape="round" id="ein" type="tel" placeholder="EIN (Employee ID Number)" class="form-control" formControlName="ein"
+          [ngClass]="{'form-control-danger': parentFormGroup.controls.ein.invalid && (parentFormGroup.controls.ein.dirty || parentFormGroup.controls.ein.touched)}">
+      </div>
+    </div>
+  </div>
+
 </div>
+

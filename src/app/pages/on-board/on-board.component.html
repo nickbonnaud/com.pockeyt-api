@@ -8,8 +8,8 @@
             Alright, lets get started! First lets get some basic information about your business.
           </p>
           <app-profile-form [parentFormGroup]="profileForm"></app-profile-form>
-          <button nbButton disabled nbStepperNext>prev</button>
-          <button nbButton nbStepperNext>next</button>
+          <button disabled nbButton nbStepperNext>prev</button>
+          <button [disabled]="!profileForm.valid" nbButton nbStepperNext>next</button>
         </form>
       </nb-step>
 
