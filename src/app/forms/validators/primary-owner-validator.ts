@@ -8,7 +8,7 @@ export function primaryOwnerValidator(owners: Owner[]): ValidatorFn {
     if (control.value) {
       owners.forEach(owner => {
         if (owner.primary) {
-          return { primaryOwner: false };
+          return { primaryOwner: true };
         }
       });
     }

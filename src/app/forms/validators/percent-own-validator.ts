@@ -10,7 +10,7 @@ export function percentOwnValidator(owners: Owner[]): ValidatorFn {
     });
 
     if (total + control.value > 100) {
-      return { percentOwn: false };
+      return { percentOwn: true };
     }
     return null;
   };

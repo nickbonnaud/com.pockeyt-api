@@ -4,7 +4,7 @@ export function requiredIfValidator(input: AbstractControl, requiredOptions: str
 
   return (control: AbstractControl): {[key: string]: any} | null => {
     if (requiredOptions.includes(input.value) && control.pristine) {
-      return {requiredIf: false};
+      return {requiredIf: true};
     }
     return null;
   };

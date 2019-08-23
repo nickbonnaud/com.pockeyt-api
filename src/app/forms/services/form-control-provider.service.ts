@@ -30,7 +30,7 @@ export class FormControlProviderService {
   registerPayfacBusinessControls(): FormGroup {
     const states: string[] = STATE_OPTIONS;
 
-    const fg: FormGroup = this.fb.group({
+    return this.fb.group({
       businessName: ['', Validators.compose([Validators.required, Validators.minLength(2)])],
       address: ['', Validators.compose([Validators.required])],
       addressSecondary: [''],
@@ -50,19 +50,12 @@ export class FormControlProviderService {
           Validators.required,
           selectionExistsValidator(this.entityTypesToArray())
         ])
+      ],
+      ein: [
+        '',
+        Validators.compose([Validators.pattern(patterns.numbers_only), lengthMatchValidator(9)])
       ]
     });
-    fg.addControl(
-      'ein',
-      new FormControl('', [
-        Validators.compose([
-          Validators.pattern(patterns.numbers_only),
-          lengthMatchValidator(10),
-          requiredIfValidator(fg.get('entityType'), this.entityTypesRequiringEin())
-        ])
-      ])
-    );
-    return fg;
   }
 
   registerPayfacOwnerControls(owners: Owner[]): FormGroup {

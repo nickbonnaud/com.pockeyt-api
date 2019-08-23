@@ -4,7 +4,7 @@ export function lengthMatchValidator(validLength: number): ValidatorFn {
     const str: string = control.value;
 
     if (str.length !== validLength) {
-      return {lengthMatch: false};
+      return {lengthMatch: true};
     }
     return null;
   };

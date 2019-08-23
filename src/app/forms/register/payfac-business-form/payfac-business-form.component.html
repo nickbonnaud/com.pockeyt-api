@@ -3,8 +3,11 @@
   <div class="row">
     <div class="col-sm-12">
       <div class="form-group">
-        <input nbInput fullWidth shape="round" id="businessName" type="text" placeholder="Official Business Name i.e Acme llc." class="form-control" formControlName="businessName"
-          [ngClass]="{'form-control-danger': parentFormGroup.controls.businessName.invalid && (parentFormGroup.controls.businessName.dirty || parentFormGroup.controls.businessName.touched)}">
+        <input [status]="businessNameControl.touched ? (businessNameControl.invalid ? 'danger' : 'success') : ''" nbInput fullWidth shape="round" id="businessName" type="text" placeholder="Official Business Name i.e Acme llc." formControlName="businessName">
+        <ng-container *ngIf="businessNameControl.invalid && businessNameControl.touched">
+          <p class="caption status-danger" *ngIf="businessNameControl.errors?.required">Official Business name is required!</p>
+          <p class="caption status-danger" *ngIf="businessNameControl.errors?.minlength">Official Business Name must be at least 2 letters!</p>
+        </ng-container>
       </div>
     </div>
   </div>
@@ -12,15 +15,16 @@
   <div class="row">
     <div class="col-sm-6">
       <div class="form-group">
-        <input nbInput fullWidth shape="round" id="address" type="text" placeholder="Business Address" class="form-control" formControlName="address"
-          [ngClass]="{'form-control-danger': parentFormGroup.controls.address.invalid && (parentFormGroup.controls.address.dirty || parentFormGroup.controls.address.touched)}">
+        <input [status]="addressControl.touched ? (addressControl.invalid ? 'danger' : 'success') : ''" nbInput fullWidth shape="round" id="address" type="text" placeholder="Business Address" formControlName="address">
+        <ng-container *ngIf="addressControl.invalid && addressControl.touched">
+          <p class="caption status-danger" *ngIf="addressControl.errors?.required">Business Address is required!</p>
+        </ng-container>
       </div>
     </div>
 
     <div class="col-sm-6">
       <div class="form-group">
-        <input nbInput fullWidth shape="round" id="addressSecondary" type="text" placeholder="Unit, Number, Etc. (optional)" class="form-control" formControlName="addressSecondary"
-          [ngClass]="{'form-control-danger': parentFormGroup.controls.addressSecondary.invalid && (parentFormGroup.controls.addressSecondary.dirty || parentFormGroup.controls.addressSecondary.touched)}">
+        <input nbInput fullWidth shape="round" id="addressSecondary" type="text" placeholder="Unit, Number, Etc. (optional)" formControlName="addressSecondary">
       </div>
     </div>
   </div>
@@ -28,24 +32,33 @@
   <div class="row">
     <div class="col-sm-6">
       <div class="form-group">
-        <input nbInput fullWidth shape="round" id="city" type="text" placeholder="city" class="form-control" formControlName="city"
-          [ngClass]="{'form-control-danger': parentFormGroup.controls.city.invalid && (parentFormGroup.controls.city.dirty || parentFormGroup.controls.city.touched)}">
+        <input [status]="cityControl.touched ? (cityControl.invalid ? 'danger' : 'success') : ''" nbInput fullWidth shape="round" id="city" type="text" placeholder="City" formControlName="city">
+        <ng-container *ngIf="cityControl.invalid && cityControl.touched">
+          <p class="caption status-danger" *ngIf="cityControl.errors?.required">City is required!</p>
+        </ng-container>
       </div>
     </div>
 
     <div class="col-sm-3">
       <div class="form-group">
-        <nb-select fullWidth shape="round" id="state" placeholder="State" class="form-control" formControlName="state"
-            [ngClass]="{'form-control-danger': parentFormGroup.controls.state.invalid && (parentFormGroup.controls.state.dirty || parentFormGroup.controls.state.touched)}">
+        <nb-select (click)="markStateAsDirty()" [status]="stateControl.dirty ? (stateControl.invalid ? 'danger' : 'success') : ''" fullWidth shape="round" id="state" placeholder="State" class="select-margin" formControlName="state">
           <nb-option *ngFor="let state of states" [value]="state">{{ state }}</nb-option>
         </nb-select>
+        <ng-container *ngIf="stateControl.invalid && stateControl.dirty">
+          <p class="caption status-danger" *ngIf="stateControl.errors?.required">State is required!</p>
+          <p class="caption status-danger" *ngIf="stateControl.errors?.selectionExists">Selection is not a valid state!</p>
+        </ng-container>
       </div>
     </div>
 
     <div class="col-sm-3">
       <div class="form-group">
-        <input nbInput fullWidth shape="round" id="zip" type="tel" placeholder="Zip/Postal Code" class="form-control" formControlName="zip"
-          [ngClass]="{'form-control-danger': parentFormGroup.controls.zip.invalid && (parentFormGroup.controls.zip.dirty || parentFormGroup.controls.zip.touched)}">
+        <input mask="00000" [status]="zipControl.touched ? (zipControl.invalid ? 'danger' : 'success') : ''" nbInput fullWidth shape="round" id="zip" type="tel" placeholder="Zip/Postal Code" formControlName="zip">
+        <ng-container *ngIf="zipControl.invalid && zipControl.touched">
+          <p class="caption status-danger" *ngIf="zipControl.errors?.required">Zip is required!</p>
+          <p class="caption status-danger" *ngIf="zipControl.errors?.pattern">Zip can only be numbers!</p>
+          <p class="caption status-danger" *ngIf="zipControl.errors?.lengthMatch">Zip must be 5 numbers long!</p>
+        </ng-container>
       </div>
     </div>
   </div>
@@ -53,17 +66,23 @@
   <div class="row">
     <div class="col-sm-6">
       <div class="form-group">
-        <nb-select fullWidth shape="round" id="entityType" placeholder="Business Type" class="form-control" formControlName="entityType"
-            [ngClass]="{'form-control-danger': parentFormGroup.controls.entityType.invalid && (parentFormGroup.controls.entityType.dirty || parentFormGroup.controls.entityType.touched)}">
+        <nb-select (click)="markBusinessTypeAsDirty()" [status]="entityTypeControl.dirty ? (entityTypeControl.invalid ? 'danger' : 'success') : ''" fullWidth shape="round" id="entityType" placeholder="Business Type" formControlName="entityType" class="select-margin">
           <nb-option *ngFor="let type of entityTypes" [value]="type.value">{{ type.title }}</nb-option>
         </nb-select>
+        <ng-container *ngIf="entityTypeControl.invalid && entityTypeControl.dirty">
+          <p class="caption status-danger" *ngIf="entityTypeControl.errors?.required">Entity Type is required!</p>
+          <p class="caption status-danger" *ngIf="entityTypeControl.errors?.selectionExists">Entity Type is not a valid type!</p>
+        </ng-container>
       </div>
     </div>
 
     <div class="col-sm-6">
       <div class="form-group">
-        <input mask="00-0000000" nbInput fullWidth shape="round" id="ein" type="tel" placeholder="EIN (Employee ID Number)" class="form-control" formControlName="ein"
-          [ngClass]="{'form-control-danger': parentFormGroup.controls.ein.invalid && (parentFormGroup.controls.ein.dirty || parentFormGroup.controls.ein.touched)}">
+        <input [status]="einControl.touched ? (einControl.invalid ? 'danger' : 'success') : ''" mask="00-0000000" nbInput fullWidth shape="round" id="ein" type="tel" placeholder="EIN (Employee ID Number)" formControlName="ein">
+        <ng-container *ngIf="einControl.invalid && einControl.touched">
+          <p class="caption status-danger" *ngIf="einControl.errors?.pattern">EIN can only have numbers a dash!</p>
+          <p class="caption status-danger" *ngIf="einControl.errors?.lengthMatch">EIN can only be 9 numbers long!</p>
+        </ng-container>
       </div>
     </div>
   </div>
