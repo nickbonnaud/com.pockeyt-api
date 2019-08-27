@@ -34,4 +34,8 @@ export class OnBoardComponent implements OnInit {
   payFacOwnerSubmit(): void {
     this.payFacOwnerForm.markAsDirty();
   }
+
+  addOwner(owner: Owner): void {
+    this.owners.push(owner);
+  }
 }

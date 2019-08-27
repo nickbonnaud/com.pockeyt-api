@@ -1,9 +1,11 @@
 import { takeUntil } from 'rxjs/operators';
-import { FormGroup, AbstractControl } from '@angular/forms';
+import { FormGroup, AbstractControl, Validators } from '@angular/forms';
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { ENTITY_TYPE_OPTIONS } from 'src/assets/data/entity-types-select';
 import { STATE_OPTIONS } from 'src/assets/data/states-select';
 import { Subject } from 'rxjs/internal/Subject';
+import { lengthMatchValidator } from '../../validators/length-match-validator';
+import { patterns } from '../../validators/patterns';
 
 @Component({
   selector: 'app-payfac-business-form',
@@ -37,30 +39,49 @@ export class PayfacBusinessFormComponent implements OnInit, OnDestroy {
     this.zipControl = this.parentFormGroup.get('zip');
     this.entityTypeControl = this.parentFormGroup.get('entityType');
     this.einControl = this.parentFormGroup.get('ein');
-
     this.watchEntityType();
   }
 
-  markStateAsDirty() {
-    this.stateControl.markAsDirty();
+  markStateAsDirty(): void {
+    if (!this.stateControl.dirty) {
+      this.stateControl.markAsDirty();
+    }
   }
 
-  markBusinessTypeAsDirty() {
-    this.entityTypeControl.markAsDirty();
+  markBusinessTypeAsDirty(): void {
+    if (!this.entityTypeControl.dirty) {
+      this.entityTypeControl.markAsDirty();
+    }
   }
 
-  watchEntityType() {
-    this.entityTypeControl.valueChanges.pipe(takeUntil(this.destroyed$)).subscribe(value => {
-      value === 'soleProprietorship' ? this.disableEin() : this.einControl.enable();
+  watchEntityType(): void {
+    this.entityTypeControl.valueChanges.pipe(takeUntil(this.destroyed$)).subscribe(entityType => {
+      if (entityType === 'soleProprietorship') {
+        this.disableEin();
+        this.removeEinValidators();
+      } else {
+        this.einControl.enable();
+        this.addEinValidators();
+      }
     });
   }
 
-  disableEin() {
+  addEinValidators() {
+    this.einControl.setValidators([Validators.required, Validators.pattern(patterns.numbers_only), lengthMatchValidator(9)]);
+    this.einControl.updateValueAndValidity();
+  }
+
+  removeEinValidators() {
+    this.einControl.clearValidators();
+    this.einControl.updateValueAndValidity();
+  }
+
+  disableEin(): void {
     this.einControl.setValue('');
     this.einControl.disable();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroyed$.next(true);
     this.destroyed$.unsubscribe();
   }

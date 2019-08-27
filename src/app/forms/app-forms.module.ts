@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PayfacBusinessFormComponent } from './register/payfac-business-form/payfac-business-form.component';
-import { NbInputModule, NbSelectModule, NbCheckboxModule, NbDialogModule } from '@nebular/theme';
+import { NbInputModule, NbSelectModule, NbCheckboxModule, NbDialogModule, NbButtonModule, NbIconModule } from '@nebular/theme';
 import { PayfacOwnerFormComponent } from './register/payfac-owner-form/payfac-owner-form.component';
 import { NgxMaskModule } from 'ngx-mask';
 
@@ -15,6 +15,8 @@ import { NgxMaskModule } from 'ngx-mask';
     NbInputModule,
     NbSelectModule,
     NbCheckboxModule,
+    NbButtonModule,
+    NbIconModule,
     NgxMaskModule.forChild(),
     NbDialogModule.forChild()
   ],

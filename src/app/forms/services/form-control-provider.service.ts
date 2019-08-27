@@ -1,11 +1,10 @@
 import { AppFormsModule } from './../app-forms.module';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl, ValidatorFn } from '@angular/forms';
 import { Injectable } from '@angular/core';
 import { patterns } from '../validators/patterns';
 import { STATE_OPTIONS } from 'src/assets/data/states-select';
 import { selectionExistsValidator } from '../validators/selection-exists-validator';
 import { lengthMatchValidator } from '../validators/length-match-validator';
-import { requiredIfValidator } from '../validators/required-if-validator';
 import { ENTITY_TYPE_OPTIONS } from 'src/assets/data/entity-types-select';
 import { Owner } from 'src/app/models/business/owner';
 import { booleanValidator } from '../validators/boolean-validator';
@@ -88,8 +87,8 @@ export class FormControlProviderService {
         '',
         Validators.compose([
           Validators.required,
-          Validators.pattern(patterns.numbers_dashes_spaces_parenthesis),
-          lengthMatchValidator(14)
+          Validators.pattern(patterns.numbers_only),
+          lengthMatchValidator(10)
         ])
       ],
       dob: ['', Validators.compose([Validators.required, Validators.pattern(patterns.date)])],
@@ -97,8 +96,8 @@ export class FormControlProviderService {
         '',
         Validators.compose([
           Validators.required,
-          Validators.pattern(patterns.ssn),
-          lengthMatchValidator(11)
+          Validators.pattern(patterns.numbers_only),
+          lengthMatchValidator(9)
         ])
       ],
       address: ['', Validators.compose([Validators.required])],
@@ -117,7 +116,7 @@ export class FormControlProviderService {
         ])
       ],
       primary: [
-        false,
+        '',
         Validators.compose([
           Validators.required,
           booleanValidator,

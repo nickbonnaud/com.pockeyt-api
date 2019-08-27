@@ -4,7 +4,7 @@ export function booleanValidator(): ValidatorFn {
     const boolVal: any = control.value;
 
     if (typeof boolVal !== 'boolean') {
-      return { boolean: true };
+      return { isBoolean: true };
     }
     return null;
   };

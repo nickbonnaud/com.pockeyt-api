@@ -2,14 +2,14 @@
   <nb-card-body>
     <nb-stepper #stepper>
 
-      <nb-step [stepControl]="profileForm" label="Profile">
+      <!-- <nb-step [stepControl]="profileForm" label="Profile">
         <form [formGroup]="profileForm" (ngSubmit)="profileSubmit()" class="step-container">
           <p class="lorem">
             Alright, lets get started! First lets get some basic information about your business.
           </p>
           <app-profile-form [parentFormGroup]="profileForm"></app-profile-form>
           <button disabled nbButton nbStepperNext>prev</button>
-          <button [disabled]="!profileForm.valid" nbButton nbStepperNext>next</button>
+          <button [disabled]="profileForm.invalid" nbButton nbStepperNext>next</button>
         </form>
       </nb-step>
 
@@ -20,19 +20,21 @@
           </p>
           <app-payfac-business-form [parentFormGroup]="payFacBusinessForm"></app-payfac-business-form>
           <button nbButton nbStepperPrevious>prev</button>
-          <button nbButton nbStepperNext>next</button>
+          <button [disabled]="payFacBusinessForm.invalid" nbButton nbStepperNext>next</button>
         </form>
-      </nb-step>
+      </nb-step> -->
 
       <nb-step [stepControl]="payFacOwnerForm" label="Owner Info">
         <form [formGroup]="payFacOwnerForm" (ngSubmit)="payFacOwnerSubmit()" class="step-container">
           <p class="lorem">
-            Looking good, we are almost done! Help us out with some info about the ownership of your business. Please add anyone
-            that has a 25% stake or higher.
+            Looking good! We are almost done! Help us out with some info about the ownership of your business.
           </p>
-          <app-payfac-owner-form [parentFormGroup]="payFacOwnerForm"></app-payfac-owner-form>
+          <p class="lorem">
+            Please add every person that has a 25% stake or higher in your business.
+          </p>
+          <app-payfac-owner-form (ownerAdded)="addOwner($event)" [parentFormGroup]="payFacOwnerForm"></app-payfac-owner-form>
           <button nbButton nbStepperPrevious>prev</button>
-          <button nbButton nbStepperNext>next</button>
+          <button [disabled]="owners.length === 0" nbButton nbStepperNext>next</button>
         </form>
       </nb-step>
     </nb-stepper>

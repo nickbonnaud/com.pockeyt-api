@@ -6,10 +6,11 @@ export function percentOwnValidator(owners: Owner[]): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } | null => {
     let total = 0;
     owners.forEach(owner => {
-      total = total + owner.percentOwnership;
+      const percentOwn: number = typeof owner.percentOwnership === 'string' ? parseInt(owner.percentOwnership) : owner.percentOwnership;
+      total = total + percentOwn;
     });
 
-    if (total + control.value > 100) {
+    if (total + parseInt(control.value) > 100) {
       return { percentOwn: true };
     }
     return null;

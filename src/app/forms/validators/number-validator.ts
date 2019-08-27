@@ -4,7 +4,7 @@ export function numberValidator(): ValidatorFn {
     const numVal: any = control.value;
 
     if (typeof numVal !== 'number') {
-      return { number: true };
+      return { isNumber: true };
     }
     return null;
   };

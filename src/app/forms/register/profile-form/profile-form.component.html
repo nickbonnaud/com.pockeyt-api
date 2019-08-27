@@ -5,8 +5,8 @@
       <div class="form-group">
         <input [status]="nameControl.touched ? (nameControl.invalid  ? 'danger' : 'success') : ''" nbInput fullWidth shape="round" id="name" type="text" placeholder="Business Name" formControlName="name">
         <ng-container *ngIf="nameControl.invalid && nameControl.touched">
-          <p class="caption status-danger" *ngIf="nameControl.errors?.required">Business Name is required!</p>
-          <p class="caption status-danger" *ngIf="nameControl.errors?.minlength">Business Name must be at least 2 letters!</p>
+          <p class="caption status-danger" *ngIf="!!nameControl.errors?.required">Business Name is required!</p>
+          <p class="caption status-danger" *ngIf="!!nameControl.errors?.minlength">Business Name must be at least 2 letters!</p>
         </ng-container>
       </div>
     </div>
@@ -15,8 +15,8 @@
       <div class="form-group">
         <input [status]="websiteControl.touched ? (websiteControl.invalid  ? 'danger' : 'success') : ''" nbInput fullWidth shape="round" id="website" type="url" placeholder="Business Website" formControlName="website">
         <ng-container *ngIf="websiteControl.invalid && websiteControl.touched">
-          <p class="caption status-danger" *ngIf="websiteControl.errors?.required">Website URL is required!</p>
-          <p class="caption status-danger" *ngIf="websiteControl.errors?.pattern">Not a valid URL!</p>
+          <p class="caption status-danger" *ngIf="!!websiteControl.errors?.required">Website URL is required!</p>
+          <p class="caption status-danger" *ngIf="!!websiteControl.errors?.pattern">Not a valid URL!</p>
         </ng-container>
       </div>
     </div>
@@ -28,8 +28,8 @@
         <textarea [status]="descriptionControl.touched ? (descriptionControl.invalid  ? 'danger' : 'success') : ''" rows="5" nbInput fullWidth shape="round" id="description" placeholder="Business Description" class="form-control"
           formControlName="description"></textarea>
         <ng-container *ngIf="descriptionControl.invalid && descriptionControl.touched">
-          <p class="caption status-danger" *ngIf="descriptionControl.errors?.required">Business Description is required!</p>
-          <p class="caption status-danger" *ngIf="descriptionControl.errors?.minlength">Description must be at least 25 characters!</p>
+          <p class="caption status-danger" *ngIf="!!descriptionControl.errors?.required">Business Description is required!</p>
+          <p class="caption status-danger" *ngIf="!!descriptionControl.errors?.minlength">Description must be at least 25 characters!</p>
         </ng-container>
       </div>
     </div>
