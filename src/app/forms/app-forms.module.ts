@@ -9,12 +9,14 @@ import { NbInputModule, NbSelectModule, NbCheckboxModule, NbDialogModule, NbButt
 import { PayfacOwnerFormComponent } from './register/payfac-owner-form/payfac-owner-form.component';
 import { NgxMaskModule } from 'ngx-mask';
 import { DialogsModule } from '../dialogs/dialogs.module';
+import { BankFormComponent } from './register/bank-form/bank-form.component';
 
 @NgModule({
   declarations: [
     PayfacBusinessFormComponent,
     PayfacOwnerFormComponent,
     ProfileFormComponent,
+    BankFormComponent,
   ],
   entryComponents: [ConfirmOrCancelDialogComponent, OwnerListDialogComponent],
   imports: [
@@ -30,6 +32,11 @@ import { DialogsModule } from '../dialogs/dialogs.module';
     NgxMaskModule.forChild(),
     NbDialogModule.forChild()
   ],
-  exports: [PayfacBusinessFormComponent, PayfacOwnerFormComponent, ProfileFormComponent]
+  exports: [
+    PayfacBusinessFormComponent,
+    PayfacOwnerFormComponent,
+    ProfileFormComponent,
+    BankFormComponent
+  ]
 })
 export class AppFormsModule {}

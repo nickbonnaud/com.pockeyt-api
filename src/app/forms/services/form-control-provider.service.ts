@@ -134,6 +134,70 @@ export class FormControlProviderService {
     });
   }
 
+  registerBankControls(): FormGroup {
+    const states: string[] = STATE_OPTIONS;
+    const accountTypeOptions: string[] = [
+      'checking',
+      'savings'
+    ];
+
+    return this.fb.group({
+      firstName: [
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(patterns.letters_dashes_spaces)
+        ])
+      ],
+      lastName: [
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(patterns.letters_dashes_spaces)
+        ])
+      ],
+      address: ['', Validators.compose([Validators.required])],
+      addressSecondary: [''],
+      city: ['', Validators.compose([Validators.required])],
+      state: [
+        '',
+        Validators.compose([Validators.required, selectionExistsValidator(states)])
+      ],
+      zip: [
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(patterns.numbers_only),
+          lengthMatchValidator(5)
+        ])
+      ],
+      routing: [
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(patterns.numbers_only),
+          lengthMatchValidator(9)
+        ])
+      ],
+      accountNumber: [
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(patterns.numbers_only),
+          Validators.minLength(6),
+          Validators.maxLength(17),
+        ])
+      ],
+      accountType: [
+        '',
+        Validators.compose([
+          Validators.required,
+          selectionExistsValidator(accountTypeOptions)
+        ])
+      ]
+    });
+  }
+
   private entityTypesToArray(): string[] {
     const entityTypes: any[] = ENTITY_TYPE_OPTIONS;
     const entityTypesArray: string[] = [];

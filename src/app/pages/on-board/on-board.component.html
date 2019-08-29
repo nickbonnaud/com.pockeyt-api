@@ -24,7 +24,7 @@
         </form>
       </nb-step> -->
 
-      <nb-step [stepControl]="payFacOwnerForm" label="Owner Info">
+      <!-- <nb-step [stepControl]="payFacOwnerForm" label="Owner Info">
         <form [formGroup]="payFacOwnerForm" (ngSubmit)="payFacOwnerSubmit()" class="step-container">
           <p class="lorem">
             Looking good! We are almost done! Help us out with some info about the ownership of your business.
@@ -36,7 +36,19 @@
           <button nbButton nbStepperPrevious>prev</button>
           <button [disabled]="owners.length === 0" nbButton nbStepperNext>next</button>
         </form>
+      </nb-step> -->
+
+      <nb-step [stepControl]="bankForm" label=" Banking Info">
+        <form [formGroup]="bankForm" (ngSubmit)="bankFormSubmit()" class="step-container">
+          <p class="lorem">
+            Almost done! Now all we need is the banking information for your business, that way we know where to deposit your transactions!
+          </p>
+          <app-bank-form [parentFormGroup]="bankForm"></app-bank-form>
+          <button nbButton nbStepperPrevious>prev</button>
+          <button [disabled]="bankForm.invalid" nbButton nbStepperNext>next</button>
+        </form>
       </nb-step>
+
     </nb-stepper>
   </nb-card-body>
 </nb-card>
