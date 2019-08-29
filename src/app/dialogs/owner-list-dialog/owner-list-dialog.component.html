@@ -1,0 +1,12 @@
+<nb-card>
+  <nb-card-header class="text-c">Select Owner to edit</nb-card-header>
+  <nb-card-body>
+    <nb-radio-group [(value)]="selectedOwner">
+      <nb-radio *ngFor="let owner of owners" [value]="owner">{{ owner.firstName }} {{ owner.lastName }}</nb-radio>
+    </nb-radio-group>
+  </nb-card-body>
+  <nb-card-footer>
+    <button class="cancel" nbButton status="primary" (click)="cancel()">Cancel</button>
+    <button [disabled]="selectedOwner == null" class="float-r" nbButton status="warning" (click)="confirm()">Edit</button>
+  </nb-card-footer>
+</nb-card>

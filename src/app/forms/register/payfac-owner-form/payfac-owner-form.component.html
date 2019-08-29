@@ -146,8 +146,7 @@
     <div class="col-sm-4">
       <div class="form-group">
         <nb-select (click)="markPrimaryAsDirty()" [status]="primaryControl.dirty ? (primaryControl.invalid ? 'danger' : 'success') : ''" fullWidth shape="round" id="primary" placeholder="Primary Owner/Shareholder?" class="select-margin" formControlName="primary">
-          <nb-option value="true">Yes</nb-option>
-          <nb-option value="false">No</nb-option>
+          <nb-option *ngFor="let option of primaryOptions" [value]="option.value">{{ option.title }}</nb-option>
         </nb-select>
         <ng-container *ngIf="primaryControl.invalid && primaryControl.dirty">
           <p class="caption status-danger" *ngIf="!!primaryControl.errors?.required">Selection required!</p>
@@ -157,12 +156,50 @@
       </div>
     </div>
   </div>
-  <div class="col-sm-12">
-    <div class="form-group">
-      <button [disabled]="parentFormGroup.invalid" (click)="addOwner()" type="button" nbButton shape="round" fullWidth>
-        <nb-icon icon="plus"></nb-icon>
-        Owner / Shareholder
+
+  <div class="row" *ngIf="editMode">
+    <div class="col-sm-2">
+      <button status="danger" (click)="showDeleteCustomerPrompt()" type="button" nbButton shape="round">
+        <nb-icon icon="alert-triangle"></nb-icon>
+        Delete
       </button>
+    </div>
+    <div class="col-sm-5">
+      <div class="form-group">
+        <button *ngIf="editMode" status="warning" (click)="cancelEditMode()" type="button" nbButton shape="round" fullWidth>
+          <nb-icon icon="slash"></nb-icon>
+          Cancel
+        </button>
+      </div>
+    </div>
+    <div class="col-sm-5">
+      <div class="form-group">
+        <button *ngIf="editMode" status="success" [disabled]="parentFormGroup.invalid || parentFormGroup.pristine" (click)="updateOwner()" type="button" nbButton shape="round" fullWidth>
+          <nb-icon icon="refresh"></nb-icon>
+          Update
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="!editMode">
+    <div class="col-sm-6">
+      <div class="form-group">
+        <button [disabled]="owners.length === 0" (click)="editOwners()" type="button" nbButton
+          shape="round" fullWidth>
+          <nb-icon icon="edit"></nb-icon>
+          Edit Owner / Shareholder
+        </button>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="form-group">
+        <button *ngIf="!editMode" status="success" [disabled]="parentFormGroup.invalid" (click)="addOwner()" type="button"
+          nbButton shape="round" fullWidth>
+          <nb-icon icon="plus"></nb-icon>
+          Add Owner / Shareholder
+        </button>
+      </div>
     </div>
   </div>
 </div>

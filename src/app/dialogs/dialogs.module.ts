@@ -1,16 +1,19 @@
-import { ConfirmOrCancelDialogComponent } from './confirm-or-cancel-dialog/confirm-or-cancel-dialog.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NbCardModule, NbButtonModule } from '@nebular/theme';
+import { ConfirmOrCancelDialogComponent } from './confirm-or-cancel-dialog/confirm-or-cancel-dialog.component';
+import { NbCardModule, NbButtonModule, NbRadioModule } from '@nebular/theme';
+import { OwnerListDialogComponent } from './owner-list-dialog/owner-list-dialog.component';
 
 
 
 @NgModule({
-  declarations: [ConfirmOrCancelDialogComponent],
+  declarations: [ConfirmOrCancelDialogComponent, OwnerListDialogComponent],
   imports: [
     CommonModule,
     NbCardModule,
-    NbButtonModule
-  ]
+    NbButtonModule,
+    NbRadioModule
+  ],
+  exports: [ConfirmOrCancelDialogComponent, OwnerListDialogComponent]
 })
 export class DialogsModule { }

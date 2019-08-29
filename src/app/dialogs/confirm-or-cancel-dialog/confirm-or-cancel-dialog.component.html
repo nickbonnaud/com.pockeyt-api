@@ -1,10 +1,10 @@
 <nb-card>
-  <nb-card-header>{{ title }}</nb-card-header>
+  <nb-card-header class="text-c">{{ title }}</nb-card-header>
   <nb-card-body>
     {{ body }}
   </nb-card-body>
   <nb-card-footer>
-    <button nbButton hero status="primary" (click)="cancel()">Cancel</button>
-    <button nbButton hero status="warning" (click)="confirm()">Confirm</button>
+    <button class="cancel" nbButton status="primary" (click)="cancel()">Cancel</button>
+    <button class="float-r" nbButton status="warning" (click)="confirm()">Confirm</button>
   </nb-card-footer>
 </nb-card>

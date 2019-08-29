@@ -6,6 +6,7 @@ import { Owner } from 'src/app/models/business/owner';
 import { NbDialogService } from '@nebular/theme';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { OwnerListDialogComponent } from 'src/app/dialogs/owner-list-dialog/owner-list-dialog.component';
 
 @Component({
   selector: 'app-payfac-owner-form',
@@ -20,7 +21,14 @@ export class PayfacOwnerFormComponent implements OnInit, OnDestroy {
 
   states: string[] = STATE_OPTIONS;
   owners: Owner[] = [];
-  primaryChecked = false;
+  primaryChecked: boolean = false;
+  editMode: boolean = false;
+  editOwner: Owner;
+
+  primaryOptions: any[] = [
+    {title: 'Yes', value: true},
+    {title: 'No', value: false}
+  ];
 
   firstNameControl: AbstractControl;
   lastNameControl: AbstractControl;
@@ -64,7 +72,7 @@ export class PayfacOwnerFormComponent implements OnInit, OnDestroy {
     this.primaryControl.valueChanges.pipe(takeUntil(this.destroyed$)).subscribe(isPrimary => {
       if (isPrimary) {
         const assignedOwner = this.primaryAlreadyAssigned();
-        if (assignedOwner !== null) {
+        if (assignedOwner !== null && (assignedOwner['tempId'] !== this.editOwner['tempId'])) {
           this.openDialog(assignedOwner);
         }
       }
@@ -72,19 +80,20 @@ export class PayfacOwnerFormComponent implements OnInit, OnDestroy {
   }
 
   primaryAlreadyAssigned(): Owner | null {
+    let assignedOwner: Owner = null;
     this.owners.forEach(owner => {
       if (owner.primary) {
-        return owner;
+        assignedOwner =  owner;
       }
     });
-    return null;
+    return assignedOwner;
   }
 
   openDialog(prevOwner: Owner): void {
     this.dialogService.open(ConfirmOrCancelDialogComponent, {
       context: {
         title: 'Primary Owner already assigned!',
-        body: `${prevOwner.firstName} ${prevOwner.lastName} is already assigned as the primary? Do you wish to change?`
+        body: `Test User is already assigned as the primary? Do you wish to change?`
       }
     }).onClose.pipe(takeUntil(this.destroyed$)).subscribe(changePrimary => {
       changePrimary ? prevOwner.primary = false : this.primaryControl.setValue(false);
@@ -104,10 +113,70 @@ export class PayfacOwnerFormComponent implements OnInit, OnDestroy {
   }
 
   addOwner(): void {
-    console.log(this.percentOwnControl.value);
-    const newOwner: Owner = this.parentFormGroup.value;
+    let newOwner: Owner = this.parentFormGroup.value;
+    newOwner['tempId'] = newOwner.email;
     this.owners.push(newOwner);
     this.ownerAdded.emit(newOwner);
+    this.parentFormGroup.reset();
+  }
+
+  editOwners(): void {
+    if (this.owners.length > 1) {
+      this.dialogService.open(OwnerListDialogComponent, {
+        context: {
+          owners: this.owners
+        }
+      }).onClose.pipe(takeUntil(this.destroyed$)).subscribe((selectedOwner: Owner | null) => {
+        if (selectedOwner) {
+          this.enterEditMode(selectedOwner);
+        }
+      })
+    } else {
+      this.enterEditMode(this.owners[0])
+    }
+  }
+
+  updateOwner(): void {
+    const updatedOwner: Owner = this.parentFormGroup.value;
+    updatedOwner['tempId'] = updatedOwner.email;
+    this.owners.splice(this.getOwnerIndex(updatedOwner['tempId']), 1, updatedOwner);
+    this.cancelEditMode();
+  }
+
+  showDeleteCustomerPrompt(): void {
+    this.dialogService.open(ConfirmOrCancelDialogComponent, {
+      context: {
+        title: 'Are you sure?',
+        body: `Remove ${this.editOwner.firstName} ${this.editOwner.lastName} as an Owner/Shareholder?`
+      }
+    }).onClose.pipe(takeUntil(this.destroyed$)).subscribe(remove => {
+      if (remove) {
+        this.deleteOwner();
+      }
+    });
+  }
+
+  deleteOwner(): void {
+    this.owners.splice(this.getOwnerIndex(this.editOwner['tempId']), 1);
+    this.cancelEditMode();
+  }
+
+  getOwnerIndex(tempId: number): number {
+    return this.owners.findIndex((owner: Owner) => {
+      owner['tempId'] === tempId;
+    });
+  }
+
+  enterEditMode(owner: Owner): void {
+    this.editMode = true;
+    this.editOwner = owner;
+    this.parentFormGroup.reset(owner);
+    this.parentFormGroup.markAsPristine();
+  }
+
+  cancelEditMode(): void {
+    this.editMode = false;
+    this.editOwner = null;
     this.parentFormGroup.reset();
   }
 

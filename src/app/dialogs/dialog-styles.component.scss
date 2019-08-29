@@ -1,0 +1,15 @@
+@import '../styles/themes';
+
+@include nb-install-component() {
+  .cancel {
+    margin-right: 1rem;
+  }
+
+  .text-c {
+    text-align: center;
+  }
+
+  .float-r {
+    float: right;
+  }
+}
