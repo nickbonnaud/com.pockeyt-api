@@ -1,0 +1,32 @@
+@import '../../../styles/themes';
+
+@include nb-install-component() {
+  .caption {
+    margin-top: 0.5rem;
+  }
+
+  .logo-container {
+    display: inline-flex;
+    background-color: #ffffff;
+    border-radius: 50%;
+  }
+
+  .logo {
+    display: inline-flex;
+    border-radius: 50%;
+  }
+
+  .banner-container {
+    background-color: #ffffff;
+  }
+
+  .img {
+    color: nb-theme(color-primary-default);
+    font-size: 10rem;
+    padding: 20px;
+  }
+
+  .pad-top {
+    padding-top: 2em;
+  }
+}

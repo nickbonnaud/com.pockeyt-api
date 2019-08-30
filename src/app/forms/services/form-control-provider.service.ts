@@ -11,6 +11,7 @@ import { booleanValidator } from '../validators/boolean-validator';
 import { primaryOwnerValidator } from '../validators/primary-owner-validator';
 import { numberValidator } from '../validators/number-validator';
 import { percentOwnValidator } from '../validators/percent-own-validator';
+import { requiredFileType } from '../validators/required-file-type';
 
 @Injectable({
   providedIn: AppFormsModule
@@ -196,6 +197,25 @@ export class FormControlProviderService {
         ])
       ]
     });
+  }
+
+  registerPhotosControls(): FormGroup {
+    return this.fb.group({
+      logo: [
+        null,
+        Validators.compose([
+          Validators.required,
+          requiredFileType(['jpg', 'jpeg', 'png'])
+        ])
+      ],
+      banner: [
+        null,
+        Validators.compose([
+          Validators.required,
+          requiredFileType(['jpg', 'jpeg', 'png'])
+        ])
+      ],
+    })
   }
 
   private entityTypesToArray(): string[] {

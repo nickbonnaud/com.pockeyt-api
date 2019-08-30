@@ -10,6 +10,7 @@ import { PayfacOwnerFormComponent } from './register/payfac-owner-form/payfac-ow
 import { NgxMaskModule } from 'ngx-mask';
 import { DialogsModule } from '../dialogs/dialogs.module';
 import { BankFormComponent } from './register/bank-form/bank-form.component';
+import { PhotoFormComponent } from './register/photo-form/photo-form.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { BankFormComponent } from './register/bank-form/bank-form.component';
     PayfacOwnerFormComponent,
     ProfileFormComponent,
     BankFormComponent,
+    PhotoFormComponent,
   ],
   entryComponents: [ConfirmOrCancelDialogComponent, OwnerListDialogComponent],
   imports: [
@@ -36,7 +38,8 @@ import { BankFormComponent } from './register/bank-form/bank-form.component';
     PayfacBusinessFormComponent,
     PayfacOwnerFormComponent,
     ProfileFormComponent,
-    BankFormComponent
+    BankFormComponent,
+    PhotoFormComponent
   ]
 })
 export class AppFormsModule {}

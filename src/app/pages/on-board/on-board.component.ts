@@ -13,6 +13,7 @@ export class OnBoardComponent implements OnInit {
   payFacBusinessForm: FormGroup;
   payFacOwnerForm: FormGroup;
   bankForm: FormGroup;
+  photosForm: FormGroup;
 
   owners: Owner[] = [];
 
@@ -23,6 +24,7 @@ export class OnBoardComponent implements OnInit {
     this.payFacBusinessForm = this.fcProvider.registerPayfacBusinessControls();
     this.payFacOwnerForm = this.fcProvider.registerPayfacOwnerControls(this.owners);
     this.bankForm = this.fcProvider.registerBankControls();
+    this.photosForm = this.fcProvider.registerPhotosControls();
   }
 
   profileSubmit() {
@@ -39,6 +41,10 @@ export class OnBoardComponent implements OnInit {
 
   bankFormSubmit(): void {
     this.bankForm.markAsDirty();
+  }
+
+  photosFormSubmit(): void {
+    this.photosForm.markAsDirty();
   }
 
   addOwner(owner: Owner): void {
