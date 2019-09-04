@@ -3,7 +3,7 @@
   <div class="row">
     <div class="col-sm-6">
       <div class="form-group">
-        <input [status]="nameControl.touched ? (nameControl.invalid  ? 'danger' : 'success') : ''" nbInput fullWidth shape="round" id="name" type="text" placeholder="Business Name" formControlName="name">
+        <input google-place (placeSelected)="setPlace($event)" [status]="nameControl.touched ? (nameControl.invalid  ? 'danger' : 'success') : ''" nbInput fullWidth shape="round" id="name" type="text" placeholder="Business Name" formControlName="name">
         <ng-container *ngIf="nameControl.invalid && nameControl.touched">
           <p class="caption status-danger" *ngIf="!!nameControl.errors?.required">Business Name is required!</p>
           <p class="caption status-danger" *ngIf="!!nameControl.errors?.minlength">Business Name must be at least 2 letters!</p>

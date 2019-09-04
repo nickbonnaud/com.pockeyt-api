@@ -1,3 +1,4 @@
+import { GooglePlacesDirective } from './../directives/google-places.directive';
 import { OwnerListDialogComponent } from './../dialogs/owner-list-dialog/owner-list-dialog.component';
 import { ConfirmOrCancelDialogComponent } from './../dialogs/confirm-or-cancel-dialog/confirm-or-cancel-dialog.component';
 import { ProfileFormComponent } from './register/profile-form/profile-form.component';
@@ -5,12 +6,13 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PayfacBusinessFormComponent } from './register/payfac-business-form/payfac-business-form.component';
-import { NbInputModule, NbSelectModule, NbCheckboxModule, NbDialogModule, NbButtonModule, NbIconModule, NbCardModule } from '@nebular/theme';
+import { NbInputModule, NbSelectModule, NbCheckboxModule, NbDialogModule, NbButtonModule, NbIconModule, NbCardModule, NbListModule, NbUserModule } from '@nebular/theme';
 import { PayfacOwnerFormComponent } from './register/payfac-owner-form/payfac-owner-form.component';
 import { NgxMaskModule } from 'ngx-mask';
 import { DialogsModule } from '../dialogs/dialogs.module';
 import { BankFormComponent } from './register/bank-form/bank-form.component';
 import { PhotoFormComponent } from './register/photo-form/photo-form.component';
+import { PosFormComponent } from './register/pos-form/pos-form.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +21,8 @@ import { PhotoFormComponent } from './register/photo-form/photo-form.component';
     ProfileFormComponent,
     BankFormComponent,
     PhotoFormComponent,
+    PosFormComponent,
+    GooglePlacesDirective
   ],
   entryComponents: [ConfirmOrCancelDialogComponent, OwnerListDialogComponent],
   imports: [
@@ -30,6 +34,8 @@ import { PhotoFormComponent } from './register/photo-form/photo-form.component';
     NbButtonModule,
     NbIconModule,
     NbCardModule,
+    NbListModule,
+    NbUserModule,
     DialogsModule,
     NgxMaskModule.forChild(),
     NbDialogModule.forChild()

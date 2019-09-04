@@ -2,12 +2,12 @@
   <nb-card-body>
     <nb-stepper #stepper>
 
-      <!-- <nb-step [stepControl]="profileForm" label="Profile">
+      <nb-step [stepControl]="profileForm" label="Profile">
         <form [formGroup]="profileForm" (ngSubmit)="profileSubmit()" class="step-container">
           <h4 class="lorem">
             Alright, lets get started! First lets get some basic information about your business.
           </h4>
-          <app-profile-form [parentFormGroup]="profileForm"></app-profile-form>
+          <app-profile-form (placeSelected)="setPlace($event)" [parentFormGroup]="profileForm"></app-profile-form>
           <button disabled nbButton nbStepperNext>prev</button>
           <button [disabled]="profileForm.invalid" nbButton nbStepperNext>next</button>
         </form>
@@ -18,11 +18,11 @@
           <h4 class="lorem">
             Great, we are on our way! Next, lets get some information about your business so you can get paid!
           </h4>
-          <app-payfac-business-form [parentFormGroup]="payFacBusinessForm"></app-payfac-business-form>
+          <app-payfac-business-form [googlePlace]="googlePlace" [parentFormGroup]="payFacBusinessForm"></app-payfac-business-form>
           <button nbButton nbStepperPrevious>prev</button>
           <button [disabled]="payFacBusinessForm.invalid" nbButton nbStepperNext>next</button>
         </form>
-      </nb-step> -->
+      </nb-step>
 
       <!-- <nb-step [stepControl]="payFacOwnerForm" label="Owner Info">
         <form [formGroup]="payFacOwnerForm" (ngSubmit)="payFacOwnerSubmit()" class="step-container">
@@ -49,7 +49,7 @@
         </form>
       </nb-step> -->
 
-      <nb-step [stepControl]="photosForm" label="Logo and Banner">
+      <!-- <nb-step [stepControl]="photosForm" label="Logo and Banner">
         <form [formGroup]="photosForm" (ngSubmit)="photosFormSubmit()" class="step-container">
           <h4 class="lorem">
             Alright! Let's get your Logo and Banner so customers know who you are!
@@ -58,7 +58,7 @@
           <button nbButton nbStepperPrevious>prev</button>
           <button [disabled]="photosForm.invalid" nbButton nbStepperNext>next</button>
         </form>
-      </nb-step>
+      </nb-step> -->
 
     </nb-stepper>
   </nb-card-body>

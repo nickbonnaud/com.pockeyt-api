@@ -1,3 +1,4 @@
+import { GooglePlace } from './../../models/business/google-place';
 import { FormControlProviderService } from './../../forms/services/form-control-provider.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
@@ -16,6 +17,7 @@ export class OnBoardComponent implements OnInit {
   photosForm: FormGroup;
 
   owners: Owner[] = [];
+  googlePlace: GooglePlace;
 
   constructor(private fcProvider: FormControlProviderService) {}
 
@@ -25,6 +27,10 @@ export class OnBoardComponent implements OnInit {
     this.payFacOwnerForm = this.fcProvider.registerPayfacOwnerControls(this.owners);
     this.bankForm = this.fcProvider.registerBankControls();
     this.photosForm = this.fcProvider.registerPhotosControls();
+  }
+
+  setPlace(googlePlace: GooglePlace) {
+    this.googlePlace = googlePlace;
   }
 
   profileSubmit() {

@@ -1,0 +1,7 @@
+<div [formGroup]="parentFormGroup">
+  <nb-list>
+    <nb-list-item *ngFor="let posOption of posOptions">
+      <nb-user (click)="selectPosType(posOption.value)" [name]="posOption.name" [picture]="posOption.pictureUrl" [showTitle]="false"></nb-user>
+    </nb-list-item>
+  </nb-list>
+</div>
