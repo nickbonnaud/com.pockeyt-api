@@ -1,3 +1,5 @@
+import { Business } from './../../../models/business/business';
+import { BusinessService } from './../../../services/business.service';
 import { ConfirmOrCancelDialogComponent } from '../../../dialogs/confirm-or-cancel-dialog/confirm-or-cancel-dialog.component';
 import { FormGroup, AbstractControl } from '@angular/forms';
 import { Component, Input, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
@@ -46,7 +48,7 @@ export class OwnerFormComponent implements OnInit, OnDestroy {
   primaryControl: AbstractControl;
 
 
-  constructor(private dialogService: NbDialogService) {}
+  constructor(private dialogService: NbDialogService, private businessService: BusinessService) {}
 
   ngOnInit(): void {
     this.firstNameControl = this.parentFormGroup.get('firstName');
@@ -66,7 +68,6 @@ export class OwnerFormComponent implements OnInit, OnDestroy {
 
     this.watchPrimary();
   }
-
 
   watchPrimary(): void {
     this.primaryControl.valueChanges.pipe(takeUntil(this.destroyed$)).subscribe(isPrimary => {

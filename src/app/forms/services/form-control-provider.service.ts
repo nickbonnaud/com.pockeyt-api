@@ -29,7 +29,9 @@ export class FormControlProviderService {
 
   registerMapControls(): FormGroup {
     return this.fb.group({
-      radius: [50, Validators.compose([Validators.required, Validators.max(200), Validators.min(50), numberValidator])]
+      radius: [50, Validators.compose([Validators.required, Validators.max(200), Validators.min(50), numberValidator])],
+      lat: ['', Validators.compose([Validators.required])],
+      lng: ['', Validators.compose([Validators.required])]
     });
   }
 

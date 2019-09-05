@@ -1,4 +1,6 @@
+import { Address } from './address';
 export class Owner {
+  identifier: string;
   firstName: string;
   lastName: string;
   title: string;
@@ -6,11 +8,7 @@ export class Owner {
   phone: string;
   dob: string;
   ssn: string;
-  address: string;
-  addressSecondary: string;
-  city: string;
-  state: string;
-  zip: string;
+  address: Address;
   primary: boolean;
   percentOwnership: number;
 }

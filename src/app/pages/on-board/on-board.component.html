@@ -7,7 +7,7 @@
           <h4 class="lorem">
             Alright, lets get started! First lets get some basic information about your business.
           </h4>
-          <app-profile-form (placeSelected)="setPlace($event)" [parentFormGroup]="profileForm"></app-profile-form>
+          <app-profile-form [parentFormGroup]="profileForm"></app-profile-form>
           <button disabled nbButton nbStepperNext>prev</button>
           <button [disabled]="profileForm.invalid" nbButton nbStepperNext>next</button>
         </form>
@@ -18,7 +18,7 @@
           <h4 class="lorem">
             Great, we are on our way! Next, lets get some information about your business so you can get paid!
           </h4>
-          <app-business-form [googlePlace]="googlePlace" [parentFormGroup]="businessForm"></app-business-form>
+          <app-business-form [parentFormGroup]="businessForm"></app-business-form>
           <button nbButton nbStepperPrevious>prev</button>
           <button [disabled]="businessForm.invalid" nbButton nbStepperNext>next</button>
         </form>
@@ -65,7 +65,7 @@
           <h4 class="lorem">
             Great! Now let's set up your Geo Fence! Adjust the size of the circle so it just fits around your business's location.
           </h4>
-          <app-map-form (coordsChanged)="changeCoords($event)" [parentFormGroup]="mapForm" [googlePlace]="googlePlace"></app-map-form>
+          <app-map-form [parentFormGroup]="mapForm"></app-map-form>
           <button nbButton nbStepperPrevious>prev</button>
           <button [disabled]="mapForm.invalid" nbButton nbStepperNext>next</button>
         </form>

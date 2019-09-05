@@ -1,8 +1,9 @@
-import { GooglePlace } from './../../models/business/google-place';
+import { BusinessService } from './../../services/business.service';
 import { FormControlProviderService } from './../../forms/services/form-control-provider.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Owner } from 'src/app/models/business/owner';
+import { Business } from 'src/app/models/business/business';
 
 @Component({
   selector: 'app-on-board',
@@ -18,9 +19,8 @@ export class OnBoardComponent implements OnInit {
   mapForm: FormGroup;
 
   owners: Owner[] = [];
-  googlePlace: GooglePlace;
 
-  constructor(private fcProvider: FormControlProviderService) {}
+  constructor(private fcProvider: FormControlProviderService, private businessService: BusinessService) {}
 
   ngOnInit() {
     this.profileForm = this.fcProvider.registerProfileControls();
@@ -29,10 +29,6 @@ export class OnBoardComponent implements OnInit {
     this.bankForm = this.fcProvider.registerBankControls();
     this.photosForm = this.fcProvider.registerPhotosControls();
     this.mapForm = this.fcProvider.registerMapControls();
-  }
-
-  setPlace(googlePlace: GooglePlace) {
-    this.googlePlace = googlePlace;
   }
 
   profileSubmit() {
@@ -44,7 +40,6 @@ export class OnBoardComponent implements OnInit {
   }
 
   ownerSubmit(): void {
-    console.log(this.ownerForm);
     this.ownerForm.markAsDirty();
   }
 
@@ -62,10 +57,5 @@ export class OnBoardComponent implements OnInit {
 
   changeOwners(owners: Owner[]): void {
     this.owners = owners;
-  }
-
-  changeCoords(coords: any): void {
-    this.googlePlace.lat = coords.lat;
-    this.googlePlace.lng = coords.lng;
   }
 }

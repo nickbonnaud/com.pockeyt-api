@@ -24,9 +24,9 @@
 
   <div class="row">
     <div class="col-sm-12">
-      <div *ngIf="googlePlace" class="form-group">
-        <agm-map [zoom]="18" [latitude]="googlePlace.lat" [longitude]="googlePlace.lng">
-          <agm-circle (dragEnd)="setNewCoords($event)" [circleDraggable]="true" [latitude]="googlePlace.lat" [longitude]="googlePlace.lng" [radius]="radiusControl.value"></agm-circle>
+      <div *ngIf="business != null && business.location.coords.lat != null && business.location.coords.lng != null" class="form-group">
+        <agm-map [zoom]="18" [latitude]="business.location.coords.lat" [longitude]="business.location.coords.lng">
+          <agm-circle (dragEnd)="setNewCoords($event)" [circleDraggable]="true" [latitude]="business.location.coords.lat" [longitude]="business.location.coords.lng" [radius]="radiusControl.value"></agm-circle>
         </agm-map>
       </div>
     </div>

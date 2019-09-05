@@ -1,7 +1,7 @@
-import { Banner } from './banner';
-import { Logo } from './logo';
+import { Photo } from './photo';
+
 
 export class Photos {
-  logo: Logo;
-  banner: Banner;
+  logo: Photo;
+  banner: Photo;
 }

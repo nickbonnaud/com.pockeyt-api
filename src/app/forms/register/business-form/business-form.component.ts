@@ -1,4 +1,5 @@
-import { GooglePlace } from './../../../models/business/google-place';
+import { BusinessService } from './../../../services/business.service';
+import { Business } from 'src/app/models/business/business';
 import { takeUntil } from 'rxjs/operators';
 import { FormGroup, AbstractControl, Validators } from '@angular/forms';
 import { Component, Input, OnInit, OnDestroy, OnChanges, ChangeDetectorRef } from '@angular/core';
@@ -13,9 +14,8 @@ import { patterns } from '../../validators/patterns';
   templateUrl: './business-form.component.html',
   styleUrls: ['./business-form.component.scss']
 })
-export class BusinessFormComponent implements OnInit, OnDestroy, OnChanges {
+export class BusinessFormComponent implements OnInit, OnDestroy {
   @Input() parentFormGroup: FormGroup;
-  @Input() googlePlace: GooglePlace;
 
   private destroyed$: Subject<boolean> = new Subject<boolean>();
 
@@ -31,7 +31,9 @@ export class BusinessFormComponent implements OnInit, OnDestroy, OnChanges {
   entityTypeControl: AbstractControl;
   einControl: AbstractControl;
 
-  constructor(private ref: ChangeDetectorRef) {}
+  business: Business;
+
+  constructor(private ref: ChangeDetectorRef, private businessService: BusinessService) {}
 
   ngOnInit(): void {
     this.businessNameControl = this.parentFormGroup.get('businessName');
@@ -42,25 +44,33 @@ export class BusinessFormComponent implements OnInit, OnDestroy, OnChanges {
     this.zipControl = this.parentFormGroup.get('zip');
     this.entityTypeControl = this.parentFormGroup.get('entityType');
     this.einControl = this.parentFormGroup.get('ein');
+
     this.watchEntityType();
+    this.watchBusiness();
   }
 
-  ngOnChanges() {
-    if (this.googlePlace) {
-      this.setInitialValues();
-    }
+  watchBusiness(): void {
+    this.businessService.business$.pipe(takeUntil(this.destroyed$)).subscribe((business: Business) => {
+      if (this.business == null && business.profile.googlePlaceId != null) {
+        this.setInitialValues(business);
+        this.business = business;
+      } else if (this.business != null && (this.business.profile.googlePlaceId !== business.profile.googlePlaceId)) {
+        this.parentFormGroup.reset();
+        this.business = null;
+      }
+    });
   }
 
-  setInitialValues() {
-    this.businessNameControl.setValue(this.googlePlace.name);
+  setInitialValues(business: Business): void {
+    this.businessNameControl.setValue(business.accounts.businessAccount.name);
     this.businessNameControl.markAsTouched();
-    this.addressControl.setValue(`${this.googlePlace.streetNumber} ${this.googlePlace.road}`);
+    this.addressControl.setValue(business.accounts.businessAccount.address.address);
     this.addressControl.markAsTouched();
-    this.cityControl.setValue(this.googlePlace.city);
+    this.cityControl.setValue(business.accounts.businessAccount.address.city);
     this.cityControl.markAsTouched();
-    this.stateControl.setValue(this.googlePlace.state);
+    this.stateControl.setValue(business.accounts.businessAccount.address.state);
     this.stateControl.markAsDirty();
-    this.zipControl.setValue(this.googlePlace.zip);
+    this.zipControl.setValue(business.accounts.businessAccount.address.zip);
     this.zipControl.markAsTouched();
     this.ref.detectChanges();
   }
