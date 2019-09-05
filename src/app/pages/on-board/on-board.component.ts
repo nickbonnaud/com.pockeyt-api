@@ -11,10 +11,11 @@ import { Owner } from 'src/app/models/business/owner';
 })
 export class OnBoardComponent implements OnInit {
   profileForm: FormGroup;
-  payFacBusinessForm: FormGroup;
-  payFacOwnerForm: FormGroup;
+  businessForm: FormGroup;
+  ownerForm: FormGroup;
   bankForm: FormGroup;
   photosForm: FormGroup;
+  mapForm: FormGroup;
 
   owners: Owner[] = [];
   googlePlace: GooglePlace;
@@ -23,10 +24,11 @@ export class OnBoardComponent implements OnInit {
 
   ngOnInit() {
     this.profileForm = this.fcProvider.registerProfileControls();
-    this.payFacBusinessForm = this.fcProvider.registerPayfacBusinessControls();
-    this.payFacOwnerForm = this.fcProvider.registerPayfacOwnerControls(this.owners);
+    this.businessForm = this.fcProvider.registerBusinessControls();
+    this.ownerForm = this.fcProvider.registerOwnerControls(this.owners);
     this.bankForm = this.fcProvider.registerBankControls();
     this.photosForm = this.fcProvider.registerPhotosControls();
+    this.mapForm = this.fcProvider.registerMapControls();
   }
 
   setPlace(googlePlace: GooglePlace) {
@@ -37,12 +39,13 @@ export class OnBoardComponent implements OnInit {
     this.profileForm.markAsDirty();
   }
 
-  payFacBusinessSubmit(): void {
-    this.payFacBusinessForm.markAsDirty();
+  businessSubmit(): void {
+    this.businessForm.markAsDirty();
   }
 
-  payFacOwnerSubmit(): void {
-    this.payFacOwnerForm.markAsDirty();
+  ownerSubmit(): void {
+    console.log(this.ownerForm);
+    this.ownerForm.markAsDirty();
   }
 
   bankFormSubmit(): void {
@@ -53,7 +56,16 @@ export class OnBoardComponent implements OnInit {
     this.photosForm.markAsDirty();
   }
 
-  addOwner(owner: Owner): void {
-    this.owners.push(owner);
+  mapFormSubmit(): void {
+    this.photosForm.markAsDirty();
+  }
+
+  changeOwners(owners: Owner[]): void {
+    this.owners = owners;
+  }
+
+  changeCoords(coords: any): void {
+    this.googlePlace.lat = coords.lat;
+    this.googlePlace.lng = coords.lng;
   }
 }

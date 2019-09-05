@@ -13,32 +13,32 @@
         </form>
       </nb-step>
 
-      <nb-step [stepControl]="payFacBusinessForm" label="Business Info">
-        <form [formGroup]="payFacBusinessForm" (ngSubmit)="payFacBusinessSubmit()" class="step-container">
+      <!-- <nb-step [stepControl]="businessForm" label="Business Info">
+        <form [formGroup]="businessForm" (ngSubmit)="businessSubmit()" class="step-container">
           <h4 class="lorem">
             Great, we are on our way! Next, lets get some information about your business so you can get paid!
           </h4>
-          <app-payfac-business-form [googlePlace]="googlePlace" [parentFormGroup]="payFacBusinessForm"></app-payfac-business-form>
+          <app-business-form [googlePlace]="googlePlace" [parentFormGroup]="businessForm"></app-business-form>
           <button nbButton nbStepperPrevious>prev</button>
-          <button [disabled]="payFacBusinessForm.invalid" nbButton nbStepperNext>next</button>
+          <button [disabled]="businessForm.invalid" nbButton nbStepperNext>next</button>
         </form>
       </nb-step>
 
-      <!-- <nb-step [stepControl]="payFacOwnerForm" label="Owner Info">
-        <form [formGroup]="payFacOwnerForm" (ngSubmit)="payFacOwnerSubmit()" class="step-container">
+      <nb-step label="Owner Info">
+        <form [formGroup]="ownerForm" (ngSubmit)="ownerSubmit()" class="step-container">
           <h4 class="lorem">
             Looking good! We are almost done! Help us out with some info about the ownership of your business.
           </h4>
           <p class="lorem">
             Please add every person that has a 25% stake or higher in your business.
           </p>
-          <app-payfac-owner-form (ownerAdded)="addOwner($event)" [parentFormGroup]="payFacOwnerForm"></app-payfac-owner-form>
+          <app-owner-form (ownersChanged)="changeOwners($event)" [parentFormGroup]="ownerForm"></app-owner-form>
           <button nbButton nbStepperPrevious>prev</button>
           <button [disabled]="owners.length === 0" nbButton nbStepperNext>next</button>
         </form>
-      </nb-step> -->
+      </nb-step>
 
-      <!-- <nb-step [stepControl]="bankForm" label="Banking Info">
+      <nb-step [stepControl]="bankForm" label="Banking Info">
         <form [formGroup]="bankForm" (ngSubmit)="bankFormSubmit()" class="step-container">
           <h4 class="lorem">
             Almost done! Now all we need is the banking information for your business, that way we know where to deposit your transactions!
@@ -47,9 +47,9 @@
           <button nbButton nbStepperPrevious>prev</button>
           <button [disabled]="bankForm.invalid" nbButton nbStepperNext>next</button>
         </form>
-      </nb-step> -->
+      </nb-step>
 
-      <!-- <nb-step [stepControl]="photosForm" label="Logo and Banner">
+      <nb-step [stepControl]="photosForm" label="Logo and Banner">
         <form [formGroup]="photosForm" (ngSubmit)="photosFormSubmit()" class="step-container">
           <h4 class="lorem">
             Alright! Let's get your Logo and Banner so customers know who you are!
@@ -59,6 +59,17 @@
           <button [disabled]="photosForm.invalid" nbButton nbStepperNext>next</button>
         </form>
       </nb-step> -->
+
+      <nb-step [stepControl]="mapForm" label="Geo Fence">
+        <form [formGroup]="mapForm" (ngSubmit)="mapFormSubmit()" class="step-container">
+          <h4 class="lorem">
+            Great! Now let's set up your Geo Fence! Adjust the size of the circle so it just fits around your business's location.
+          </h4>
+          <app-map-form (coordsChanged)="changeCoords($event)" [parentFormGroup]="mapForm" [googlePlace]="googlePlace"></app-map-form>
+          <button nbButton nbStepperPrevious>prev</button>
+          <button [disabled]="mapForm.invalid" nbButton nbStepperNext>next</button>
+        </form>
+      </nb-step>
 
     </nb-stepper>
   </nb-card-body>

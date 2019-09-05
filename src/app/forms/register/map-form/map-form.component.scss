@@ -1,0 +1,13 @@
+@import '../../../styles/themes';
+
+@include nb-install-component() {
+
+  ::ng-deep agm-map {
+    width: 100%;
+    height: nb-theme(card-height-medium);
+  }
+
+  .caption {
+    margin-top: 0.5rem;
+  }
+}

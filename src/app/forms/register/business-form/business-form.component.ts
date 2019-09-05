@@ -9,11 +9,11 @@ import { lengthMatchValidator } from '../../validators/length-match-validator';
 import { patterns } from '../../validators/patterns';
 
 @Component({
-  selector: 'app-payfac-business-form',
-  templateUrl: './payfac-business-form.component.html',
-  styleUrls: ['./payfac-business-form.component.scss']
+  selector: 'app-business-form',
+  templateUrl: './business-form.component.html',
+  styleUrls: ['./business-form.component.scss']
 })
-export class PayfacBusinessFormComponent implements OnInit, OnDestroy, OnChanges {
+export class BusinessFormComponent implements OnInit, OnDestroy, OnChanges {
   @Input() parentFormGroup: FormGroup;
   @Input() googlePlace: GooglePlace;
 

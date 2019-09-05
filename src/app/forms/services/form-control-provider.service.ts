@@ -27,7 +27,13 @@ export class FormControlProviderService {
     });
   }
 
-  registerPayfacBusinessControls(): FormGroup {
+  registerMapControls(): FormGroup {
+    return this.fb.group({
+      radius: [50, Validators.compose([Validators.required, Validators.max(200), Validators.min(50), numberValidator])]
+    });
+  }
+
+  registerBusinessControls(): FormGroup {
     const states: string[] = STATE_OPTIONS;
 
     return this.fb.group({
@@ -58,7 +64,7 @@ export class FormControlProviderService {
     });
   }
 
-  registerPayfacOwnerControls(owners: Owner[]): FormGroup {
+  registerOwnerControls(owners: Owner[]): FormGroup {
     const states: string[] = STATE_OPTIONS;
 
     return this.fb.group({

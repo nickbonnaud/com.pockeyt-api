@@ -1,0 +1,34 @@
+<div [formGroup]="parentFormGroup">
+  <div class="row">
+    <div class="col-sm-5"></div>
+    <div class="col-sm-2">
+      <div class="form-group">
+        <input mask="900" prefix="Radius: " [status]="radiusControl.touched ? (radiusControl.invalid ? 'danger' : 'success') : ''" nbInput fullWidth shape="round" id="radius" type="tel" placeholder="Geo Fence Radius" formControlName="radius">
+      </div>
+    </div>
+    <div class="col-sm-5"></div>
+  </div>
+
+  <div class="row" *ngIf="radiusControl.invalid && radiusControl.touched">
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4">
+      <div class="form-group">
+        <p class="caption status-danger" *ngIf="!!radiusControl.errors?.required">A Geo Fence Radius is required!</p>
+        <p class="caption status-danger" *ngIf="!!radiusControl.errors?.min">Geo Fence Radius must be at least 50!</p>
+        <p class="caption status-danger" *ngIf="!!radiusControl.errors?.max">Geo Fence Radius must be less than 200!</p>
+        <p class="caption status-danger" *ngIf="!!radiusControl.errors?.isNumber">Geo Fence Radius must be a number!</p>
+      </div>
+    </div>
+    <div class="col-sm-4"></div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div *ngIf="googlePlace" class="form-group">
+        <agm-map [zoom]="18" [latitude]="googlePlace.lat" [longitude]="googlePlace.lng">
+          <agm-circle (dragEnd)="setNewCoords($event)" [circleDraggable]="true" [latitude]="googlePlace.lat" [longitude]="googlePlace.lng" [radius]="radiusControl.value"></agm-circle>
+        </agm-map>
+      </div>
+    </div>
+  </div>
+</div>

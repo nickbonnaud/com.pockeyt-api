@@ -1,4 +1,4 @@
-import { ConfirmOrCancelDialogComponent } from './../../../dialogs/confirm-or-cancel-dialog/confirm-or-cancel-dialog.component';
+import { ConfirmOrCancelDialogComponent } from '../../../dialogs/confirm-or-cancel-dialog/confirm-or-cancel-dialog.component';
 import { FormGroup, AbstractControl } from '@angular/forms';
 import { Component, Input, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { STATE_OPTIONS } from 'src/assets/data/states-select';
@@ -9,13 +9,13 @@ import { Subject } from 'rxjs';
 import { OwnerListDialogComponent } from 'src/app/dialogs/owner-list-dialog/owner-list-dialog.component';
 
 @Component({
-  selector: 'app-payfac-owner-form',
-  templateUrl: './payfac-owner-form.component.html',
-  styleUrls: ['./payfac-owner-form.component.scss']
+  selector: 'app-owner-form',
+  templateUrl: './owner-form.component.html',
+  styleUrls: ['./owner-form.component.scss']
 })
-export class PayfacOwnerFormComponent implements OnInit, OnDestroy {
+export class OwnerFormComponent implements OnInit, OnDestroy {
   @Input() parentFormGroup: FormGroup;
-  @Output() ownerAdded = new EventEmitter<Owner>();
+  @Output() ownersChanged = new EventEmitter<Owner[]>();
 
   private destroyed$: Subject<boolean> = new Subject<boolean>();
 
@@ -116,7 +116,7 @@ export class PayfacOwnerFormComponent implements OnInit, OnDestroy {
     let newOwner: Owner = this.parentFormGroup.value;
     newOwner['tempId'] = newOwner.email;
     this.owners.push(newOwner);
-    this.ownerAdded.emit(newOwner);
+    this.ownersChanged.emit(this.owners);
     this.parentFormGroup.reset();
   }
 
@@ -158,6 +158,7 @@ export class PayfacOwnerFormComponent implements OnInit, OnDestroy {
 
   deleteOwner(): void {
     this.owners.splice(this.getOwnerIndex(this.editOwner['tempId']), 1);
+    this.ownersChanged.emit(this.owners);
     this.cancelEditMode();
   }
 
