@@ -19,8 +19,12 @@ export class OnBoardComponent implements OnInit {
   mapForm: FormGroup;
 
   owners: Owner[] = [];
+  currentStep: string;
 
-  constructor(private fcProvider: FormControlProviderService, private businessService: BusinessService) {}
+  constructor(
+    private fcProvider: FormControlProviderService,
+    private businessService: BusinessService
+  ) {}
 
   ngOnInit() {
     this.profileForm = this.fcProvider.registerProfileControls();
@@ -29,30 +33,36 @@ export class OnBoardComponent implements OnInit {
     this.bankForm = this.fcProvider.registerBankControls();
     this.photosForm = this.fcProvider.registerPhotosControls();
     this.mapForm = this.fcProvider.registerMapControls();
+
+    this.currentStep = 'profile';
   }
 
-  profileSubmit() {
-    this.profileForm.markAsDirty();
+  goToPhotos(): void {
+    this.currentStep = 'photos';
   }
 
-  businessSubmit(): void {
-    this.businessForm.markAsDirty();
+  goToBusiness() {
+    this.currentStep = 'business';
   }
 
-  ownerSubmit(): void {
-    this.ownerForm.markAsDirty();
+  goToOwner(): void {
+    this.currentStep = 'owner';
   }
 
-  bankFormSubmit(): void {
-    this.bankForm.markAsDirty();
+  goToProfile(): void {
+    this.currentStep = 'profile';
   }
 
-  photosFormSubmit(): void {
-    this.photosForm.markAsDirty();
+  goToBank(): void {
+    this.currentStep = 'bank';
   }
 
-  mapFormSubmit(): void {
-    this.photosForm.markAsDirty();
+  goToMap(): void {
+    this.currentStep = 'map';
+  }
+
+  goToPos(): void {
+    this.currentStep = 'pos';
   }
 
   changeOwners(owners: Owner[]): void {

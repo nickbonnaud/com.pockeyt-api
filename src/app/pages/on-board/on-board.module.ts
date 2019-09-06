@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { AppFormsModule } from './../../forms/app-forms.module';
 import { NgModule } from '@angular/core';
 import { OnBoardComponent } from './on-board.component';
@@ -9,6 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [OnBoardComponent],
   imports: [
+    CommonModule,
     ReactiveFormsModule,
     NbCardModule,
     NbStepperModule,

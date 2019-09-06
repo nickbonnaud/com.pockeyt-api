@@ -35,35 +35,27 @@ export class MapFormComponent implements OnInit, OnDestroy {
     this.businessService.business$
       .pipe(takeUntil(this.destroyed$))
       .subscribe((business: Business) => {
-        if (this.business != null) {
-          if (this.business.location.coords.lat != business.location.coords.lat) {
-            console.log('lat');
-            this.latControl.patchValue(business.location.coords.lat);
-          }
-
-          if (this.business.location.coords.lng != business.location.coords.lng) {
-            console.log('lng');
-            this.lngControl.patchValue(business.location.coords.lng);
-          }
-          this.business = business;
-        } else if (this.business == null && (business.location.coords.lat != null && business.location.coords.lng != null)) {
-          console.log('initial')
-          this.latControl.patchValue(business.location.coords.lat);
-          this.lngControl.patchValue(business.location.coords.lng);
-          this.business = business;
-        }
+        this.business = business;
+        this.latControl.patchValue(this.business.location.coords.lat);
+        this.lngControl.patchValue(this.business.location.coords.lng);
       });
   }
 
 
-  setNewCoords(center): void {
-    console.log('set new cords');
-    this.business.location.coords.lat = center.coords.lat;
-    this.latControl.patchValue(center.coords.lat);
+  setNewCoords(center: any): void {
+    console.log('set new coords');
+    this.setFormValues(center.coords);
+    this.setBusinessService(center.coords)
+  }
 
-    this.business.location.coords.lng = center.coords.lng;
-    this.lngControl.patchValue(center.coords.lng);
+  setFormValues(coords: any): void {
+    this.latControl.patchValue(coords.lat);
+    this.lngControl.patchValue(coords.lng);
+  }
 
+  setBusinessService(coords: any) {
+    this.business.location.coords.lat = coords.lat;
+    this.business.location.coords.lng = coords.lng;
     this.businessService.updateBusiness(this.business);
   }
 

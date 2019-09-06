@@ -18,11 +18,13 @@ export class GooglePlace {
 
   setAddress(addressComponents: any[]) {
     let address: Address = new Address();
+    let streetNumber: string;
+    let road: string;
     addressComponents.forEach(component => {
       if (component.types.includes('street_number')) {
-        address.address = `${component.long_name} ${address.address}`;
+        streetNumber = component.long_name;
       } else if (component.types.includes('route')) {
-        address.address = `${address.address} ${component.short_name}`;
+        road = component.short_name;
       } else if (component.types.includes('locality')) {
         address.city = component.long_name;
       } else if (component.types.includes('administrative_area_level_1')) {
@@ -31,7 +33,7 @@ export class GooglePlace {
         address.zip = component.short_name;
       }
     });
-    address.address.replace('  ', ' ');
+    address.address = `${streetNumber} ${road}`;
     return address;
   }
 }

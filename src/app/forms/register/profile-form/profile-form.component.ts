@@ -2,9 +2,9 @@ import { BusinessService } from './../../../services/business.service';
 import { GooglePlace } from './../../../models/business/google-place';
 import { FormGroup, AbstractControl } from '@angular/forms';
 import { Component, OnInit, Input, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs/internal/Subject';
 import { Business } from 'src/app/models/business/business';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-profile-form',
@@ -20,8 +20,8 @@ export class ProfileFormComponent implements OnInit, OnDestroy {
   websiteControl: AbstractControl;
   descriptionControl: AbstractControl;
 
-  business: Business;
   placeSet: boolean = false;
+  business: Business;
 
   constructor(private ref: ChangeDetectorRef, private businessService: BusinessService) {}
 
@@ -40,20 +40,29 @@ export class ProfileFormComponent implements OnInit, OnDestroy {
   }
 
   setPlace(place: GooglePlace): void {
+    this.updateForm(place);
+    this.updateBusiness(place);
+    this.updateBusinessService(this.business);
+    this.ref.detectChanges();
+  }
+
+  updateForm(place: GooglePlace): void {
     this.placeSet = true;
     this.nameControl.patchValue(place.name);
     this.websiteControl.patchValue(place.website);
     this.websiteControl.markAsTouched();
-    this.updateBusiness(place);
     this.nameControl.disable();
-    this.ref.detectChanges();
   }
 
   unsetPlace(): void {
+    this.clearForm();
+    this.updateBusinessService(this.businessService.newBusiness());
+  }
+
+  clearForm(): void {
     this.placeSet = false;
     this.parentFormGroup.reset();
     this.nameControl.enable();
-    this.businessService.updateBusiness(this.businessService.newBusiness());
   }
 
   updateBusiness(place: GooglePlace): void {
@@ -64,7 +73,10 @@ export class ProfileFormComponent implements OnInit, OnDestroy {
     this.business.accounts.businessAccount.address = place.address;
     this.business.location.coords.lat = place.lat;
     this.business.location.coords.lng = place.lng;
-    this.businessService.updateBusiness(this.business);
+  }
+
+  updateBusinessService(business: Business): void {
+    this.businessService.updateBusiness(business);
   }
 
   ngOnDestroy(): void {

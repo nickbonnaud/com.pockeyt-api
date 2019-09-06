@@ -2,7 +2,7 @@ import { BusinessService } from './../../../services/business.service';
 import { Business } from 'src/app/models/business/business';
 import { takeUntil } from 'rxjs/operators';
 import { FormGroup, AbstractControl, Validators } from '@angular/forms';
-import { Component, Input, OnInit, OnDestroy, OnChanges, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { ENTITY_TYPE_OPTIONS } from 'src/assets/data/entity-types-select';
 import { STATE_OPTIONS } from 'src/assets/data/states-select';
 import { Subject } from 'rxjs/internal/Subject';
@@ -33,7 +33,7 @@ export class BusinessFormComponent implements OnInit, OnDestroy {
 
   business: Business;
 
-  constructor(private ref: ChangeDetectorRef, private businessService: BusinessService) {}
+  constructor(private businessService: BusinessService) {}
 
   ngOnInit(): void {
     this.businessNameControl = this.parentFormGroup.get('businessName');
@@ -51,28 +51,31 @@ export class BusinessFormComponent implements OnInit, OnDestroy {
 
   watchBusiness(): void {
     this.businessService.business$.pipe(takeUntil(this.destroyed$)).subscribe((business: Business) => {
-      if (this.business == null && business.profile.googlePlaceId != null) {
-        this.setInitialValues(business);
-        this.business = business;
-      } else if (this.business != null && (this.business.profile.googlePlaceId !== business.profile.googlePlaceId)) {
-        this.parentFormGroup.reset();
-        this.business = null;
-      }
+      this.setFormValues(business)
+      this.markFormValues();
     });
   }
 
-  setInitialValues(business: Business): void {
-    this.businessNameControl.setValue(business.accounts.businessAccount.name);
-    this.businessNameControl.markAsTouched();
-    this.addressControl.setValue(business.accounts.businessAccount.address.address);
-    this.addressControl.markAsTouched();
-    this.cityControl.setValue(business.accounts.businessAccount.address.city);
-    this.cityControl.markAsTouched();
-    this.stateControl.setValue(business.accounts.businessAccount.address.state);
-    this.stateControl.markAsDirty();
-    this.zipControl.setValue(business.accounts.businessAccount.address.zip);
-    this.zipControl.markAsTouched();
-    this.ref.detectChanges();
+  setFormValues(business: Business): void {
+    this.businessNameControl.patchValue(business.accounts.businessAccount.name);
+    this.addressControl.patchValue(business.accounts.businessAccount.address.address);
+    this.cityControl.patchValue(business.accounts.businessAccount.address.city);
+    this.stateControl.patchValue(business.accounts.businessAccount.address.state);
+    this.zipControl.patchValue(business.accounts.businessAccount.address.zip);
+  }
+
+  markFormValues(): void {
+    Object.keys(this.parentFormGroup.controls).forEach(key => {
+      if (this.parentFormGroup.controls[key].value != null) {
+        if (this.parentFormGroup.controls[key].value.length > 0) {
+          this.parentFormGroup.controls[key].markAsDirty();
+          this.parentFormGroup.controls[key].markAsTouched();
+        }
+      } else {
+        this.parentFormGroup.controls[key].markAsPristine();
+        this.parentFormGroup.controls[key].markAsUntouched();
+      }
+    });
   }
 
   markStateAsDirty(): void {
