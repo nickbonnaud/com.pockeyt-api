@@ -9,36 +9,42 @@ import { POS_TYPES } from 'src/assets/data/pos-types';
   templateUrl: './pos-form.component.html',
   styleUrls: ['./pos-form.component.scss']
 })
-export class PosFormComponent implements OnInit, OnDestroy {
+export class PosFormComponent implements OnInit {
   @Input() parentFormGroup: FormGroup;
-  private destroyed$: Subject<boolean> = new Subject<boolean>();
 
-  posTypeControl: AbstractControl;
+  typeControl: AbstractControl;
+  tipsControl: AbstractControl;
+  openTicketsControl: AbstractControl;
+
   posOptions: any[] = POS_TYPES;
+  boolOptions: any[] = [
+    {name: 'Yes', value: true},
+    {name: 'No', value: false}
+  ];
 
   constructor() { }
 
   ngOnInit(): void {
-    this.posTypeControl = this.parentFormGroup.get('posType');
-
-    this.watchPosType();
+    this.typeControl = this.parentFormGroup.get('type');
+    this.tipsControl = this.parentFormGroup.get('takesTips');
+    this.openTicketsControl = this.parentFormGroup.get('allowsOpenTickets');
   }
 
-  selectPosType(option: string): void {
-    this.posTypeControl.patchValue(option);
+  markTypeAsDirty(): void {
+    if (!this.typeControl.dirty) {
+      this.typeControl.markAsDirty();
+    }
   }
 
-  watchPosType(): void {
-    this.posTypeControl.valueChanges.pipe(takeUntil(this.destroyed$)).subscribe(() => {
-      if (!this.posTypeControl.touched) {
-        this.posTypeControl.markAsTouched();
-      }
-    })
+  markTakesTipsAsDirty(): void {
+    if (!this.tipsControl.dirty) {
+      this.tipsControl.markAsDirty();
+    }
   }
 
-  ngOnDestroy(): void {
-    this.destroyed$.next(true);
-    this.destroyed$.unsubscribe();
+  markOpenTicketsAsDirty(): void {
+    if (!this.openTicketsControl.dirty) {
+      this.openTicketsControl.markAsDirty();
+    }
   }
-
 }

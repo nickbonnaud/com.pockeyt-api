@@ -1,32 +1,34 @@
-export const POS_TYPES: any[] = [
+import { PosType } from 'src/app/models/other-data/pos-type';
+
+export const POS_TYPES: PosType[] = [
   {
     name: "Square",
     value: "square",
-    pictureUrl: ""
+    oauthUrl: ""
   },
   {
     name: "Clover",
     value: "clover",
-    pictureUrl: ""
+    oauthUrl: ""
   },
   {
     name: "Lightspeed Retail",
     value: "lightspeed",
-    pictureUrl: ""
+    oauthUrl: ""
   },
   {
     name: "Shopify",
     value: "shopify",
-    pictureUrl: ""
+    oauthUrl: ""
   },
   {
     name: "Vend",
     value: "vend",
-    pictureUrl: ""
+    oauthUrl: ""
   },
   {
     name: "Other",
     value: "other",
-    pictureUrl: ""
+    oauthUrl: ""
   }
 ]

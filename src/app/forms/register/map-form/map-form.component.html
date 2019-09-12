@@ -1,12 +1,11 @@
 <div [formGroup]="parentFormGroup">
   <div class="row">
-    <div class="col-sm-5"></div>
-    <div class="col-sm-2">
+    <div class="col-sm-12 pad-b">
       <div class="form-group">
-        <input mask="900" prefix="Radius: " [status]="radiusControl.touched ? (radiusControl.invalid ? 'danger' : 'success') : ''" nbInput fullWidth shape="round" id="radius" type="tel" placeholder="Geo Fence Radius" formControlName="radius">
+        <div class="value">{{ radiusControl.value }}</div>
+        <input type="range" step="5" min="50" max="200" value="50" formControlName="radius">
       </div>
     </div>
-    <div class="col-sm-5"></div>
   </div>
 
   <div class="row" *ngIf="radiusControl.invalid && radiusControl.touched">
@@ -24,9 +23,9 @@
 
   <div class="row">
     <div class="col-sm-12">
-      <div *ngIf="business != null && business.location.coords.lat != null && business.location.coords.lng != null" class="form-group">
-        <agm-map [zoom]="18" [latitude]="business.location.coords.lat" [longitude]="business.location.coords.lng">
-          <agm-circle (dragEnd)="setNewCoords($event)" [circleDraggable]="true" [latitude]="business.location.coords.lat" [longitude]="business.location.coords.lng" [radius]="radiusControl.value"></agm-circle>
+      <div *ngIf="business != null && business.location.lat != null && business.location.lng != null" class="form-group">
+        <agm-map [zoom]="18" [latitude]="business.location.lat" [longitude]="business.location.lng">
+          <agm-circle (dragEnd)="setNewCoords($event)" [circleDraggable]="true" [latitude]="business.location.lat" [longitude]="business.location.lng" [radius]="radiusControl.value"></agm-circle>
         </agm-map>
       </div>
     </div>

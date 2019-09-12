@@ -8,17 +8,15 @@ import { Profile } from '../models/business/profile';
 import { Photo } from '../models/business/photo';
 import { BusinessAccount } from '../models/business/business-account';
 import { Bank } from '../models/business/bank';
-import { Coords } from '../models/business/coords';
-import { Beacon } from '../models/business/beacon';
 import { PosAccount } from '../models/business/pos-account';
 import { Address } from '../models/business/address';
+import { Owner } from '../models/business/owner';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BusinessService {
   business$: BehaviorSubject<Business> = new BehaviorSubject<Business>(this.newBusiness());
-
   constructor() { }
 
   updateBusiness(business: Business): void {
@@ -30,16 +28,33 @@ export class BusinessService {
     business.profile = new Profile();
     business.photos = this.newPhotos();
     business.accounts = this.newAccounts();
-    business.location = this.newLocation();
+    business.location = new Location();
     business.posAccount = new PosAccount();
     return business;
   }
 
-  private newLocation(): Location {
-    let location: Location = new Location;
-    location.coords = new Coords();
-    location.beacon = new Beacon();
-    return location;
+  updateAccounts(businessAccount: BusinessAccount, owners: Owner[], bank: Bank): void {
+    let accounts: Accounts = new Accounts();
+    accounts.businessAccount = businessAccount;
+    accounts.ownerAccounts = owners;
+    accounts.bankAccount = bank;
+    this.updateBusiness(Object.assign(this.business$.value, { accounts: accounts }));
+  }
+
+  updatePosAccount(posAccount: PosAccount): void {
+    this.updateBusiness(Object.assign(this.business$.value, { posAccount: posAccount }));
+  }
+
+  updateProfile(profile: Profile): void {
+    this.updateBusiness(Object.assign(this.business$.value, { profile: profile }));
+  }
+
+  updatePhotos(photos: Photos): void {
+    this.updateBusiness(Object.assign(this.business$.value, { photos: photos}));
+  }
+
+  updateLocation(location: Location): void {
+    this.updateBusiness(Object.assign(this.business$.value, { location: location }));
   }
 
   private newAccounts(): Accounts {

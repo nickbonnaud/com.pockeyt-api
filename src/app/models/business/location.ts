@@ -1,7 +1,6 @@
-import { Beacon } from './beacon';
-import { Coords } from './coords';
-
 export class Location {
-  coords: Coords
-  beacon: Beacon
+  identifier: string;
+  lat: string;
+  lng: string;
+  radius: number;
 }

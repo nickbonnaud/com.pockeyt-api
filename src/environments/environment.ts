@@ -6,13 +6,7 @@ export const environment = {
   production: false,
   app_name: 'Heist',
   google_api_key: 'AIzaSyCRh9F7rjZFYmAgVbn8_89m0L_Cyj-QC10',
-
-  urls: {
-    base: 'http://pockeyt.local/',
-    register: 'api/business/auth/register',
-    login: 'api/business/auth/login',
-    logout: 'api/business/auth/logout'
-  },
+  base_url: 'http://pockeyt.local',
 };
 
 /*

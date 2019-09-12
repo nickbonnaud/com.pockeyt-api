@@ -71,6 +71,17 @@
         </form>
       </nb-step>
 
+      <nb-step [stepControl]="posForm" label="POS Info">
+        <form [formGroup]="posForm" class="step-container">
+          <h4 class="lorem">
+            Last step, we promise! We just need some info about your current Payment System.
+          </h4>
+          <app-pos-form [parentFormGroup]="posForm"></app-pos-form>
+          <button nbButton nbStepperPrevious (click)="goToMap()">prev</button>
+          <button [disabled]="posForm.invalid" nbButton nbStepperNext (click)="finishOnboard()">Finish</button>
+        </form>
+      </nb-step>
+
     </nb-stepper>
   </nb-card-body>
 </nb-card>

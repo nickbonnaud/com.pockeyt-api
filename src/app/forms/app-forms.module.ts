@@ -8,7 +8,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AgmCoreModule } from '@agm/core';
 import { BusinessFormComponent } from './register/business-form/business-form.component';
-import { NbInputModule, NbSelectModule, NbCheckboxModule, NbDialogModule, NbButtonModule, NbIconModule, NbCardModule, NbListModule, NbUserModule } from '@nebular/theme';
+import { NbInputModule, NbSelectModule, NbCheckboxModule, NbDialogModule, NbButtonModule, NbIconModule } from '@nebular/theme';
 import { OwnerFormComponent } from './register/owner-form/owner-form.component';
 import { NgxMaskModule } from 'ngx-mask';
 import { DialogsModule } from '../dialogs/dialogs.module';
@@ -37,9 +37,6 @@ import { MapFormComponent } from './register/map-form/map-form.component';
     NbCheckboxModule,
     NbButtonModule,
     NbIconModule,
-    NbCardModule,
-    NbListModule,
-    NbUserModule,
     DialogsModule,
     AgmCoreModule.forRoot({
       apiKey: environment.google_api_key
@@ -53,7 +50,8 @@ import { MapFormComponent } from './register/map-form/map-form.component';
     ProfileFormComponent,
     BankFormComponent,
     PhotoFormComponent,
-    MapFormComponent
+    MapFormComponent,
+    PosFormComponent
   ]
 })
 export class AppFormsModule {}

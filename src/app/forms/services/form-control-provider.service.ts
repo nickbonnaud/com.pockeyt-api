@@ -1,3 +1,4 @@
+import { POS_TYPES } from 'src/assets/data/pos-types';
 import { AppFormsModule } from './../app-forms.module';
 import { FormBuilder, FormGroup, Validators, FormControl, ValidatorFn } from '@angular/forms';
 import { Injectable } from '@angular/core';
@@ -12,6 +13,7 @@ import { primaryOwnerValidator } from '../validators/primary-owner-validator';
 import { numberValidator } from '../validators/number-validator';
 import { percentOwnValidator } from '../validators/percent-own-validator';
 import { requiredFileType } from '../validators/required-file-type';
+import { PosType } from 'src/app/models/other-data/pos-type';
 
 @Injectable({
   providedIn: AppFormsModule
@@ -23,7 +25,8 @@ export class FormControlProviderService {
     return this.fb.group({
       name: ['', Validators.compose([Validators.required, Validators.minLength(2)])],
       description: ['', Validators.compose([Validators.required, Validators.minLength(25)])],
-      website: ['', Validators.compose([Validators.required, Validators.pattern(patterns.website)])]
+      website: ['', Validators.compose([Validators.required, Validators.pattern(patterns.website)])],
+      googlePlaceId: ['']
     });
   }
 
@@ -32,6 +35,14 @@ export class FormControlProviderService {
       radius: [50, Validators.compose([Validators.required, Validators.max(200), Validators.min(50), numberValidator])],
       lat: ['', Validators.compose([Validators.required])],
       lng: ['', Validators.compose([Validators.required])]
+    });
+  }
+
+  registerPosTypeControls(): FormGroup {
+    return this.fb.group({
+      type: ['', Validators.compose([Validators.required, selectionExistsValidator(this.posTypesToArray())])],
+      takesTips: ['', Validators.compose([Validators.required, booleanValidator])],
+      allowsOpenTickets: ['', Validators.compose([Validators.required, booleanValidator])]
     });
   }
 
@@ -235,8 +246,12 @@ export class FormControlProviderService {
     return entityTypesArray;
   }
 
-  private entityTypesRequiringEin(): string[] {
-    const allTypes: string[] = this.entityTypesToArray();
-    return allTypes.splice(allTypes.indexOf('soleProprietorship'), 1);
+  private posTypesToArray(): string[] {
+    const posTypes: PosType[] = POS_TYPES;
+    const posTypesArray: string[] = [];
+    posTypes.forEach((type: PosType) => {
+      posTypesArray.push(type.value);
+    });
+    return posTypesArray;
   }
 }

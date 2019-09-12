@@ -36,14 +36,13 @@ export class MapFormComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroyed$))
       .subscribe((business: Business) => {
         this.business = business;
-        this.latControl.patchValue(this.business.location.coords.lat);
-        this.lngControl.patchValue(this.business.location.coords.lng);
+        this.latControl.patchValue(this.business.location.lat);
+        this.lngControl.patchValue(this.business.location.lng);
       });
   }
 
 
   setNewCoords(center: any): void {
-    console.log('set new coords');
     this.setFormValues(center.coords);
     this.setBusinessService(center.coords)
   }
@@ -54,8 +53,8 @@ export class MapFormComponent implements OnInit, OnDestroy {
   }
 
   setBusinessService(coords: any) {
-    this.business.location.coords.lat = coords.lat;
-    this.business.location.coords.lng = coords.lng;
+    this.business.location.lat = coords.lat;
+    this.business.location.lng = coords.lng;
     this.businessService.updateBusiness(this.business);
   }
 

@@ -1,7 +1,43 @@
 <div [formGroup]="parentFormGroup">
-  <nb-list>
-    <nb-list-item *ngFor="let posOption of posOptions">
-      <nb-user (click)="selectPosType(posOption.value)" [name]="posOption.name" [picture]="posOption.pictureUrl" [showTitle]="false"></nb-user>
-    </nb-list-item>
-  </nb-list>
+
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="form-group">
+        <nb-select (click)="markTypeAsDirty()" [status]="typeControl.dirty ? (typeControl.invalid ? 'danger' : 'success') : ''" fullWidth shape="round" id="type" placeholder="Current POS system" formControlName="type">
+          <nb-option *ngFor="let posType of posOptions" [value]="posType.value">{{ posType.name }}</nb-option>
+        </nb-select>
+        <ng-container *ngIf="typeControl.invalid && typeControl.dirty">
+          <p class="caption status-danger" *ngIf="!!typeControl.errors?.required">Please select your current POS system.</p>
+          <p class="caption status-danger" *ngIf="!!typeControl.errors?.selectionExists">Selected POS system is not valid!</p>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="form-group">
+        <nb-select (click)="markTakesTipsAsDirty()" [status]="tipsControl.dirty ? (tipsControl.invalid ? 'danger' : 'success') : ''" fullWidth shape="round" id="takesTips" placeholder="Are tips enabled on your POS system?" formControlName="takesTips">
+          <nb-option *ngFor="let tipOption of boolOptions" [value]="tipOption.value">{{ tipOption.name }}</nb-option>
+        </nb-select>
+        <ng-container *ngIf="tipsControl.invalid && tipsControl.dirty">
+          <p class="caption status-danger" *ngIf="!!tipsControl.errors?.required">Please select whether your system currently takes tips.</p>
+          <p class="caption status-danger" *ngIf="!!tipsControl.errors?.isBoolean">Must be Yes or No!</p>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="form-group">
+        <nb-select (click)="markOpenTicketsAsDirty()"
+          [status]="openTicketsControl.dirty ? (openTicketsControl.invalid ? 'danger' : 'success') : ''" fullWidth shape="round"
+          id="allowsOpenTickets" placeholder="Are open tickets/tabs enabled on your POS system?" formControlName="allowsOpenTickets">
+          <nb-option *ngFor="let ticketOption of boolOptions" [value]="ticketOption.value">{{ ticketOption.name }}</nb-option>
+        </nb-select>
+        <ng-container *ngIf="openTicketsControl.invalid && openTicketsControl.dirty">
+          <p class="caption status-danger" *ngIf="!!openTicketsControl.errors?.required">Please select whether your system
+            currently allows open tickets/tabs.</p>
+          <p class="caption status-danger" *ngIf="!!openTicketsControl.errors?.isBoolean">Must be Yes or No!</p>
+        </ng-container>
+      </div>
+    </div>
+  </div>
 </div>

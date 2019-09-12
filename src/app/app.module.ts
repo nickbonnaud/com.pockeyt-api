@@ -1,3 +1,4 @@
+import { AuthService } from './services/auth.service';
 import { LayoutModule } from './layout/layout.module';
 import { AuthGuardService } from './auth/services/auth-guard.service';
 import { BrowserModule } from '@angular/platform-browser';
@@ -10,8 +11,9 @@ import { NbThemeModule, NbLayoutModule, NbSidebarModule, NbActionsModule, NbUser
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { HttpClientModule } from '@angular/common/http';
 import { NbAuthModule, NbPasswordAuthStrategy, NbAuthJWTToken } from '@nebular/auth';
-import { environment } from 'src/environments/environment';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
+import { HttpInterceptorProviders } from './interceptors';
+import { urls } from './urls/main';
 
 
 export let options: Partial<IConfig> | (() => Partial<IConfig>);
@@ -42,14 +44,13 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
 
             key: 'data.token.value'
           },
-          baseEndpoint: environment.urls.base,
 
           login: {
-            endpoint: environment.urls.login,
+            endpoint: urls.auth.login,
             method: 'post'
           },
           register: {
-            endpoint: environment.urls.register,
+            endpoint: urls.auth.register,
             method: 'post',
             redirect: {
               success: '/welcome',
@@ -57,7 +58,7 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
             }
           },
           logout: {
-            endpoint: environment.urls.logout,
+            endpoint: urls.auth.logout,
             method: 'get'
           }
         })
@@ -74,7 +75,7 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
       }
     })
   ],
-  providers: [AuthGuardService],
+  providers: [AuthGuardService, AuthService, HttpInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

@@ -19,6 +19,7 @@ export class ProfileFormComponent implements OnInit, OnDestroy {
   nameControl: AbstractControl;
   websiteControl: AbstractControl;
   descriptionControl: AbstractControl;
+  googleIdControl: AbstractControl;
 
   placeSet: boolean = false;
   business: Business;
@@ -29,6 +30,7 @@ export class ProfileFormComponent implements OnInit, OnDestroy {
     this.nameControl = this.parentFormGroup.get('name');
     this.websiteControl = this.parentFormGroup.get('website');
     this.descriptionControl = this.parentFormGroup.get('description');
+    this.googleIdControl = this.parentFormGroup.get('googlePlaceId');
 
     this.watchBusiness();
   }
@@ -50,6 +52,7 @@ export class ProfileFormComponent implements OnInit, OnDestroy {
     this.placeSet = true;
     this.nameControl.patchValue(place.name);
     this.websiteControl.patchValue(place.website);
+    this.googleIdControl.patchValue(place.placeId);
     this.websiteControl.markAsTouched();
     this.nameControl.disable();
   }
@@ -69,10 +72,10 @@ export class ProfileFormComponent implements OnInit, OnDestroy {
     this.business.profile.name = place.name;
     this.business.profile.website = place.website;
     this.business.profile.googlePlaceId = place.placeId;
-    this.business.accounts.businessAccount.name = place.name;
+    this.business.accounts.businessAccount.businessName = place.name;
     this.business.accounts.businessAccount.address = place.address;
-    this.business.location.coords.lat = place.lat;
-    this.business.location.coords.lng = place.lng;
+    this.business.location.lat = place.lat;
+    this.business.location.lng = place.lng;
   }
 
   updateBusinessService(business: Business): void {

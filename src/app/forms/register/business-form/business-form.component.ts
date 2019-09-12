@@ -57,7 +57,7 @@ export class BusinessFormComponent implements OnInit, OnDestroy {
   }
 
   setFormValues(business: Business): void {
-    this.businessNameControl.patchValue(business.accounts.businessAccount.name);
+    this.businessNameControl.patchValue(business.accounts.businessAccount.businessName);
     this.addressControl.patchValue(business.accounts.businessAccount.address.address);
     this.cityControl.patchValue(business.accounts.businessAccount.address.city);
     this.stateControl.patchValue(business.accounts.businessAccount.address.state);
