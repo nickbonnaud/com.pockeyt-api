@@ -1,0 +1,11 @@
+<nb-list nbInfiniteList [threshold]="500" (bottomThreshold)="getMoreCustomers()">
+  <nb-list-item class="contact" *ngFor="let activeCustomer of customers; trackBy: trackByFn">
+    <nb-user  [picture]="activeCustomer.customer.photo.smallUrl"
+              [name]="activeCustomer.customer.firstName + ' ' + activeCustomer.customer.lastName"
+              [title]="activeCustomer.transaction ? 'Bill status: ' + activeCustomer.transaction?.status : 'Bill not assigned'"
+              size="large">
+    </nb-user>
+    <span *ngIf="activeCustomer.transaction" class="caption">{{ activeCustomer.transaction.status !== 'paid' ? 'Bill updated at: ' : 'Bill paid at: ' }} {{ activeCustomer.transaction.updatedAt | date: 'shortTime' }}</span>
+    <span *ngIf="!customer.transaction" class="caption">Customer entered at: {{ activeCustomer.enteredAt | date: 'shortTime' }}</span>
+  </nb-list-item>
+</nb-list>

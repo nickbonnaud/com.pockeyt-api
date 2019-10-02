@@ -21,7 +21,6 @@ export class GooglePlacesDirective implements OnInit {
 
   addMapScript(): void {
     const mapsUrl = `https://maps.googleapis.com/maps/api/js?key=${environment.google_api_key}&libraries=places`;
-    console.log(mapsUrl);
     if (! document.querySelectorAll(`[src="${mapsUrl}"]`).length) {
       document.body.appendChild(Object.assign(
         document.createElement('script'), {

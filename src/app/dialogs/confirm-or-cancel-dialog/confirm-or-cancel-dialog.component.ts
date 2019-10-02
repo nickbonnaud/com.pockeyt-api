@@ -12,11 +12,11 @@ export class ConfirmOrCancelDialogComponent {
 
   constructor(protected ref: NbDialogRef<ConfirmOrCancelDialogComponent>) {}
 
-  cancel() {
+  cancel(): void {
     this.ref.close(false);
   }
 
-  confirm() {
+  confirm(): void {
     this.ref.close(true);
   }
 }

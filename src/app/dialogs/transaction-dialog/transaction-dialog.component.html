@@ -1,0 +1,39 @@
+<nb-card class="card-width">
+  <nb-card-body>
+    <span class="h4 customer-full-name">{{ transaction.customer.firstName }} {{ transaction.customer.lastName }}</span>
+    <span class="h4 customer-first-name">{{ transaction.customer.firstName }}</span>
+    <span class="transaction-status">Status: {{ transaction.transaction.status | uppercase }}</span>
+
+    <div class="customer-photo">
+      <nb-user class="photo" size="medium" [picture]="transaction.customer.photo.smallUrl" onlyPicture></nb-user>
+    </div>
+    <div class="transaction-details">
+      <nb-list>
+        <nb-list-item class="item product" *ngFor="let product of transaction.transaction.purchasedItems">
+          <span>{{ product.name }}</span>
+          <span>{{ product.price / 100 | currency }}</span>
+        </nb-list-item>
+
+        <nb-list-item class="item bottom-start">
+          <span>Subtotal</span>
+          <span>{{ transaction.transaction.netSales / 100 | currency }}</span>
+        </nb-list-item>
+        <nb-list-item class="item bottom-end">
+          <span>Tax</span>
+          <span>{{ transaction.transaction.tax / 100 | currency }}</span>
+        </nb-list-item>
+        <nb-list-item *ngIf="transaction.transaction.tip && transaction.transaction.tip != 0" class="item bottom-end">
+          <span>Tip</span>
+          <span>{{ transaction.transaction.tip / 100 | currency }}</span>
+        </nb-list-item>
+        <nb-list-item class="item bottom-end">
+          <span>Total</span>
+          <span>{{ transaction.transaction.total / 100 | currency }}</span>
+        </nb-list-item>
+      </nb-list>
+    </div>
+  </nb-card-body>
+  <nb-card-footer class="footer">
+    <button class="cancel" nbButton status="primary" (click)="close()">Close</button>
+  </nb-card-footer>
+</nb-card>

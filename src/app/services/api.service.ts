@@ -12,4 +12,8 @@ export class ApiService {
     endpoint = resourceId != undefined ? `${endpoint}/${resourceId}` : endpoint;
     return this.http.post<T>(endpoint, body);
   }
+
+  get<T>(endpoint: string): Observable<T> {
+    return this.http.get<T>(endpoint);
+  }
 }

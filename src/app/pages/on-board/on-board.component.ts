@@ -1,6 +1,6 @@
+import { AuthService } from './../../services/auth.service';
 import { PosAccount } from './../../models/business/pos-account';
 import { Location } from './../../models/business/location';
-import { Coords } from './../../models/business/coords';
 import { Bank } from './../../models/business/bank';
 import { BusinessAccount } from './../../models/business/business-account';
 import { Photos } from './../../models/business/photos';
@@ -13,7 +13,9 @@ import { FormGroup } from '@angular/forms';
 import { Owner } from 'src/app/models/business/owner';
 import { urls } from 'src/app/urls/main';
 import { Subject, Observable, forkJoin } from 'rxjs';
-import { takeUntil, switchMap } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
+import { Business } from 'src/app/models/business/business';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-on-board',
@@ -37,7 +39,8 @@ export class OnBoardComponent implements OnInit, OnDestroy {
   constructor(
     private fcProvider: FormControlProviderService,
     private api: ApiService,
-    private businessService: BusinessService
+    private businessService: BusinessService,
+    private auth: AuthService
   ) {}
 
   ngOnInit() {
@@ -53,6 +56,7 @@ export class OnBoardComponent implements OnInit, OnDestroy {
   }
 
   goToPhotos(): void {
+    this.redirectToOauth();
     this.currentStep = 'photos';
   }
 
@@ -61,6 +65,10 @@ export class OnBoardComponent implements OnInit, OnDestroy {
   }
 
   goToOwner(): void {
+    let business: Business = this.businessService.business$.getValue();
+    if (business.location.lat == undefined || business.location.lng == undefined) {
+      this.geoCodeAddress();
+    }
     this.currentStep = 'owner';
   }
 
@@ -84,6 +92,23 @@ export class OnBoardComponent implements OnInit, OnDestroy {
     this.owners = owners;
   }
 
+  geoCodeAddress() {
+    let address: string = (this.businessForm.get('address').value);
+    let secondary: string = this.businessForm.get('addressSecondary').value.length != 0 ? (',' + this.businessForm.get('addressSecondary').value) : '';
+    let fullAddress: string = (`${address}${secondary}`);
+
+    let city: string = (this.businessForm.get('city').value);
+    let state: string = this.businessForm.get('state').value;
+
+    let urlFormatAddress: string = (`address=${fullAddress},${city},${state}`).split(' ').join('+');
+    const geoCodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?${urlFormatAddress}&key=${environment.google_api_key}`;
+    this.api.get(geoCodeUrl).pipe(takeUntil(this.destroyed$)).subscribe((place: any) => {
+      let location: Location = (Object.assign(this.businessService.business$.value.location, { lat: place.results[0].geometry.location.lat, lng: place.results[0].geometry.location.lng}));
+      this.businessService.updateLocation(location);
+      console.log(this.businessService.business$.getValue());
+    });
+  }
+
   finishOnboard(): void {
     forkJoin([
       this.storeProfile(),
@@ -101,9 +126,15 @@ export class OnBoardComponent implements OnInit, OnDestroy {
           .pipe(takeUntil(this.destroyed$))
           .subscribe((logoBannerPhotos: [Photos, Photos]) => {
             this.updatePhotos(logoBannerPhotos);
-            console.log(this.businessService.business$.getValue());
+            this.redirectToOauth();
           });
       });
+  }
+
+  redirectToOauth(): void {
+    const posType: string = this.posForm.get('type').value;
+    const url: string = `${urls.oauth[posType]}&state=${this.auth.getToken()}`
+    window.location.href = url;
   }
 
   storeBusinessData(): Observable<[BusinessAccount, Owner[], Bank]> {
@@ -111,7 +142,7 @@ export class OnBoardComponent implements OnInit, OnDestroy {
   }
 
   storePosData(): Observable<PosAccount> {
-    return this.api.post<PosAccount>(urls.business.pos_store_patch, this.posForm.value);
+    return this.api.post<PosAccount>(urls.business.pos_store_patch_get, this.posForm.value);
   }
 
   storeGeoData(): Observable<Location> {

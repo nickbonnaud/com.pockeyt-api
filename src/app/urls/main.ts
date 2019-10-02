@@ -14,6 +14,13 @@ export const urls = {
     owner_store_patch: `${environment.base_url}/api/business/payfac/owner`,
     bank_store_patch: `${environment.base_url}/api/business/payfac/bank`,
     location: `${environment.base_url}/api/business/location/geo`,
-    pos_store_patch: `${environment.base_url}/api/business/pos/account`
+    pos_store_patch_get: `${environment.base_url}/api/business/pos/account`,
+    active_customers: `${environment.base_url}/api/business/customers/active`,
+    transactions: `${environment.base_url}/api/business/transactions`
+  },
+
+  oauth: {
+  square: `https://connect.squareup.com/oauth2/authorize?client_id=${environment.square_client_id}&scope=CUSTOMERS_READ CUSTOMERS_WRITE ITEMS_READ ORDERS_READ ORDERS_WRITE PAYMENTS_READ EMPLOYEES_READ`,
+
   }
 };

@@ -3,7 +3,7 @@ import { LayoutModule } from './../layout/layout.module';
 import { PagesComponent } from './pages.component';
 import { PagesRoutingModule } from './pages-routing.module';
 import { NgModule } from '@angular/core';
-import { DashboardModule } from './dashboard/dashboard.module';
+import { HomeModule } from './home/home.module';
 import { OnBoardModule } from './on-board/on-board.module';
 
 
@@ -14,7 +14,7 @@ import { OnBoardModule } from './on-board/on-board.module';
     CommonModule,
     PagesRoutingModule,
     LayoutModule,
-    DashboardModule,
+    HomeModule,
     OnBoardModule
   ]
 })

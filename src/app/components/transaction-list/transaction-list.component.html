@@ -1,0 +1,22 @@
+<nb-list nbInfiniteList [threshold]="500" (bottomThreshold)="getMoreTransactions()">
+  <nb-list-item class="item">
+    <span>Customer</span>
+    <span class="sale-details">Sales</span>
+    <span class="sale-details">Tax</span>
+    <span class="sale-details">Tip</span>
+    <span>Total</span>
+    <span>View</span>
+  </nb-list-item>
+  <nb-list-item class="item" *ngFor="let transaction of transactions; trackBy: trackByFn">
+    <nb-user
+      size="tiny"
+      [picture]="transaction.customer.photo.smallUrl"
+      [name]="transaction.customer.firstName + ' ' + transaction.customer.lastName">
+    </nb-user>
+    <span class="sale-details">{{ transaction.transaction.netSales / 100 | currency }}</span>
+    <span class="sale-details">{{ transaction.transaction.tax / 100 | currency }}</span>
+    <span class="sale-details">{{ transaction.transaction.tip / 100 | currency }}</span>
+    <span>{{ transaction.transaction.total / 100 | currency }}</span>
+    <span (click)="showFullTransaction(transaction)"><nb-icon icon="eye"></nb-icon></span>
+  </nb-list-item>
+</nb-list>
