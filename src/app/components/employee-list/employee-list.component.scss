@@ -1,0 +1,41 @@
+@import '../../styles/themes';
+
+@include nb-install-component() {
+  nb-card {
+    flex: 1 1 45%;
+    margin: 0 2.5%;
+
+    &.scroll {
+      height: 30rem;
+    }
+  }
+  nb-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: nb-theme(card-header-with-select-padding-top);
+    padding-bottom: nb-theme(card-header-with-select-padding-bottom);
+
+    @include nb-ltr(padding-right, 4rem);
+    @include nb-rtl(padding-left, 4rem);
+  }
+
+  .back-body {
+    text-align: center;
+  }
+
+  .contact {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &:first-child {
+      border-top: none;
+    }
+  }
+
+  .caption {
+    font-size: 1rem;
+  }
+
+}

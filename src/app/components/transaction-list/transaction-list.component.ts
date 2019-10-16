@@ -14,10 +14,10 @@ import { TransactionDialogComponent } from 'src/app/dialogs/transaction-dialog/t
   styleUrls: ['./transaction-list.component.scss']
 })
 export class TransactionListComponent implements OnInit, OnDestroy {
-  @Input() transactionType: string;
+  @Input() query: string;
+  BASE_URL: string;
 
   private destroyed$: Subject<boolean> = new Subject<boolean>();
-  BASE_URL: string = urls.business.transactions;
 
   transactions: AssignedTransaction[] = [];
   loading: boolean = false;
@@ -29,8 +29,8 @@ export class TransactionListComponent implements OnInit, OnDestroy {
   ){}
 
   ngOnInit(): void {
-    const url: string = `${this.BASE_URL}?type=${this.transactionType}`;
-    this.fetchTransactions(url);
+    this.BASE_URL = `${urls.business.transactions}?${this.query}`;
+    this.fetchTransactions(this.BASE_URL);
   }
 
   fetchTransactions(url: string): void {

@@ -10,7 +10,7 @@ export class PaginatorService {
   constructor() {}
 
   addPageData(page: PaginatePage): void {
-    const index: number = this.getPage(page.meta.path);
+    const index: number = this.getPage(page.links.first);
     if (index >= 0) {
       this.paginateData[index] = page;
     } else {
@@ -18,26 +18,38 @@ export class PaginatorService {
     }
   }
 
-  removePageData(baseUrl): void {
-    const index: number = this.getPage(baseUrl);
+  removePageData(url): void {
+    const index: number = this.getPage(url);
     if (index >= 0) {
       this.paginateData.splice(index, 1);
     }
   }
 
-  getNextUrl(baseUrl: string): string {
-    const index: number = this.getPage(baseUrl);
+  getNextUrl(url: string): string {
+    const index: number = this.getPage(url);
     return this.paginateData[index].links.next;
   }
 
-  getPrevUrl(baseUrl: string): string {
-    const index: number = this.getPage(baseUrl);
+  getPrevUrl(url: string): string {
+    const index: number = this.getPage(url);
     return this.paginateData[index].links.prev;
   }
 
-  private getPage(path: string): number {
+  private getPage(url: string): number {
     return this.paginateData.findIndex((storedPage: PaginatePage) => {
-      return path === storedPage.meta.path;
+      return this.stripPaginateQuery(url) === this.stripPaginateQuery(storedPage.links.first);
     });
+  }
+
+  private stripPaginateQuery(url: string) : string {
+    let pageIndex: number = url.indexOf('&page');
+    if (pageIndex >= 0) {
+      return url.substring(0, pageIndex);
+    }
+    pageIndex = url.indexOf('?page');
+    if (pageIndex >= 0) {
+      return url.substring(0, pageIndex);
+    }
+    return url;
   }
 }

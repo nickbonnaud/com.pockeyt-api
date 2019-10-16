@@ -1,0 +1,97 @@
+@import '~bootstrap/scss/mixins/breakpoints';
+@import '~@nebular/theme/styles/global/breakpoints';
+@import '../../styles/themes';
+
+@include nb-install-component() {
+  nb-card-body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  nb-card {
+    width: 50vw
+  }
+
+  .customer-full-name,
+  .customer-first-name,
+  .transaction-status {
+    display: block;
+  }
+
+  .customer-full-name,
+  .customer-first-name {
+    margin-bottom: 0.1rem;
+  }
+
+  .customer-photo {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .photo {
+    line-height: 1;
+    margin-top: -4rem;
+    margin-left: auto;
+    margin-right: 0.4rem;
+  }
+
+  .transaction-details {
+    margin-top: 2rem;
+  }
+
+  .item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: none;
+
+    > * {
+      flex: 1;
+    }
+
+    &:first-child {
+      border-top: none;
+    }
+  }
+
+   @include media-breakpoint-down(sm) {
+    .customer-photo {
+      display: none;
+    }
+
+    .customer-full-name {
+      display: none;
+    }
+
+    .customer-first-name {
+      display: block;
+    }
+  }
+
+  @include media-breakpoint-up(sm) {
+    .customer-photo {
+      display: flex;
+    }
+
+    .customer-full-name {
+      display: block;
+    }
+
+    .customer-first-name {
+      display: none;
+    }
+  }
+
+  .bottom-start {
+    border-top: 1px dotted black;
+    padding-top: 2rem;
+  }
+
+  .bottom-end {
+    padding-top: 0px;
+  }
+
+  .footer {
+    text-align: center;
+  }
+}

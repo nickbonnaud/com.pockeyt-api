@@ -1,7 +1,9 @@
 {
   "git.ignoreLimitWarning": true,
   "cSpell.words": [
+    "Datepicker",
     "googlemaps",
-    "paginator"
+    "paginator",
+    "rangepicker"
   ]
 }

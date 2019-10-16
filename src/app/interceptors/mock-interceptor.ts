@@ -54,6 +54,38 @@ const responses = [
   {
     url: `${urls.business.transactions}?type=recent&page=2`,
     body: 'TransactionsTwo'
+  },
+  {
+    url: `${urls.business.transactions}?sum=net_sales`,
+    body: 'SumSale'
+  },
+  {
+    url: `${urls.business.transactions}?sum=tip`,
+    body: 'SumSale'
+  },
+  {
+    url: `${urls.business.transactions}?sum=tax`,
+    body: 'SumSale'
+  },
+  {
+    url: `${urls.business.transactions}?sum=total`,
+    body: 'SumSale'
+  },
+  {
+    url: `${urls.business.transactions}?id=success`,
+    body: 'TransactionIdSuccess'
+  },
+  {
+    url: `${urls.business.transactions}?id=fail`,
+    body: 'TransactionIdFail'
+  },
+  {
+    url: `${urls.business.tips}?employees=all`,
+    body: 'EmployeeTips'
+  },
+  {
+    url: urls.business.employees,
+    body: 'Employees'
   }
 ];
 
@@ -82,8 +114,19 @@ export class MockInterceptor implements HttpInterceptor {
   private mockResponse(req: HttpRequest<any>): HttpResponse<any> {
     let newReq: HttpResponse<any>;
     responses.forEach(response => {
-      if (response.url == req.url) {
+      let reqUrl: string = req.url;
+      if (reqUrl.indexOf('&date') >= 0) {
+        reqUrl = reqUrl.substring(0, reqUrl.indexOf('&date'));
+      }
+      if (reqUrl.indexOf('?id=') >= 0) {
+        const type = reqUrl.substring(reqUrl.indexOf('?id=') + 1);
+        const suffix = type.endsWith('error') ? 'fail' : 'success';
+        reqUrl = reqUrl.substring(0, reqUrl.indexOf('?id='));
+        reqUrl = reqUrl + '?id=' + suffix;
+      }
+      if (response.url == reqUrl) {
         const reqMet = req.method.toLowerCase() + response.body;
+        console.log(reqMet);
         newReq = new HttpResponse({ status: 200, body: this[reqMet](req) });
       }
     });
@@ -159,7 +202,7 @@ export class MockInterceptor implements HttpInterceptor {
               name: 'logo-1569266964SWUAB.png',
               small_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`,
               large_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`
-            },
+            }
           },
           transaction: {
             identifier: '73d1cc60-de38-11e9-9b75-0b3f966648ce',
@@ -216,7 +259,7 @@ export class MockInterceptor implements HttpInterceptor {
               name: 'logo-1569266965l7H8T.png',
               small_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`,
               large_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`
-            },
+            }
           },
           transaction: null,
           notification: null,
@@ -232,7 +275,7 @@ export class MockInterceptor implements HttpInterceptor {
               name: 'logo-1569266965Ab7Du.png',
               small_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`,
               large_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`
-            },
+            }
           },
           transaction: null,
           notification: null,
@@ -248,7 +291,7 @@ export class MockInterceptor implements HttpInterceptor {
               name: 'logo-1569266965kBxNw.png',
               small_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`,
               large_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`
-            },
+            }
           },
           transaction: null,
           notification: null,
@@ -264,7 +307,7 @@ export class MockInterceptor implements HttpInterceptor {
               name: 'logo-1569266965Q7G26.png',
               small_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`,
               large_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`
-            },
+            }
           },
           transaction: {
             identifier: '73e8ae10-de38-11e9-89a0-4d1f466d5015',
@@ -337,7 +380,7 @@ export class MockInterceptor implements HttpInterceptor {
               name: 'logo-1569266965gXceE.png',
               small_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`,
               large_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`
-            },
+            }
           },
           transaction: {
             identifier: '73f81940-de38-11e9-bd6c-91df7c7e1aef',
@@ -394,7 +437,7 @@ export class MockInterceptor implements HttpInterceptor {
               name: 'logo-1569266965lWUPu.png',
               small_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`,
               large_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`
-            },
+            }
           },
           transaction: null,
           notification: null,
@@ -410,7 +453,7 @@ export class MockInterceptor implements HttpInterceptor {
               name: 'logo-1569266965hukYk.png',
               small_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`,
               large_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`
-            },
+            }
           },
           transaction: null,
           notification: null,
@@ -426,7 +469,7 @@ export class MockInterceptor implements HttpInterceptor {
               name: 'logo-1569266965s3mMC.png',
               small_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`,
               large_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`
-            },
+            }
           },
           transaction: {
             identifier: '74073240-de38-11e9-b3d2-33021e914163',
@@ -479,7 +522,7 @@ export class MockInterceptor implements HttpInterceptor {
               name: 'logo-1569266965EsSzY.png',
               small_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`,
               large_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`
-            },
+            }
           },
           transaction: null,
           notification: null,
@@ -1174,6 +1217,308 @@ export class MockInterceptor implements HttpInterceptor {
         per_page: 10,
         to: 15,
         total: 15
+      }
+    };
+  }
+
+  private getEmployeeTips(req: HttpRequest<any>) {
+    return {
+      data: [
+        {
+          first_name: 'Alford',
+          last_name: 'Miller',
+          tips: Math.random() * 10000
+        },
+        {
+          first_name: 'Silas',
+          last_name: 'Ondricka',
+          tips: Math.random() * 10000
+        },
+        {
+          first_name: 'Austyn',
+          last_name: 'Schiller',
+          tips: Math.random() * 10000
+        },
+        {
+          first_name: 'Gus',
+          last_name: 'Wunsch',
+          tips: Math.random() * 10000
+        },
+        {
+          first_name: 'Alexane',
+          last_name: 'Kautzer',
+          tips: Math.random() * 10000
+        },
+        {
+          first_name: 'Cassandre',
+          last_name: 'Kutch',
+          tips: Math.random() * 10000
+        },
+        {
+          first_name: 'Leanna',
+          last_name: 'Gerhold',
+          tips: Math.random() * 10000
+        },
+        {
+          first_name: 'Ramon',
+          last_name: 'Cummings',
+          tips: Math.random() * 10000
+        },
+        {
+          first_name: 'Alverta',
+          last_name: 'Gorczany',
+          tips: Math.random() * 10000
+        },
+        {
+          first_name: 'Saige',
+          last_name: 'Rutherford',
+          tips: Math.random() * 10000
+        },
+        {
+          first_name: 'Kelsie',
+          last_name: 'Carter',
+          tips: Math.random() * 10000
+        },
+        {
+          first_name: 'Ward',
+          last_name: 'Gulgowski',
+          tips: Math.random() * 10000
+        }
+      ],
+      links: {
+        first: `${urls.business.tips}?employees=all&page=1`,
+        last: `${urls.business.tips}?employees=all&page=1`,
+        prev: null,
+        next: null
+      },
+      meta: {
+        current_page: 1,
+        from: 1,
+        last_page: 1,
+        path: urls.business.tips,
+        per_page: 15,
+        to: 12,
+        total: 12
+      }
+    };
+  }
+
+  private getEmployees(req: HttpRequest<any>) {
+    return {
+      data: [
+        {
+          identifier: '1f6872c0-eedd-11e9-9198-afe1b3f15c1c',
+          external_id: 'dce68af0-12c0-3508-8968-21ce356c10dc',
+          first_name: 'Geraldine',
+          last_name: 'Orn',
+          email: null
+        },
+        {
+          identifier: '1f688150-eedd-11e9-9404-f7d57ee74616',
+          external_id: '721082ed-0ce3-38ae-a8e3-425f80dd40ca',
+          first_name: 'Breana',
+          last_name: 'Gusikowski',
+          email: null
+        },
+        {
+          identifier: '1f688b70-eedd-11e9-a828-add7bd6811a8',
+          external_id: 'e449fbb2-b613-3714-94f7-2999a92083d1',
+          first_name: 'Chadrick',
+          last_name: 'Will',
+          email: null
+        },
+        {
+          identifier: '1f689520-eedd-11e9-9a06-e94ca5aaaaea',
+          external_id: 'af8ad01e-6eb6-367e-9c41-1eee42734675',
+          first_name: 'Estel',
+          last_name: 'Corkery',
+          email: null
+        },
+        {
+          identifier: '1f68a0e0-eedd-11e9-8073-2937f2d8c8a9',
+          external_id: 'd5c4f1a2-146a-3384-8c04-587a1d377f42',
+          first_name: 'Ross',
+          last_name: 'Roob',
+          email: null
+        },
+        {
+          identifier: '1f68aa60-eedd-11e9-b7b2-b14b393c426b',
+          external_id: 'b986c5a7-e6ba-3833-8626-f8e30330b97d',
+          first_name: 'Ruby',
+          last_name: 'Eichmann',
+          email: null
+        },
+        {
+          identifier: '1f68b920-eedd-11e9-9d9f-759a4e938408',
+          external_id: '68a1350f-9f0e-3e2f-98fc-d33434fcc50c',
+          first_name: 'Lambert',
+          last_name: 'Deckow',
+          email: null
+        },
+        {
+          identifier: '1f68c3b0-eedd-11e9-a519-3b60505c1c3c',
+          external_id: 'f680f4f7-efde-3889-b7ca-627a4ced1de6',
+          first_name: 'Remington',
+          last_name: 'Hirthe',
+          email: null
+        },
+        {
+          identifier: '1f68cd40-eedd-11e9-873b-a9dcc2eea123',
+          external_id: 'c5815d3d-e007-3975-bf6d-b6b29f373089',
+          first_name: 'Naomie',
+          last_name: 'Bahringer',
+          email: null
+        },
+        {
+          identifier: '1f68d6a0-eedd-11e9-87b8-bb2ce880c45c',
+          external_id: 'c9a79ee1-d79f-3fde-ba3b-d5bc68b08b11',
+          first_name: 'Garth',
+          last_name: 'Fay',
+          email: null
+        },
+        {
+          identifier: '1f68dff0-eedd-11e9-987f-abd8677b1f08',
+          external_id: '297892a7-7467-37a7-869c-37ee71c3d148',
+          first_name: 'Dewayne',
+          last_name: 'Runolfsson',
+          email: null
+        },
+        {
+          identifier: '1f68ec30-eedd-11e9-95fc-6ff96796eff5',
+          external_id: '1959b7fb-16f6-379d-acd8-6668b869face',
+          first_name: 'Tanya',
+          last_name: 'Schimmel',
+          email: null
+        },
+        {
+          identifier: '1f68f580-eedd-11e9-9851-a3bcd8a5e37c',
+          external_id: 'a3036443-5f97-3bcf-9b98-309d8617fe68',
+          first_name: 'Roxanne',
+          last_name: "O'Keefe",
+          email: null
+        }
+      ],
+      links: {
+        first: `${urls.business.employees}?page=1`,
+        last: `${urls.business.employees}?page=1`,
+        prev: null,
+        next: null
+      },
+      meta: {
+        current_page: 1,
+        from: 1,
+        last_page: 1,
+        path: urls.business.employees,
+        per_page: 15,
+        to: 13,
+        total: 13
+      }
+    };
+  }
+
+  private getTransactionIdSuccess(req: HttpRequest<any>) {
+    return {
+      data: [
+        {
+          transaction: {
+            identifier: '14622780-f048-11e9-ae63-fbf53309594a',
+            employee_id: '998b52f2-27b4-3747-9435-365ab9020f3c',
+            tax: '122',
+            tip: '297',
+            net_sales: '1624',
+            total: '2043',
+            partial_payment: '0',
+            locked: '1',
+            bill_created_at: '2019-10-16 19:06:38',
+            updated_at: '2019-10-16 19:06:38',
+            status: 'open',
+            purchased_items: [
+              {
+                name: 'quasi',
+                sub_name: null,
+                price: '2000'
+              },
+              {
+                name: 'aut',
+                sub_name: null,
+                price: '2000'
+              },
+              {
+                name: 'adipisci',
+                sub_name: null,
+                price: '2000'
+              },
+              {
+                name: 'exercitationem',
+                sub_name: null,
+                price: '2000'
+              }
+            ],
+            refunds: []
+          },
+          customer: {
+            identifier: '14524450-f048-11e9-a8ce-8bb288bc53b4',
+            email: 'ramona.stiedemann@example.net',
+            first_name: 'Sid',
+            last_name: 'Schmitt',
+            photo: {
+              name: 'logo-15712527985szGx.png',
+              small_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`,
+              large_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`
+            }
+          },
+          employee: {
+            identifier: '145193c0-f048-11e9-bbbe-67c55b5673f3',
+            external_id: '998b52f2-27b4-3747-9435-365ab9020f3c',
+            first_name: 'Naomi',
+            last_name: 'Skiles',
+            email: null
+          }
+        }
+      ],
+      links: {
+        first: `${urls.business.transactions}?id=14622780-f048-11e9-ae63-fbf53309594a&page=1`,
+        last: `${urls.business.transactions}?id=14622780-f048-11e9-ae63-fbf53309594a&page=1`,
+        prev: null,
+        next: null
+      },
+      meta: {
+        current_page: 1,
+        from: 1,
+        last_page: 1,
+        path: urls.business.transactions,
+        per_page: 10,
+        to: 1,
+        total: 1
+      }
+    };
+  }
+
+  private getTransactionIdFail(req: HttpRequest<any>) {
+    return {
+      data: [],
+      links: {
+        first: `${urls.business.transactions}?id=14622780-f048-11e9-ae63-fbf53309594a&page=1`,
+        last: `${urls.business.transactions}?id=14622780-f048-11e9-ae63-fbf53309594a&page=1`,
+        prev: null,
+        next: null
+      },
+      meta: {
+        current_page: 1,
+        from: null,
+        last_page: 1,
+        path: urls.business.transactions,
+        per_page: 10,
+        to: null,
+        total: 0
+      }
+    };
+  }
+
+  private getSumSale(req: HttpRequest<any>) {
+    return {
+      data: {
+        sales_data: Math.random() * 10000
       }
     };
   }

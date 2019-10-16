@@ -16,11 +16,27 @@ export const urls = {
     location: `${environment.base_url}/api/business/location/geo`,
     pos_store_patch_get: `${environment.base_url}/api/business/pos/account`,
     active_customers: `${environment.base_url}/api/business/customers/active`,
-    transactions: `${environment.base_url}/api/business/transactions`
+    transactions: `${environment.base_url}/api/business/transactions`,
+    tips: `${environment.base_url}/api/business/tips`,
+    employees: `${environment.base_url}/api/business/employees`
   },
 
   oauth: {
-  square: `https://connect.squareup.com/oauth2/authorize?client_id=${environment.square_client_id}&scope=CUSTOMERS_READ CUSTOMERS_WRITE ITEMS_READ ORDERS_READ ORDERS_WRITE PAYMENTS_READ EMPLOYEES_READ`,
+    square: `https://connect.squareup.com/oauth2/authorize?client_id=${environment.square_client_id}&scope=CUSTOMERS_READ CUSTOMERS_WRITE ITEMS_READ ORDERS_READ ORDERS_WRITE PAYMENTS_READ EMPLOYEES_READ`,
+  },
 
+  query: {
+    recent_transaction: 'recent=true',
+    employee_transaction: 'employee=',
+    date_transaction: 'date[]=',
+    status_transaction: 'status=',
+    customer_transaction: 'customer=',
+    sum_transaction_net_sales: 'sum=net_sales',
+    sum_transaction_tax: 'sum=tax',
+    sum_transaction_total: 'sum=total',
+    sum_transaction_tip: 'sum=tip',
+    employees_tips: 'employees=all',
+
+    id: 'id='
   }
 };

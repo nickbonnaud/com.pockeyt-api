@@ -1,0 +1,12 @@
+<nb-card>
+  <div class="icon-container">
+    <div class="icon status-primary">
+      <nb-icon class="icon-size" [icon]="selectedCard.iconClass"></nb-icon>
+    </div>
+  </div>
+
+  <div class="details">
+    <div class="title h5">{{ salesData / 100 | currency }}</div>
+    <div class="status paragraph-2">{{ selectedCard.title }}</div>
+  </div>
+</nb-card>

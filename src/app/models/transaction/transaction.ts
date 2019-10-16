@@ -13,5 +13,5 @@ export class Transaction {
   updatedAt: string;
   status: string;
   purchasedItems: PurchasedItem[];
-  refund: Refund;
+  refund: Refund[];
 }

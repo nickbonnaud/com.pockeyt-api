@@ -24,14 +24,13 @@ export class PaginateInterceptor implements HttpInterceptor {
   }
 
   stripPaginateData(body: object): object {
-    if (body['data'] != undefined) {
-      this.updatePaginator(body);
-      return body['data'];
-    }
-    return body;
+    if (body['data'] == undefined) { return body }
+    this.updatePaginator(body);
+    return body['data'];
   }
 
   updatePaginator(body: object) {
+    if (body['links'] == undefined || body['meta'] == undefined) {return}
     let page: PaginatePage = new PaginatePage();
     page.links = body['links'];
     page.meta = body['meta'];
