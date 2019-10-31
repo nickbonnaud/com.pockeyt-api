@@ -14,4 +14,9 @@
       border-top: none;
     }
   }
+
+  .text-link {
+    color: nb-theme(link-text-color);
+    cursor: pointer;
+  }
 }

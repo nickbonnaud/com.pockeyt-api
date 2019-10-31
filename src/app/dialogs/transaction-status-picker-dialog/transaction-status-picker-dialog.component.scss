@@ -1,0 +1,16 @@
+@import '../../styles/themes';
+
+@include nb-install-component() {
+  input {
+    width: 100%;
+  }
+
+  .cancel {
+    margin-right: 1rem;
+  }
+
+  .fix-height {
+    overflow-y: hidden;
+    max-height: 70vh;
+  }
+}

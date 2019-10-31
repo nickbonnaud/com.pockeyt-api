@@ -40,14 +40,6 @@ const responses = [
     body: 'Pos'
   },
   {
-    url: urls.business.active_customers,
-    body: 'ActiveCustomersOne'
-  },
-  {
-    url: `${urls.business.active_customers}?page=2`,
-    body: 'ActiveCustomersTwo'
-  },
-  {
     url: `${urls.business.transactions}?type=recent`,
     body: 'TransactionsOne'
   },
@@ -86,6 +78,22 @@ const responses = [
   {
     url: urls.business.employees,
     body: 'Employees'
+  },
+  {
+    url: `${urls.business.customers}?status=active`,
+    body: 'ActiveCustomersOne'
+  },
+  {
+    url: `${urls.business.customers}?status=active&page=2`,
+    body: 'ActiveCustomersTwo'
+  },
+  {
+    url: `${urls.business.customers}?status=historic`,
+    body: 'HistoricCustomers'
+  },
+  {
+    url: urls.business.transaction_status,
+    body: 'TransactionStatuses'
   }
 ];
 
@@ -126,7 +134,6 @@ export class MockInterceptor implements HttpInterceptor {
       }
       if (response.url == reqUrl) {
         const reqMet = req.method.toLowerCase() + response.body;
-        console.log(reqMet);
         newReq = new HttpResponse({ status: 200, body: this[reqMet](req) });
       }
     });
@@ -186,6 +193,184 @@ export class MockInterceptor implements HttpInterceptor {
       takes_tips: true,
       allows_open_tickets: false,
       status: 'fail_webhook'
+    };
+  }
+
+  private getHistoricCustomers(req: HttpRequest<any>) {
+    return {
+      data: [
+        {
+          customer: {
+            identifier: '7369a320-de38-11e9-b813-a7431fdda378',
+            email: 'lizzie.walker@example.org',
+            first_name: 'Freeman',
+            last_name: 'Ruecker',
+            photo: {
+              name: 'logo-1569266964SWUAB.png',
+              small_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`,
+              large_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`
+            }
+          },
+          transaction: {
+            identifier: '73d1cc60-de38-11e9-9b75-0b3f966648ce',
+            employee_id: null,
+            tax: '35',
+            tip: '0',
+            net_sales: '2000',
+            total: '2035',
+            partial_payment: '0',
+            locked: '1',
+            bill_created_at: '2019-09-23 19:29:25',
+            updated_at: '2019-09-23 19:29:25',
+            status: 'open',
+            purchased_items: [
+              {
+                name: 'ullam',
+                sub_name: null,
+                price: '2000'
+              },
+              {
+                name: 'quia',
+                sub_name: null,
+                price: '2000'
+              },
+              {
+                name: 'et',
+                sub_name: null,
+                price: '2000'
+              },
+              {
+                name: 'sed',
+                sub_name: null,
+                price: '2000'
+              }
+            ],
+            refunds: [
+              {
+                total: '2035',
+                created_at: '2019-09-23 19:29:25',
+                updated_at: '2019-09-23 19:29:25'
+              }
+            ]
+          },
+          notification: null,
+          entered_at: '2019-09-25T12:15:55.000000Z'
+        },
+        {
+          customer: {
+            identifier: '73dad080-de38-11e9-82b0-1fdf7bcf0a5c',
+            email: 'bria35@example.org',
+            first_name: 'Herman',
+            last_name: 'Beahan',
+            photo: {
+              name: 'logo-1569266965l7H8T.png',
+              small_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`,
+              large_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`
+            }
+          },
+          transaction: null,
+          notification: null,
+          entered_at: '2019-09-25T12:14:55.000000Z'
+        },
+        {
+          customer: {
+            identifier: '73db4cd0-de38-11e9-a3ed-8f318ffbc496',
+            email: 'zschmitt@example.org',
+            first_name: 'Sigmund',
+            last_name: 'Mitchell',
+            photo: {
+              name: 'logo-1569266965Ab7Du.png',
+              small_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`,
+              large_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`
+            }
+          },
+          transaction: null,
+          notification: null,
+          entered_at: '2019-09-25T12:13:55.000000Z'
+        },
+        {
+          customer: {
+            identifier: '73dbbbe0-de38-11e9-a2ad-514b7a235c2f',
+            email: 'jana.mraz@example.org',
+            first_name: 'Josefa',
+            last_name: 'Kuvalis',
+            photo: {
+              name: 'logo-1569266965kBxNw.png',
+              small_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`,
+              large_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`
+            }
+          },
+          transaction: null,
+          notification: null,
+          entered_at: '2019-09-25T12:12:55.000000Z'
+        },
+        {
+          customer: {
+            identifier: '73dc27d0-de38-11e9-a856-a74a02bf5db7',
+            email: 'myrtie42@example.net',
+            first_name: 'Zelda',
+            last_name: 'Stark',
+            photo: {
+              name: 'logo-1569266965Q7G26.png',
+              small_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`,
+              large_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`
+            }
+          },
+          transaction: {
+            identifier: '73e8ae10-de38-11e9-89a0-4d1f466d5015',
+            employee_id: null,
+            tax: '35',
+            tip: '0',
+            net_sales: '2000',
+            total: '2035',
+            partial_payment: '0',
+            locked: '1',
+            bill_created_at: '2019-09-23 19:29:25',
+            updated_at: '2019-09-23 19:29:25',
+            status: 'closed',
+            purchased_items: [
+              {
+                name: 'pariatur',
+                sub_name: null,
+                price: '2000'
+              },
+              {
+                name: 'ipsam',
+                sub_name: null,
+                price: '2000'
+              },
+              {
+                name: 'libero',
+                sub_name: null,
+                price: '2000'
+              },
+              {
+                name: 'voluptatem',
+                sub_name: null,
+                price: '2000'
+              }
+            ],
+            refunds: []
+          },
+          notification: null,
+          entered_at: '2019-09-25T12:11:55.000000Z'
+        }
+      ],
+      links: {
+        first: `${urls.business.customers}?status=historic&page=1`,
+        last: `${urls.business.customers}?status=historic&page=1`,
+        prev: null,
+        next: null
+      },
+      meta: {
+        current_page: 1,
+        from: 1,
+        last_page: 1,
+        path: urls.business.customers,
+        per_page: 5,
+        to: 5,
+        total: 5
+      }
     };
   }
 
@@ -350,16 +535,16 @@ export class MockInterceptor implements HttpInterceptor {
         }
       ],
       links: {
-        first: `${urls.business.active_customers}?page=1`,
-        last: `${urls.business.active_customers}?page=2`,
+        first: `${urls.business.customers}?status=active&page=1`,
+        last: `${urls.business.customers}?status=active&page=2`,
         prev: null,
-        next: `${urls.business.active_customers}?page=2`
+        next: `${urls.business.customers}?status=active&page=2`
       },
       meta: {
         current_page: 1,
         from: 1,
         last_page: 2,
-        path: urls.business.active_customers,
+        path: urls.business.customers,
         per_page: 5,
         to: 5,
         total: 10
@@ -530,16 +715,16 @@ export class MockInterceptor implements HttpInterceptor {
         }
       ],
       links: {
-        first: `${urls.business.active_customers}?page=1`,
-        last: `${urls.business.active_customers}?page=2`,
-        prev: `${urls.business.active_customers}?page=1`,
+        first: `${urls.business.customers}?status=active&page=1`,
+        last: `${urls.business.customers}?status=active&page=2`,
+        prev: `${urls.business.customers}?status=active&page=1`,
         next: null
       },
       meta: {
         current_page: 2,
         from: 6,
         last_page: 2,
-        path: urls.business.active_customers,
+        path: urls.business.customers,
         per_page: 5,
         to: 10,
         total: 10
@@ -1513,6 +1698,49 @@ export class MockInterceptor implements HttpInterceptor {
         total: 0
       }
     };
+  }
+
+  private getTransactionStatuses(req: HttpRequest<any>) {
+    return {
+      data: [
+        {
+          name: "open",
+          code: "100"
+        },
+        {
+          name: "closed",
+          code: "101"
+        },
+        {
+          name: "notification pending",
+          code: "102"
+        },
+        {
+          name: "payment processing",
+          code: "103"
+        },
+        {
+          name: "paid",
+          code: "200"
+        },
+        {
+          name: "wrong bill assigned",
+          code: "500"
+        },
+        {
+          name: "error in bill",
+          code: "501"
+        },
+        {
+          name: "error notifying",
+          code: "502"
+        },
+        {
+          name: "other bill error",
+          code: "503"
+        }
+      ]
+    }
   }
 
   private getSumSale(req: HttpRequest<any>) {

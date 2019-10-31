@@ -1,0 +1,13 @@
+<nb-card class="fix-h">
+  <nb-card-header>Select Employee</nb-card-header>
+  <nb-card-body>
+    <nb-radio-group [(value)]="selectedEmployee">
+      <nb-radio *ngFor="let employee of employees" [value]="employee">{{ employee.firstName }} {{ employee.lastName }}</nb-radio>
+    </nb-radio-group>
+  </nb-card-body>
+  <nb-card-footer>
+    <button class="cancel" nbButton status="danger" (click)="cancel()">Cancel</button>
+    <button nbButton status="success" [disabled]="selectedEmployee == undefined"
+      (click)="submit()">Submit</button>
+  </nb-card-footer>
+</nb-card>

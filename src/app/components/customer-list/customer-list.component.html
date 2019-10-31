@@ -5,7 +5,7 @@
               [title]="activeCustomer.transaction ? 'Bill status: ' + activeCustomer.transaction?.status : 'Bill not assigned'"
               size="large">
     </nb-user>
-    <span *ngIf="activeCustomer.transaction" class="caption">{{ activeCustomer.transaction.status !== 'paid' ? 'Bill updated at: ' : 'Bill paid at: ' }} {{ activeCustomer.transaction.updatedAt | date: 'shortTime' }}</span>
+    <span (click)="showTransactionDetails(activeCustomer)" *ngIf="activeCustomer.transaction" class="caption text-link">{{ activeCustomer.transaction.status !== 'paid' ? 'Bill updated at: ' : 'Bill paid at: ' }} {{ activeCustomer.transaction.updatedAt | date: 'shortTime' }}</span>
     <span *ngIf="!activeCustomer.transaction" class="caption">Customer entered at: {{ activeCustomer.enteredAt | date: 'shortTime' }}</span>
   </nb-list-item>
 </nb-list>

@@ -15,10 +15,14 @@ export const urls = {
     bank_store_patch: `${environment.base_url}/api/business/payfac/bank`,
     location: `${environment.base_url}/api/business/location/geo`,
     pos_store_patch_get: `${environment.base_url}/api/business/pos/account`,
-    active_customers: `${environment.base_url}/api/business/customers/active`,
-    transactions: `${environment.base_url}/api/business/transactions`,
     tips: `${environment.base_url}/api/business/tips`,
-    employees: `${environment.base_url}/api/business/employees`
+    employees: `${environment.base_url}/api/business/employees`,
+
+
+    customers: `${environment.base_url}/api/business/customers`,
+
+    transactions: `${environment.base_url}/api/business/transactions`,
+    transaction_status: `${environment.base_url}/api/business/status/transaction`
   },
 
   oauth: {
@@ -29,7 +33,6 @@ export const urls = {
     recent_transaction: 'recent=true',
     employee_transaction: 'employee=',
     date_transaction: 'date[]=',
-    status_transaction: 'status=',
     customer_transaction: 'customer=',
     sum_transaction_net_sales: 'sum=net_sales',
     sum_transaction_tax: 'sum=tax',
@@ -37,6 +40,15 @@ export const urls = {
     sum_transaction_tip: 'sum=tip',
     employees_tips: 'employees=all',
 
-    id: 'id='
+    customer_active: 'status=active',
+    customer_historic: 'status=historic',
+    customer_with_transaction: 'withTransaction=true',
+    customer_without_transaction: 'withTransaction=false',
+    customer_first: 'firstName=',
+    customer_last: 'lastName=',
+
+    id: 'id=',
+    status: 'status=',
+    date: 'date[]='
   }
 };

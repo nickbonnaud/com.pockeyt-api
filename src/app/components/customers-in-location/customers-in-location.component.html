@@ -1,0 +1,55 @@
+<nb-flip-card [showToggleButton]="false" [flipped]="flipped">
+  <nb-card-front>
+    <nb-card>
+      <nb-card-header>
+        <span>Customers</span>
+        <span>
+          <nb-select class="mr-2" [selected]="selectedFilter" *ngIf="selectedStatus.value == 'historic'" placeholder="Add Customer Filters"
+            (selectedChange)="changeFilterSelection($event)">
+            <nb-option *ngFor="let option of filterOptions" [value]="option">{{ option.title }}</nb-option>
+          </nb-select>
+
+          <nb-select [selected]="selectedStatus" (selectedChange)="changeStatusSelection($event)">
+            <nb-option *ngFor="let option of selectionOptions" [value]="option">{{ option.title }}</nb-option>
+          </nb-select>
+
+          <button class="white-calendar" (click)="showDatePicker()" size="small" ghost *ngIf="selectedStatus.value == 'historic'" nbButton><nb-icon class="ml-2 calendar" icon="calendar-outline"></nb-icon></button>
+        </span>
+      </nb-card-header>
+      <nb-card-body>
+        <customer-list [query]="fullQuery"></customer-list>
+      </nb-card-body>
+    </nb-card>
+  </nb-card-front>
+
+  <nb-card-back>
+    <nb-card>
+      <nb-card-header>
+        <span>Customers</span>
+        <span>
+          <nb-select class="mr-2" [selected]="selectedFilter" *ngIf="selectedStatus.value == 'historic'"
+            placeholder="Add Customer Filters" (selectedChange)="changeFilterSelection($event)">
+            <nb-option *ngFor="let option of filterOptions" [value]="option">{{ option.title }}
+            </nb-option>
+          </nb-select>
+
+          <nb-select [selected]="selectedStatus" (selectedChange)="changeStatusSelection($event)">
+            <nb-option *ngFor="let option of selectionOptions" [value]="option">{{ option.title }}</nb-option>
+          </nb-select>
+
+          <button status="danger" (click)="clearDates()" size="small" ghost *ngIf="selectedStatus.value == 'historic'" nbButton><nb-icon class="ml-2 calendar" icon="calendar-outline"></nb-icon></button>
+        </span>
+      </nb-card-header>
+
+      <nb-card-body>
+        <div class="row">
+          <div class="col-3"></div>
+          <div class="col-6">
+            <nb-calendar-range [range]="range" (rangeChange)="dateRangeChanged($event)"></nb-calendar-range>
+          </div>
+          <div class="col-3"></div>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </nb-card-back>
+</nb-flip-card>

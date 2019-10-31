@@ -1,0 +1,10 @@
+<nb-card>
+  <nb-card-header>{{ title }}</nb-card-header>
+  <nb-card-body>
+    <input #promptInput nbInput [placeholder]="placeholder">
+  </nb-card-body>
+  <nb-card-footer>
+    <button class="cancel" nbButton status="danger" (click)="cancel()">Cancel</button>
+    <button nbButton status="success" [disabled]="promptInput.value == ''" (click)="submit(promptInput.value)">Submit</button>
+  </nb-card-footer>
+</nb-card>
