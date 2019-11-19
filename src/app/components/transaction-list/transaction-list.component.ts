@@ -8,7 +8,7 @@ import { ApiService } from './../../services/api.service';
 import { NbCalendarRange, NbDialogService } from '@nebular/theme';
 import { AssignedTransaction } from './../../models/transaction/assigned-transaction';
 import { urls } from 'src/app/urls/main';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs/internal/Subject';
 
@@ -31,7 +31,7 @@ interface Status {
   templateUrl: './transaction-list.component.html',
   styleUrls: ['./transaction-list.component.scss']
 })
-export class TransactionListComponent implements OnInit {
+export class TransactionListComponent implements OnInit, OnDestroy {
   private destroyed$: Subject<boolean> = new Subject<boolean>();
 
   selectionOptions: SelectionOption[] = [
@@ -76,11 +76,6 @@ export class TransactionListComponent implements OnInit {
   dateRange: NbCalendarRange<Date>;
   BASE_URL: string;
 
-  customerFirst: string;
-  customerLast: string;
-  employee: Employee;
-  status: Status;
-
   constructor(
     private api: ApiService,
     private paginator: PaginatorService,
@@ -93,11 +88,18 @@ export class TransactionListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.BASE_URL = `${urls.business.transactions}?${this.setQueryParams()}`;
-    this.fetchTransactions(this.BASE_URL);
+    this.setQueryUrl();
   }
 
-  setQueryParams(): string {
+  clearPaginator(): void {
+    if (this.BASE_URL != undefined) {
+      this.transactions = [];
+      this.paginator.removePageData(this.BASE_URL);
+    }
+  }
+
+  setQueryUrl(): void {
+    this.clearPaginator();
     let params: string = '';
     this.selectionOptions.forEach((option: SelectionOption) => {
       if (option.selected) {
@@ -105,7 +107,10 @@ export class TransactionListComponent implements OnInit {
       }
     });
     params = this.setDateParams(params);
-    return params;
+    params = params.length > 0 ? `?${params}` : '';
+
+    this.BASE_URL = `${urls.business.transactions}${params}`;
+    this.fetchTransactions(this.BASE_URL);
   }
 
   setDateParams(params: string): string {
@@ -114,12 +119,12 @@ export class TransactionListComponent implements OnInit {
         this.dateRange.start.toISOString()
       )}&${urls.query.date}${encodeURIComponent(this.dateRange.end.toISOString())}`;
     }
-    const query: string = urls.query.recent_transaction;
-    return params.length > 0 ? `${params}&${query}` : query;
+    return params;
   }
 
   fetchTransactions(url: string): void {
-    if (!this.loading) {
+    console.log(url);
+    if (!this.loading && (!url.includes('<') && !url.includes('>'))) {
       this.loading = true;
       this.api
         .get<AssignedTransaction[]>(url)
@@ -131,6 +136,12 @@ export class TransactionListComponent implements OnInit {
     }
   }
 
+  findSelectionByValue(options: SelectionOption[], selection): SelectionOption {
+    return options.find((selectionOption: SelectionOption) => {
+      return selectionOption.value === selection.value;
+    });
+  }
+
   changeSelection(selections: SelectionOption[]): void {
     this.checkDialogs(selections);
     this.selectedOptions = selections;
@@ -140,21 +151,14 @@ export class TransactionListComponent implements OnInit {
       select.selected = false;
     });
     selections.forEach((selection: SelectionOption) => {
-      const option: SelectionOption = this.selectionOptions.find(
-        (selectOption: SelectionOption) => {
-          return selectOption.value === selection.value;
-        }
-      );
+      const option: SelectionOption = this.findSelectionByValue(this.selectionOptions, selection);
       option.selected = true;
     });
-    this.setQueryParams();
   }
 
   checkDialogs(selections: SelectionOption[]): void {
     selections.forEach((selection: SelectionOption) => {
-      let found = this.selectedOptions.find((option: SelectionOption) => {
-        selection.value == option.value;
-      });
+      const found: SelectionOption = this.findSelectionByValue(this.selectedOptions, selection);
       if (found == undefined) {
         this.showDialog(selection);
       }
@@ -172,9 +176,18 @@ export class TransactionListComponent implements OnInit {
       case 'status':
         this.showTransactionStatusDialog(selection);
         break;
+      case 'customer_id':
+        this.showCustomerIdPrompt(selection);
+        break;
       default:
         break;
     }
+  }
+
+  setQueryParams(selected: SelectionOption, value: string): void {
+    const placeHolder = selected.query.substr(0, selected.query.indexOf('>') + 1).substring(selected.query.indexOf('<'));
+    selected.query = selected.query.replace(placeHolder, value);
+    this.setQueryUrl();
   }
 
   showTransactionStatusDialog(selection: SelectionOption): void {
@@ -183,7 +196,10 @@ export class TransactionListComponent implements OnInit {
       .onClose.pipe(takeUntil(this.destroyed$))
       .subscribe((status: Status) => {
         this.deselectOnCancel(selection, status);
-        this.status = status;
+        if (status != undefined ) {
+          const selectedOption: SelectionOption = this.findSelectionByValue(this.selectedOptions, selection);
+          this.setQueryParams(selectedOption, status.code.toString());
+        }
       });
   }
 
@@ -193,8 +209,31 @@ export class TransactionListComponent implements OnInit {
       .onClose.pipe(takeUntil(this.destroyed$))
       .subscribe((employee: Employee) => {
         this.deselectOnCancel(selection, employee);
-        this.employee = employee;
+        if (employee != undefined) {
+          const selectedOption: SelectionOption = this.findSelectionByValue(this.selectedOptions, selection);
+          this.setQueryParams(selectedOption, employee.externalId);
+        }
       });
+  }
+
+  showCustomerIdPrompt(selection: SelectionOption): void {
+    this.dialogService
+    .open(InputPromptDialogComponent, {
+      context: {
+        title: 'Customer ID',
+        placeholder: 'ID'
+      }
+    })
+    .onClose.pipe(takeUntil(this.destroyed$))
+    .subscribe(customerId => {
+      this.deselectOnCancel(selection, customerId);
+      if (customerId == undefined) {
+        this.controlOptions(this.selectedOptions);
+        return;
+      }
+      const selectedOption: SelectionOption = this.findSelectionByValue(this.selectedOptions, selection);
+      this.setQueryParams(selectedOption, customerId);
+    })
   }
 
   showCustomerNameDialog(selection: SelectionOption): void {
@@ -208,7 +247,12 @@ export class TransactionListComponent implements OnInit {
       .onClose.pipe(takeUntil(this.destroyed$))
       .subscribe(firstName => {
         this.deselectOnCancel(selection, firstName);
-        this.customerFirst = firstName;
+        if (firstName == undefined) {
+          this.controlOptions(this.selectedOptions);
+          return;
+        }
+        const selectedOption: SelectionOption = this.findSelectionByValue(this.selectedOptions, selection);
+        this.setQueryParams(selectedOption, firstName);
         this.dialogService
           .open(InputPromptDialogComponent, {
             context: {
@@ -219,7 +263,11 @@ export class TransactionListComponent implements OnInit {
           .onClose.pipe(takeUntil(this.destroyed$))
           .subscribe(lastName => {
             this.deselectOnCancel(selection, lastName);
-            this.customerLast = lastName;
+            if (lastName == undefined) {
+              this.controlOptions(this.selectedOptions);
+              return;
+            }
+            this.setQueryParams(selectedOption, lastName);
           });
       });
   }
@@ -260,6 +308,7 @@ export class TransactionListComponent implements OnInit {
   getMoreTransactions(): void {
     if (!this.loading) {
       const nextUrl = this.paginator.getNextUrl(this.BASE_URL);
+      console.log(nextUrl);
       if (nextUrl != undefined) {
         this.fetchTransactions(nextUrl);
       }
@@ -297,5 +346,11 @@ export class TransactionListComponent implements OnInit {
     if (range.start != undefined && range.end != undefined) {
       this.flipped = false;
     }
+  }
+
+  ngOnDestroy(): void {
+    this.clearPaginator();
+    this.destroyed$.next(true);
+    this.destroyed$.unsubscribe();
   }
 }
