@@ -4,6 +4,10 @@
 
 export const environment = {
   production: false,
+  base_url: 'base',
+  app_name: 'Heist',
+  google_api_key: 'test',
+  square_client_id: 'test'
 };
 
 /*

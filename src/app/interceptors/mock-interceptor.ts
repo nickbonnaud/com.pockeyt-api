@@ -40,11 +40,11 @@ const responses = [
     body: 'Pos'
   },
   {
-    url: `${urls.business.transactions}?type=recent`,
+    url: urls.business.transactions,
     body: 'TransactionsOne'
   },
   {
-    url: `${urls.business.transactions}?type=recent&page=2`,
+    url: `${urls.business.transactions}?page=2`,
     body: 'TransactionsTwo'
   },
   {
@@ -133,6 +133,10 @@ export class MockInterceptor implements HttpInterceptor {
         reqUrl = reqUrl + '?id=' + suffix;
       }
       if (response.url == reqUrl) {
+        const reqMet = req.method.toLowerCase() + response.body;
+        newReq = new HttpResponse({ status: 200, body: this[reqMet](req) });
+      }
+      if (response.url == reqUrl.substring(0, reqUrl.indexOf('?'))) {
         const reqMet = req.method.toLowerCase() + response.body;
         newReq = new HttpResponse({ status: 200, body: this[reqMet](req) });
       }
@@ -1162,10 +1166,10 @@ export class MockInterceptor implements HttpInterceptor {
         }
       ],
       links: {
-        first: `${urls.business.transactions}?type=recent&page=1`,
-        last: `${urls.business.transactions}?type=recent&page=2`,
+        first: req.urlWithParams.includes('?') ?  `${req.urlWithParams}&page=1` : `${req.urlWithParams}?page=1`,
+        last: req.urlWithParams.includes('?') ?  `${req.urlWithParams}&page=2` : `${req.urlWithParams}?page=2`,
         prev: null,
-        next: `${urls.business.transactions}?type=recent&page=2`
+        next: req.urlWithParams.includes('?') ?  `${req.urlWithParams}&page=2` : `${req.urlWithParams}?page=2`,
       },
       meta: {
         current_page: 1,
@@ -1389,9 +1393,9 @@ export class MockInterceptor implements HttpInterceptor {
         }
       ],
       links: {
-        first: `${urls.business.transactions}?type=recent&page=1`,
-        last: `${urls.business.transactions}?type=recent&page=2`,
-        prev: `${urls.business.transactions}?type=recent&page=1`,
+        first: req.urlWithParams.includes('?') ?  `${req.urlWithParams}&page=1` : `${req.urlWithParams}?page=1`,
+        last: req.urlWithParams.includes('?') ?  `${req.urlWithParams}&page=2` : `${req.urlWithParams}?page=2`,
+        prev: req.urlWithParams.includes('?') ?  `${req.urlWithParams}&page=1` : `${req.urlWithParams}?page=1`,
         next: null
       },
       meta: {

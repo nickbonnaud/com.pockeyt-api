@@ -2,7 +2,7 @@
   <nb-card-front>
     <nb-card>
       <nb-card-header>
-        <span>Transactions List</span>
+        <span (click)="testOptions()">Transactions List</span>
         <span>
             <nb-select multiple [selected]="selectedOptions" (selectedChange)="changeSelection($event)" placeholder="Select Filters">
               <nb-option *ngFor="let option of selectionOptions" [value]="option" [disabled]="option.disabled">{{ option.title }}</nb-option>

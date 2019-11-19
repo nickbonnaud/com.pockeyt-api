@@ -29,11 +29,12 @@ export class PaginateInterceptor implements HttpInterceptor {
     return body['data'];
   }
 
-  updatePaginator(body: object) {
+  updatePaginator(body: object): void {
     if (body['links'] == undefined || body['meta'] == undefined) {return}
     let page: PaginatePage = new PaginatePage();
     page.links = body['links'];
     page.meta = body['meta'];
     this.paginator.addPageData(page);
+    console.log(page);
   }
 }
