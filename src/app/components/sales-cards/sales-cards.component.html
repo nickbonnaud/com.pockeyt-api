@@ -1,42 +1,19 @@
-<nb-flip-card [showToggleButton]="false" [flipped]="flipped">
-  <nb-card-front>
-    <nb-card>
-      <nb-card-header>
-        <span>Sale Totals</span>
-        <nb-select [selected]="period" (selectedChange)="changePeriod($event)">
-          <nb-option *ngFor="let period of periods" [value]="period">{{ period.title }}</nb-option>
-        </nb-select>
-      </nb-card-header>
+<nb-card>
+  <nb-card-header>
+    <span>Sale Totals</span>
+    <span>
+      <h5>{{ range.start | date }} - {{ range.end | date }}</h5>
+    </span>
+    <nb-select [selected]="period" (selectedChange)="changePeriod($event)">
+      <nb-option *ngFor="let period of periods" [value]="period">{{ period.title }}</nb-option>
+    </nb-select>
+  </nb-card-header>
 
-      <nb-card-body>
-        <div class="row">
-          <div class="col-xxxl-3 col-md-6" *ngFor="let query of queries">
-            <sales-card [query]="query" [range]="range"></sales-card>
-          </div>
-        </div>
-      </nb-card-body>
-    </nb-card>
-  </nb-card-front>
-
-  <nb-card-back>
-    <nb-card>
-      <nb-card-header>
-        <span>Sale Totals</span>
-        <span><h1 class="h5">{{ range.start | date }} - {{ range.end | date }}</h1></span>
-        <nb-select [selected]="period" (selectedChange)="changePeriod($event)">
-          <nb-option *ngFor="let period of periods" [value]="period">{{ period.title }}</nb-option>
-        </nb-select>
-      </nb-card-header>
-
-      <nb-card-body>
-        <div class="row">
-          <div class="col-3"></div>
-          <div class="col-6">
-            <nb-calendar-range [(range)]="range" (rangeChange)="rangeChanged($event)"></nb-calendar-range>
-          </div>
-          <div class="col-3"></div>
-        </div>
-      </nb-card-body>
-    </nb-card>
-  </nb-card-back>
-</nb-flip-card>
+  <nb-card-body>
+    <div class="row">
+      <div class="col-xxxl-3 col-md-6" *ngFor="let query of queries">
+        <sales-card [query]="query" [range]="range"></sales-card>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>

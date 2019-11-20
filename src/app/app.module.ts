@@ -7,7 +7,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NbThemeModule, NbLayoutModule, NbSidebarModule, NbActionsModule, NbUserModule, NbMenuModule } from '@nebular/theme';
+import { NbThemeModule, NbLayoutModule, NbSidebarModule, NbActionsModule, NbUserModule } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { HttpClientModule } from '@angular/common/http';
 import { NbAuthModule, NbPasswordAuthStrategy, NbAuthJWTToken } from '@nebular/auth';
@@ -28,7 +28,6 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
     NbEvaIconsModule,
     NbActionsModule,
     NbUserModule,
-    NbMenuModule,
     HttpClientModule,
     LayoutModule,
     NbThemeModule.forRoot({ name: 'cosmic' }),

@@ -1,0 +1,12 @@
+<nb-card>
+  <nb-card-header>
+    <span>{{ title }}</span>
+    <span><h5>{{ range.start | date }} - {{ range.end | date }}</h5></span>
+  </nb-card-header>
+  <nb-card-body>
+    <nb-calendar-range [(range)]="range" (rangeChange)="rangeChanged($event)"></nb-calendar-range>
+  </nb-card-body>
+  <nb-card-footer>
+    <button class="cancel" nbButton status="danger" (click)="cancel()">Cancel</button>
+  </nb-card-footer>
+</nb-card>

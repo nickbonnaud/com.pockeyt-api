@@ -15,6 +15,7 @@ import { AssignedTransactionComponent } from './assigned-transaction/assigned-tr
 import { CustomersInLocationComponent } from './customers-in-location/customers-in-location.component';
 import { TransactionListComponent } from './transaction-list/transaction-list.component';
 import { TransactionStatusPickerDialogComponent } from '../dialogs/transaction-status-picker-dialog/transaction-status-picker-dialog.component';
+import { CalendarDialogComponent } from '../dialogs/calendar-dialog/calendar-dialog.component';
 
 
 
@@ -46,7 +47,8 @@ import { TransactionStatusPickerDialogComponent } from '../dialogs/transaction-s
     TransactionDialogComponent,
     InputPromptDialogComponent,
     EmployeePickerDialogComponent,
-    TransactionStatusPickerDialogComponent
+    TransactionStatusPickerDialogComponent,
+    CalendarDialogComponent
   ],
   exports: [
     CustomerListComponent,

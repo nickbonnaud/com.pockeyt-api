@@ -1,55 +1,20 @@
-<nb-flip-card [showToggleButton]="false" [flipped]="flipped">
-  <nb-card-front>
-    <nb-card>
-      <nb-card-header>
-        <span>Customers</span>
-        <span>
-          <nb-select class="mr-2" [selected]="selectedFilter" *ngIf="selectedStatus.value == 'historic'" placeholder="Add Customer Filters"
-            (selectedChange)="changeFilterSelection($event)">
-            <nb-option *ngFor="let option of filterOptions" [value]="option">{{ option.title }}</nb-option>
-          </nb-select>
+<nb-card>
+  <nb-card-header>
+    <span>{{ selectedStatusFormControl.value.value.startsWith('historic') ? 'Historic' : 'Active' }} Customers</span>
+    <span *ngIf="range.start != undefined && range.end != undefined">{{ range.start | date }} - {{ range.end | date }}<nb-icon (click)="removeDates()" status="danger" icon="close-circle-outline" class="ml-2"></nb-icon></span>
+    <span>
+      <nb-select [formControl]="selectedStatusFormControl">
+        <nb-option-group title="Active Customer">
+          <nb-option *ngFor="let option of selectionOptionsActive" [value]="option">{{ option.title }}</nb-option>
+        </nb-option-group>
 
-          <nb-select [selected]="selectedStatus" (selectedChange)="changeStatusSelection($event)">
-            <nb-option *ngFor="let option of selectionOptions" [value]="option">{{ option.title }}</nb-option>
-          </nb-select>
-
-          <button class="white-calendar" (click)="showDatePicker()" size="small" ghost *ngIf="selectedStatus.value == 'historic'" nbButton><nb-icon class="ml-2 calendar" icon="calendar-outline"></nb-icon></button>
-        </span>
-      </nb-card-header>
-      <nb-card-body>
-        <customer-list [query]="fullQuery"></customer-list>
-      </nb-card-body>
-    </nb-card>
-  </nb-card-front>
-
-  <nb-card-back>
-    <nb-card>
-      <nb-card-header>
-        <span>Customers</span>
-        <span>
-          <nb-select class="mr-2" [selected]="selectedFilter" *ngIf="selectedStatus.value == 'historic'"
-            placeholder="Add Customer Filters" (selectedChange)="changeFilterSelection($event)">
-            <nb-option *ngFor="let option of filterOptions" [value]="option">{{ option.title }}
-            </nb-option>
-          </nb-select>
-
-          <nb-select [selected]="selectedStatus" (selectedChange)="changeStatusSelection($event)">
-            <nb-option *ngFor="let option of selectionOptions" [value]="option">{{ option.title }}</nb-option>
-          </nb-select>
-
-          <button status="danger" (click)="clearDates()" size="small" ghost *ngIf="selectedStatus.value == 'historic'" nbButton><nb-icon class="ml-2 calendar" icon="calendar-outline"></nb-icon></button>
-        </span>
-      </nb-card-header>
-
-      <nb-card-body>
-        <div class="row">
-          <div class="col-3"></div>
-          <div class="col-6">
-            <nb-calendar-range [range]="range" (rangeChange)="dateRangeChanged($event)"></nb-calendar-range>
-          </div>
-          <div class="col-3"></div>
-        </div>
-      </nb-card-body>
-    </nb-card>
-  </nb-card-back>
-</nb-flip-card>
+        <nb-option-group title="Historic Customer">
+          <nb-option *ngFor="let option of selectionOptionsHistoric" [value]="option">{{ option.title }}</nb-option>
+        </nb-option-group>
+      </nb-select>
+    </span>
+  </nb-card-header>
+  <nb-card-body>
+    <customer-list [query]="fullQuery"></customer-list>
+  </nb-card-body>
+</nb-card>
