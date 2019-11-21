@@ -1,4 +1,4 @@
-<nb-card>
+<nb-card class="scroll">
   <nb-card-header>
     <span>{{ selectedStatusFormControl.value.value.startsWith('historic') ? 'Historic' : 'Active' }} Customers</span>
     <span *ngIf="range.start != undefined && range.end != undefined">{{ range.start | date }} - {{ range.end | date }}<nb-icon (click)="removeDates()" status="danger" icon="close-circle-outline" class="ml-2"></nb-icon></span>

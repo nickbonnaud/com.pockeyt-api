@@ -15,7 +15,7 @@
             mask="A{8}-A{4}-A{4}-A{4}-A{12}"
           />
           <button
-            [disabled]="transactionIdForm.invalid && !loading"
+            [disabled]="transactionIdForm.invalid || loading"
             type="submit"
             nbButton
             status="primary"
@@ -31,7 +31,7 @@
     <nb-card [accent]="transaction != undefined ? 'success' : 'danger'">
       <nb-card-header>
         <span class="title">Search for Transaction</span>
-        <span class="chevron" (click)="flip()"><nb-icon class="fs-2" icon="chevron-right-outline"></nb-icon></span>
+        <span class="chevron fs-2" (click)="flip()"><nb-icon icon="chevron-right-outline"></nb-icon></span>
       </nb-card-header>
       <nb-card-body *ngIf="transaction != undefined">
         <assigned-transaction [transaction]="transaction"></assigned-transaction>

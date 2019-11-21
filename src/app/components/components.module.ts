@@ -16,6 +16,9 @@ import { CustomersInLocationComponent } from './customers-in-location/customers-
 import { TransactionListComponent } from './transaction-list/transaction-list.component';
 import { TransactionStatusPickerDialogComponent } from '../dialogs/transaction-status-picker-dialog/transaction-status-picker-dialog.component';
 import { CalendarDialogComponent } from '../dialogs/calendar-dialog/calendar-dialog.component';
+import { CustomerFinderComponent } from './customer-finder/customer-finder.component';
+import { ActiveCustomersComponent } from './active-customers/active-customers.component';
+import { RecentCustomersComponent } from './recent-customers/recent-customers.component';
 
 
 
@@ -28,7 +31,10 @@ import { CalendarDialogComponent } from '../dialogs/calendar-dialog/calendar-dia
     TransactionFinderComponent,
     AssignedTransactionComponent,
     CustomersInLocationComponent,
-    TransactionListComponent
+    TransactionListComponent,
+    CustomerFinderComponent,
+    ActiveCustomersComponent,
+    RecentCustomersComponent,
   ],
   imports: [
     CommonModule,
@@ -57,7 +63,10 @@ import { CalendarDialogComponent } from '../dialogs/calendar-dialog/calendar-dia
     EmployeeListComponent,
     TransactionFinderComponent,
     CustomersInLocationComponent,
-    TransactionListComponent
+    TransactionListComponent,
+    CustomerFinderComponent,
+    ActiveCustomersComponent,
+    RecentCustomersComponent
   ]
 })
 export class ComponentsModule {}

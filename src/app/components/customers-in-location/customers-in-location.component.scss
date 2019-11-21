@@ -12,6 +12,12 @@
     @include nb-rtl(padding-left, 4rem);
   }
 
+  nb-card {
+    &.scroll {
+      max-height: 30rem;
+    }
+  }
+
   .back-body {
     text-align: center;
   }

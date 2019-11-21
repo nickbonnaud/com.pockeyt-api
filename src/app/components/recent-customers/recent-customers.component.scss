@@ -1,0 +1,9 @@
+@import '../../styles/themes';
+
+@include nb-install-component() {
+  nb-card {
+    &.scroll {
+      max-height: 30rem;
+    }
+  }
+}

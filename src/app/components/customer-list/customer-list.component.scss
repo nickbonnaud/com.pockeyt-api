@@ -1,10 +1,6 @@
 @import '../../styles/themes';
 
 @include nb-install-component() {
-  nb-card {
-    overflow: hidden;
-  }
-
   .contact {
     display: flex;
     align-items: center;

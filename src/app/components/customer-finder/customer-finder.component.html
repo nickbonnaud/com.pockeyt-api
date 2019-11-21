@@ -1,0 +1,61 @@
+<nb-flip-card [showToggleButton]="false" [flipped]="flipped">
+  <nb-card-front>
+    <nb-card accent="primary">
+      <nb-card-header>
+        <ng-container *ngIf="showIDForm">
+          <span class="float-r">
+            <button (click)="toggleForms()" nbButton status="info" size="small">Find by Name</button>
+          </span>
+          <h5 class="title">Customer ID</h5>
+        </ng-container>
+        <ng-container *ngIf="!showIDForm">
+          <span class="float-r">
+            <button (click)="toggleForms()" nbButton status="info" size="small">Find by Customer ID</button>
+          </span>
+          <h5 class="title">Customer Name</h5>
+        </ng-container>
+      </nb-card-header>
+      <nb-card-body>
+        <form *ngIf="showIDForm" class="form-inline" [formGroup]="idFinderForm" (ngSubmit)="doSearchId()">
+          <input type="text" nbInput fullWidth shape="round" placeholder="Find by ID" formControlName="customerId"
+            mask="A{8}-A{4}-A{4}-A{4}-A{12}" [dropSpecialCharacters]="false">
+          <button [disabled]="idFinderForm.invalid || loading" type="submit" nbButton status="primary">Search</button>
+        </form>
+
+        <form *ngIf="!showIDForm" class="form-inline" [formGroup]="nameFinderForm" (ngSubmit)="doSearchName()">
+          <input type="text" nbInput fullWidth shape="round" placeholder="First Name" formControlName="firstName">
+          <input type="text" nbInput fullWidth shape="round" placeholder="Last Name" formControlName="lastName">
+          <button [disabled]="nameFinderForm.invalid || loading" type="submit" nbButton status="primary">Search</button>
+        </form>
+      </nb-card-body>
+    </nb-card>
+  </nb-card-front>
+
+  <nb-card-back>
+    <nb-card class="scroll" [accent]="transactions.length != 0 ? 'success' : 'danger'">
+      <nb-card-header>
+        <span class="float-r">
+          <nb-icon (click)="resetSearch()" class="fs-2 " icon="chevron-right-outline"></nb-icon>
+        </span>
+        <h5 *ngIf="transactions.length !== 0" class="title">Transactions for {{ this.transactions[0].customer.firstName }} {{ this.transactions[0].customer.lastName }}</h5>
+        <h5 *ngIf="transactions.length === 0" class="title">No Transactions found!</h5>
+      </nb-card-header>
+      <nb-card-body *ngIf="transactions.length !== 0">
+        <nb-list nbInfiniteList [threshold]="500" (bottomThreshold)="getMoreTransactions()">
+          <nb-list-item class="contact" *ngFor="let transaction of transactions; trackBy: trackByFn">
+            <nb-user [picture]="transaction.customer.photo.smallUrl"
+              [name]="transaction.customer.firstName + ' ' + transaction.customer.lastName"
+              [title]="'Bill Status: ' + transaction.transaction.status" size="large">
+            </nb-user>
+            <span (click)="showTransactionDetails(transaction)"
+              class="text-link">{{ transaction.transaction.status !== 'paid' ? 'Bill updated at: ' : 'Bill paid at: ' }}
+              {{ transaction.transaction.updatedAt | date: 'shortTime' }}</span>
+          </nb-list-item>
+        </nb-list>
+      </nb-card-body>
+      <nb-card-body class="center-text" *ngIf="transactions.length === 0">
+        Please check your Search Query.
+      </nb-card-body>
+    </nb-card>
+  </nb-card-back>
+</nb-flip-card>
