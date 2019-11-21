@@ -2,9 +2,6 @@
 
 @include nb-install-component() {
   nb-card {
-    flex: 1 1 45%;
-    margin: 0 2.5%;
-
     &.scroll {
       max-height: 30rem;
     }
