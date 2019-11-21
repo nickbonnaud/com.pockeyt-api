@@ -11,10 +11,12 @@ import { urls } from 'src/app/urls/main';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs/internal/Subject';
+import { CalendarDialogComponent } from 'src/app/dialogs/calendar-dialog/calendar-dialog.component';
 
 interface SelectionOption {
   title: string;
   query: string;
+  defaultQuery: string;
   value: string;
   disabled: boolean;
   selectionToDisable: string;
@@ -27,49 +29,52 @@ interface Status {
 }
 
 @Component({
-  selector: 'transaction-list',
-  templateUrl: './transaction-list.component.html',
-  styleUrls: ['./transaction-list.component.scss']
+  selector: "transaction-list",
+  templateUrl: "./transaction-list.component.html",
+  styleUrls: ["./transaction-list.component.scss"]
 })
 export class TransactionListComponent implements OnInit, OnDestroy {
   private destroyed$: Subject<boolean> = new Subject<boolean>();
 
   selectionOptions: SelectionOption[] = [
     {
-      title: 'Transaction Status',
+      title: "Transaction Status",
       query: `${urls.query.status}<status>`,
-      value: 'status',
+      defaultQuery: `${urls.query.status}<status>`,
+      value: "status",
       disabled: false,
-      selectionToDisable: '',
+      selectionToDisable: "",
       selected: false
     },
     {
-      title: 'Customer ID',
+      title: "Customer ID",
       query: `${urls.query.customer_transaction}<customer>`,
-      value: 'customer_id',
+      defaultQuery: `${urls.query.customer_transaction}<customer>`,
+      value: "customer_id",
       disabled: false,
-      selectionToDisable: 'customer_name',
+      selectionToDisable: "customer_name",
       selected: false
     },
     {
-      title: 'Employee ID',
+      title: "Employee ID",
       query: `${urls.query.employee_transaction}<employee>`,
-      value: 'employee_id',
+      defaultQuery: `${urls.query.employee_transaction}<employee>`,
+      value: "employee_id",
       disabled: false,
-      selectionToDisable: '',
+      selectionToDisable: "",
       selected: false
     },
     {
-      title: 'Customer Name',
+      title: "Customer Name",
       query: `${urls.query.customer_first}<first>&${urls.query.customer_last}<last>`,
-      value: 'customer_name',
+      defaultQuery: `${urls.query.customer_first}<first>&${urls.query.customer_last}<last>`,
+      value: "customer_name",
       disabled: false,
-      selectionToDisable: 'customer_id',
+      selectionToDisable: "customer_id",
       selected: false
     }
   ];
 
-  flipped: boolean = false;
   loading: boolean = false;
   selectedOptions: SelectionOption[] = [];
   transactions: AssignedTransaction[] = [];
@@ -100,16 +105,17 @@ export class TransactionListComponent implements OnInit, OnDestroy {
 
   setQueryUrl(): void {
     this.clearPaginator();
-    let params: string = '';
+    let params: string = "";
     this.selectionOptions.forEach((option: SelectionOption) => {
       if (option.selected) {
         params = params.length > 0 ? `${params}&${option.query}` : option.query;
       }
     });
     params = this.setDateParams(params);
-    params = params.length > 0 ? `?${params}` : '';
+    params = params.length > 0 ? `?${params}` : "";
 
     this.BASE_URL = `${urls.business.transactions}${params}`;
+    console.log(this.BASE_URL);
     this.fetchTransactions(this.BASE_URL);
   }
 
@@ -117,14 +123,15 @@ export class TransactionListComponent implements OnInit, OnDestroy {
     if (this.dateRange.start != undefined && this.dateRange.end != undefined) {
       return `${params}&${urls.query.date}${encodeURIComponent(
         this.dateRange.start.toISOString()
-      )}&${urls.query.date}${encodeURIComponent(this.dateRange.end.toISOString())}`;
+      )}&${urls.query.date}${encodeURIComponent(
+        this.dateRange.end.toISOString()
+      )}`;
     }
     return params;
   }
 
   fetchTransactions(url: string): void {
-    console.log(url);
-    if (!this.loading && (!url.includes('<') && !url.includes('>'))) {
+    if (!this.loading && !url.includes("<") && !url.includes(">")) {
       this.loading = true;
       this.api
         .get<AssignedTransaction[]>(url)
@@ -143,40 +150,56 @@ export class TransactionListComponent implements OnInit, OnDestroy {
   }
 
   changeSelection(selections: SelectionOption[]): void {
-    this.checkDialogs(selections);
+    this.selectionOptions.forEach((select: SelectionOption) => {
+      const index = selections.findIndex(selection => selection.value === select.value);
+      if (index < 0) {
+        select.selected = false;
+        select.query = select.defaultQuery;
+      }
+    });
+    const dialogShown: boolean = this.checkDialogs(selections);
     this.selectedOptions = selections;
     this.controlOptions(selections);
 
-    this.selectionOptions.forEach((select: SelectionOption) => {
-      select.selected = false;
-    });
     selections.forEach((selection: SelectionOption) => {
-      const option: SelectionOption = this.findSelectionByValue(this.selectionOptions, selection);
+      const option: SelectionOption = this.findSelectionByValue(
+        this.selectionOptions,
+        selection
+      );
       option.selected = true;
     });
+    if (!dialogShown) {
+      this.setQueryUrl();
+    }
   }
 
-  checkDialogs(selections: SelectionOption[]): void {
+  checkDialogs(selections: SelectionOption[]): boolean {
+    let dialogShown: boolean = false;
     selections.forEach((selection: SelectionOption) => {
-      const found: SelectionOption = this.findSelectionByValue(this.selectedOptions, selection);
+      const found: SelectionOption = this.findSelectionByValue(
+        this.selectedOptions,
+        selection
+      );
       if (found == undefined) {
+        dialogShown = true;
         this.showDialog(selection);
       }
     });
+    return dialogShown;
   }
 
   showDialog(selection: SelectionOption): void {
     switch (selection.value) {
-      case 'customer_name':
+      case "customer_name":
         this.showCustomerNameDialog(selection);
         break;
-      case 'employee_id':
+      case "employee_id":
         this.showEmployeeListDialog(selection);
         break;
-      case 'status':
+      case "status":
         this.showTransactionStatusDialog(selection);
         break;
-      case 'customer_id':
+      case "customer_id":
         this.showCustomerIdPrompt(selection);
         break;
       default:
@@ -185,7 +208,9 @@ export class TransactionListComponent implements OnInit, OnDestroy {
   }
 
   setQueryParams(selected: SelectionOption, value: string): void {
-    const placeHolder = selected.query.substr(0, selected.query.indexOf('>') + 1).substring(selected.query.indexOf('<'));
+    const placeHolder = selected.query
+      .substr(0, selected.query.indexOf(">") + 1)
+      .substring(selected.query.indexOf("<"));
     selected.query = selected.query.replace(placeHolder, value);
     this.setQueryUrl();
   }
@@ -196,8 +221,11 @@ export class TransactionListComponent implements OnInit, OnDestroy {
       .onClose.pipe(takeUntil(this.destroyed$))
       .subscribe((status: Status) => {
         this.deselectOnCancel(selection, status);
-        if (status != undefined ) {
-          const selectedOption: SelectionOption = this.findSelectionByValue(this.selectedOptions, selection);
+        if (status != undefined) {
+          const selectedOption: SelectionOption = this.findSelectionByValue(
+            this.selectedOptions,
+            selection
+          );
           this.setQueryParams(selectedOption, status.code.toString());
         }
       });
@@ -210,7 +238,10 @@ export class TransactionListComponent implements OnInit, OnDestroy {
       .subscribe((employee: Employee) => {
         this.deselectOnCancel(selection, employee);
         if (employee != undefined) {
-          const selectedOption: SelectionOption = this.findSelectionByValue(this.selectedOptions, selection);
+          const selectedOption: SelectionOption = this.findSelectionByValue(
+            this.selectedOptions,
+            selection
+          );
           this.setQueryParams(selectedOption, employee.externalId);
         }
       });
@@ -218,30 +249,33 @@ export class TransactionListComponent implements OnInit, OnDestroy {
 
   showCustomerIdPrompt(selection: SelectionOption): void {
     this.dialogService
-    .open(InputPromptDialogComponent, {
-      context: {
-        title: 'Customer ID',
-        placeholder: 'ID'
-      }
-    })
-    .onClose.pipe(takeUntil(this.destroyed$))
-    .subscribe(customerId => {
-      this.deselectOnCancel(selection, customerId);
-      if (customerId == undefined) {
-        this.controlOptions(this.selectedOptions);
-        return;
-      }
-      const selectedOption: SelectionOption = this.findSelectionByValue(this.selectedOptions, selection);
-      this.setQueryParams(selectedOption, customerId);
-    })
+      .open(InputPromptDialogComponent, {
+        context: {
+          title: "Customer ID",
+          placeholder: "ID"
+        }
+      })
+      .onClose.pipe(takeUntil(this.destroyed$))
+      .subscribe(customerId => {
+        this.deselectOnCancel(selection, customerId);
+        if (customerId == undefined) {
+          this.controlOptions(this.selectedOptions);
+          return;
+        }
+        const selectedOption: SelectionOption = this.findSelectionByValue(
+          this.selectedOptions,
+          selection
+        );
+        this.setQueryParams(selectedOption, customerId);
+      });
   }
 
   showCustomerNameDialog(selection: SelectionOption): void {
     this.dialogService
       .open(InputPromptDialogComponent, {
         context: {
-          title: 'Customer First Name',
-          placeholder: 'First Name'
+          title: "Customer First Name",
+          placeholder: "First Name"
         }
       })
       .onClose.pipe(takeUntil(this.destroyed$))
@@ -251,13 +285,16 @@ export class TransactionListComponent implements OnInit, OnDestroy {
           this.controlOptions(this.selectedOptions);
           return;
         }
-        const selectedOption: SelectionOption = this.findSelectionByValue(this.selectedOptions, selection);
+        const selectedOption: SelectionOption = this.findSelectionByValue(
+          this.selectedOptions,
+          selection
+        );
         this.setQueryParams(selectedOption, firstName);
         this.dialogService
           .open(InputPromptDialogComponent, {
             context: {
-              title: 'Customer Last Name',
-              placeholder: 'Last Name'
+              title: "Customer Last Name",
+              placeholder: "Last Name"
             }
           })
           .onClose.pipe(takeUntil(this.destroyed$))
@@ -308,7 +345,6 @@ export class TransactionListComponent implements OnInit, OnDestroy {
   getMoreTransactions(): void {
     if (!this.loading) {
       const nextUrl = this.paginator.getNextUrl(this.BASE_URL);
-      console.log(nextUrl);
       if (nextUrl != undefined) {
         this.fetchTransactions(nextUrl);
       }
@@ -329,23 +365,34 @@ export class TransactionListComponent implements OnInit, OnDestroy {
     });
   }
 
-  showDatePicker(): void {
-    this.flipped = true;
-  }
-
   clearDates(): void {
     this.dateRange = {
       start: undefined,
       end: undefined
     };
-    this.flipped = false;
+    this.setQueryUrl();
   }
 
-  dateRangeChanged(range: NbCalendarRange<Date>): void {
-    this.dateRange = range;
-    if (range.start != undefined && range.end != undefined) {
-      this.flipped = false;
-    }
+  showCalendarDialog(): void {
+    this.dialogService
+      .open(CalendarDialogComponent, {
+        closeOnBackdropClick: false,
+        context: {
+          title: "Set Date Range",
+          range: this.dateRange
+        }
+      })
+      .onClose.pipe(takeUntil(this.destroyed$))
+      .subscribe((range: NbCalendarRange<Date>) => {
+        if (
+          range != undefined &&
+          range.start != undefined &&
+          range.end != undefined
+        ) {
+          this.dateRange = range;
+          this.setQueryUrl();
+        }
+      });
   }
 
   ngOnDestroy(): void {

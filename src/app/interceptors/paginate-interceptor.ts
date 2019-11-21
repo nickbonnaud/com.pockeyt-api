@@ -35,6 +35,5 @@ export class PaginateInterceptor implements HttpInterceptor {
     page.links = body['links'];
     page.meta = body['meta'];
     this.paginator.addPageData(page);
-    console.log(page);
   }
 }

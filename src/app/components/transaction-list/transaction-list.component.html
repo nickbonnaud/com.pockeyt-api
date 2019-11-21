@@ -1,58 +1,30 @@
-<nb-flip-card [showToggleButton]="false" [flipped]="flipped">
-  <nb-card-front>
-    <nb-card>
-      <nb-card-header>
-        <span (click)="testOptions()">Transactions List</span>
-        <span>
-            <nb-select multiple [selected]="selectedOptions" (selectedChange)="changeSelection($event)" placeholder="Select Filters">
-              <nb-option *ngFor="let option of selectionOptions" [value]="option" [disabled]="option.disabled">{{ option.title }}</nb-option>
-            </nb-select>
+<nb-card class="scroll">
+  <nb-card-header>
+    <span class="float-r">
+      <nb-select multiple [selected]="selectedOptions" (selectedChange)="changeSelection($event)"
+        placeholder="Select Filters">
+        <nb-option *ngFor="let option of selectionOptions" [value]="option" [disabled]="option.disabled">{{ option.title }}
+        </nb-option>
+      </nb-select>
+    </span>
+    <h6>Transactions List</h6>
+    <div (click)="showCalendarDialog()" *ngIf="dateRange.start == undefined && dateRange.end == undefined" class="text-link">Set Date Range</div>
+    <div *ngIf="dateRange.start != undefined && dateRange.end != undefined">{{ dateRange.start | date }} - {{ dateRange.end | date }}
+      <nb-icon (click)="clearDates()" status="danger" icon="close-circle-outline" class="ml-2"></nb-icon>
+    </div>
 
-            <button class="white-calendar" (click)="showDatePicker()" size="small" ghost nbButton>
-              <nb-icon class="ml-2 calendar" icon="calendar-outline"></nb-icon>
-            </button>
-        </span>
-      </nb-card-header>
-      <nb-card-body>
-        <nb-list nbInfiniteList [threshold]="500" (bottomThreshold)="getMoreTransactions()">
-          <nb-list-item class="contact" *ngFor="let transaction of transactions; trackBy: trackByFn">
-            <nb-user  [picture]="transaction.customer.photo.smallUrl"
-                      [name]="transaction.customer.firstName + ' ' + transaction.customer.lastName"
-                      [title]="'Bill Status: ' + transaction.transaction.status"
-                      size="large">
-            </nb-user>
-            <span (click)="showTransactionDetails(transaction)" class="caption text-link">{{ transaction.transaction.status !== 'paid' ? 'Bill updated at: ' : 'Bill paid at: ' }}
-            {{ transaction.transaction.updatedAt | date: 'shortTime' }}</span>
-          </nb-list-item>
-        </nb-list>
-      </nb-card-body>
-    </nb-card>
-  </nb-card-front>
-
-  <nb-card-back>
-    <nb-card>
-      <nb-card-header>
-        <span>Transactions List</span>
-        <span>
-          <nb-select multiple [selected]="selectedOptions" (selectedChange)="changeSelection($event)" placeholder="Select Filters">
-            <nb-option *ngFor="let option of selectionOptions" [value]="option" [disabled]="option.disabled">{{ option.title }}</nb-option>
-          </nb-select>
-
-          <button status="danger" (click)="clearDates()" size="small" ghost nbButton>
-            <nb-icon class="ml-2 calendar" icon="calendar-outline"></nb-icon>
-          </button>
-        </span>
-      </nb-card-header>
-      <nb-card-body>
-        <div class="row">
-          <div class="col-3"></div>
-          <div class="col-6">
-            <nb-calendar-range [range]="dateRange" (rangeChange)="dateRangeChanged($event)"></nb-calendar-range>
-          </div>
-          <div class="col-3"></div>
-        </div>
-      </nb-card-body>
-    </nb-card>
-  </nb-card-back>
-
-</nb-flip-card>
+  </nb-card-header>
+  <nb-card-body>
+    <nb-list nbInfiniteList [threshold]="500" (bottomThreshold)="getMoreTransactions()">
+      <nb-list-item class="contact" *ngFor="let transaction of transactions; trackBy: trackByFn">
+        <nb-user  [picture]="transaction.customer.photo.smallUrl"
+                  [name]="transaction.customer.firstName + ' ' + transaction.customer.lastName"
+                  [title]="'Bill Status: ' + transaction.transaction.status"
+                  size="large">
+        </nb-user>
+        <span (click)="showTransactionDetails(transaction)" class="caption text-link">{{ transaction.transaction.status !== 'paid' ? 'Bill updated at: ' : 'Bill paid at: ' }}
+        {{ transaction.transaction.updatedAt | date: 'shortTime' }}</span>
+      </nb-list-item>
+    </nb-list>
+  </nb-card-body>
+</nb-card>

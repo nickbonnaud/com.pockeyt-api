@@ -1,15 +1,13 @@
 @import '../../styles/themes';
 
 @include nb-install-component() {
-  nb-card-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-top: nb-theme(card-header-with-select-padding-top);
-    padding-bottom: nb-theme(card-header-with-select-padding-bottom);
+  nb-card {
+    flex: 1 1 45%;
+    margin: 0 2.5%;
 
-    @include nb-ltr(padding-right, 4rem);
-    @include nb-rtl(padding-left, 4rem);
+    &.scroll {
+      height: 30rem;
+    }
   }
 
   .back-body {
@@ -31,5 +29,13 @@
 
   .white-calendar {
     color: #ffffff
+  }
+
+  .float-r {
+    float: right;
+  }
+
+  .text-link {
+    color: nb-theme(link-text-color);
   }
 }

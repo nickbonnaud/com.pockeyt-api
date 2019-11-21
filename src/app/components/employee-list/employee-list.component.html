@@ -1,45 +1,26 @@
-<nb-flip-card [showToggleButton]="false" [flipped]="flipped">
-  <nb-card-front>
-    <nb-card class="scroll">
-      <nb-card-header>
-        <span>Employee Tips</span>
-        <nb-select [selected]="period" (selectedChange)="changePeriod($event)">
-          <nb-option *ngFor="let period of periods" [value]="period">{{ period.title }}</nb-option>
-        </nb-select>
-      </nb-card-header>
+<nb-card class="scroll">
+  <nb-card-header>
+    <span class="float-r">
+      <nb-select [selected]="period" (selectedChange)="changePeriod($event)">
+        <nb-option *ngFor="let period of periods" [value]="period">{{ period.title }}</nb-option>
+      </nb-select>
+    </span>
+    <h6>Employee Tips</h6>
+    <div>{{ range.start | date }} -
+      {{ range.end | date }}
+      <nb-icon *ngIf="period.value == null" (click)="clearDates()" status="danger" icon="close-circle-outline" class="ml-2"></nb-icon>
+    </div>
+  </nb-card-header>
 
-      <nb-card-body>
-        <nb-list nbInfiniteList [threshold]="500" (bottomThreshold)="getMoreEmployeeTips()">
-          <nb-list-item class="contact" *ngFor="let employee of employees; trackBy: trackByFn">
-            <nb-user [name]="employee.firstName + ' ' + employee.lastName" showTitle=false size="large">
+  <nb-card-body>
+    <nb-list nbInfiniteList [threshold]="500" (bottomThreshold)="getMoreEmployeeTips()">
+      <nb-list-item class="contact" *ngFor="let employee of employees; trackBy: trackByFn">
+        <nb-user [name]="employee.firstName + ' ' + employee.lastName" showTitle=false size="large">
 
-            </nb-user>
-            <span class="caption">Total Tips: {{ employee.tips / 100 | currency }}</span>
-          </nb-list-item>
-        </nb-list>
-      </nb-card-body>
-    </nb-card>
-  </nb-card-front>
+        </nb-user>
+        <span class="caption">Total Tips: {{ employee.tips / 100 | currency }}</span>
+      </nb-list-item>
+    </nb-list>
+  </nb-card-body>
+</nb-card>
 
-  <nb-card-back>
-    <nb-card>
-      <nb-card-header>
-        <span>Employee Tips</span>
-        <span><h1 class="h5">{{ range.start | date }} - {{ range.end | date }}</h1></span>
-        <nb-select [selected]="period" (selectedChange)="changePeriod($event)">
-          <nb-option *ngFor="let period of periods" [value]="period">{{ period.title }}</nb-option>
-        </nb-select>
-      </nb-card-header>
-
-      <nb-card-body>
-        <div class="row">
-          <div class="col-3"></div>
-          <div class="col-6">
-            <nb-calendar-range [(range)]="range" (rangeChange)="rangeChanged($event)"></nb-calendar-range>
-          </div>
-          <div class="col-3"></div>
-        </div>
-      </nb-card-body>
-    </nb-card>
-  </nb-card-back>
-</nb-flip-card>

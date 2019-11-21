@@ -737,7 +737,7 @@ export class MockInterceptor implements HttpInterceptor {
   }
 
   private getTransactionsOne(req: HttpRequest<any>) {
-    return {
+    const test = {
       data: [
         {
           customer: {
@@ -1169,7 +1169,7 @@ export class MockInterceptor implements HttpInterceptor {
         first: req.urlWithParams.includes('?') ?  `${req.urlWithParams}&page=1` : `${req.urlWithParams}?page=1`,
         last: req.urlWithParams.includes('?') ?  `${req.urlWithParams}&page=2` : `${req.urlWithParams}?page=2`,
         prev: null,
-        next: req.urlWithParams.includes('?') ?  `${req.urlWithParams}&page=2` : `${req.urlWithParams}?page=2`,
+        next: null,
       },
       meta: {
         current_page: 1,
@@ -1181,6 +1181,7 @@ export class MockInterceptor implements HttpInterceptor {
         total: 15
       }
     };
+    return test;
   }
 
   private getTransactionsTwo(req: HttpRequest<any>) {

@@ -2,9 +2,10 @@ import { urls } from './../../urls/main';
 import { PaginatorService } from 'src/app/services/paginator.service';
 import { ApiService } from './../../services/api.service';
 import { Subject } from 'rxjs/internal/Subject';
-import { NbCalendarRange, NbDateService } from '@nebular/theme';
+import { NbCalendarRange, NbDateService, NbDialogService } from '@nebular/theme';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
+import { CalendarDialogComponent } from 'src/app/dialogs/calendar-dialog/calendar-dialog.component';
 
 interface Employee {
   firstName: string;
@@ -18,16 +19,16 @@ interface Period {
 }
 
 @Component({
-  selector: 'employee-list',
-  templateUrl: './employee-list.component.html',
-  styleUrls: ['./employee-list.component.scss']
+  selector: "employee-list",
+  templateUrl: "./employee-list.component.html",
+  styleUrls: ["./employee-list.component.scss"]
 })
 export class EmployeeListComponent implements OnInit, OnDestroy {
   periods: Period[] = [
-    { title: 'Day', value: 1 },
-    { title: 'Week', value: 7 },
-    { title: 'Month', value: 30 },
-    { title: 'Custom', value: null }
+    { title: "Day", value: 1 },
+    { title: "Week", value: 7 },
+    { title: "Month", value: 30 },
+    { title: "Custom", value: null }
   ];
   period: Period = this.periods[0];
   BASE_URL: string;
@@ -37,24 +38,38 @@ export class EmployeeListComponent implements OnInit, OnDestroy {
   range: NbCalendarRange<Date>;
   employees: Employee[] = [];
   loading: boolean = false;
-  flipped: boolean = false;
 
   constructor(
     private api: ApiService,
     private paginator: PaginatorService,
-    private dateService: NbDateService<Date>
-  )
-  {}
+    private dateService: NbDateService<Date>,
+    private dialogService: NbDialogService
+  ) {
+    this.range = {
+      start: undefined,
+      end: undefined
+    }
+  }
 
   ngOnInit(): void {
     this.BASE_URL = `${urls.business.tips}?${urls.query.employees_tips}`;
     this.changeStartDate();
   }
 
-  changePeriod(selection: Period): void {
-    this.period = selection;
-    this.flipped = selection.value == null;
+  clearDates(): void {
+    this.period = this.periods[0];
+    this.BASE_URL = `${urls.business.tips}?${urls.query.employees_tips}`;
     this.changeStartDate();
+  }
+
+  changePeriod(selection: Period): void {
+    const prevPeriod = this.period;
+    this.period = selection;
+    this.changeStartDate();
+
+    if (this.period.value == null) {
+      this.showCalendarDialog(prevPeriod);
+    }
   }
 
   changeStartDate(): void {
@@ -68,13 +83,31 @@ export class EmployeeListComponent implements OnInit, OnDestroy {
     }
   }
 
-  rangeChanged(range: NbCalendarRange<Date>): void {
-    if (range.start != undefined && range.end != undefined) {
-      this.flipped = false;
-      const url: string = this.addDateQuery(range);
-      this.fetchEmployeeTips(url, false);
-    }
+  showCalendarDialog(prevPeriod: Period): void {
+    this.dialogService
+      .open(CalendarDialogComponent, {
+        closeOnBackdropClick: false,
+        context: {
+          title: "Select Date Range",
+          range: this.range
+        }
+      })
+      .onClose.pipe(takeUntil(this.destroyed$))
+      .subscribe((range: NbCalendarRange<Date>) => {
+        if (
+          range != undefined &&
+          range.start != undefined &&
+          range.end != undefined
+        ) {
+          this.range = range;
+          const url: string = this.addDateQuery(range);
+          this.fetchEmployeeTips(url, false);
+        } else {
+          this.period = prevPeriod;
+        }
+      })
   }
+
 
   formatStartDate(daysAgo: number): Date {
     let date = this.dateService.today();

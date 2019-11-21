@@ -6,18 +6,20 @@ import { NgModule } from '@angular/core';
 import { HomeModule } from './home/home.module';
 import { OnBoardModule } from './on-board/on-board.module';
 import { NbMenuModule } from '@nebular/theme';
-import { SalesCenterComponent } from './sales-center/sales-center.component';
-import { CustomersCenterComponent } from './customers-center/customers-center.component';
+import { SalesCenterModule } from './sales-center/sales-center.module';
+import { CustomersCenterModule } from './customers-center/customers-center.module';
 
 
 
 @NgModule({
-  declarations: [PagesComponent, SalesCenterComponent, CustomersCenterComponent],
+  declarations: [PagesComponent],
   imports: [
     CommonModule,
     PagesRoutingModule,
     LayoutModule,
     HomeModule,
+    SalesCenterModule,
+    CustomersCenterModule,
     OnBoardModule,
     NbMenuModule.forRoot()
   ]
