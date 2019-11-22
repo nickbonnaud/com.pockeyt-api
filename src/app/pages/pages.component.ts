@@ -27,7 +27,21 @@ export class PagesComponent {
     {
       title: "Customers Center",
       icon: "people-outline",
-      link: "customers",
+      link: "customers"
+    },
+    {
+      title: "Accounts",
+      group: true
+    },
+    {
+      title: "Account Details",
+      icon: "settings-outline",
+      children: [
+        {
+          title: "Profile",
+          link: "account/profile"
+        }
+      ]
     }
   ];
 }

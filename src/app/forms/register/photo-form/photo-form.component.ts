@@ -4,7 +4,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
 @Component({
-  selector: 'app-photo-form',
+  selector: 'photo-form',
   templateUrl: './photo-form.component.html',
   styleUrls: ['./photo-form.component.scss']
 })

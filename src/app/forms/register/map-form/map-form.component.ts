@@ -6,7 +6,7 @@ import { Business } from 'src/app/models/business/business';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-map-form',
+  selector: 'map-form',
   templateUrl: './map-form.component.html',
   styleUrls: ['./map-form.component.scss']
 })

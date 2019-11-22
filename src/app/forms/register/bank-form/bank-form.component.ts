@@ -3,7 +3,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { STATE_OPTIONS } from 'src/assets/data/states-select';
 
 @Component({
-  selector: 'app-bank-form',
+  selector: 'bank-form',
   templateUrl: './bank-form.component.html',
   styleUrls: ['./bank-form.component.scss']
 })

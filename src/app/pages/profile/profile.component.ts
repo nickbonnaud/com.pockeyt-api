@@ -1,0 +1,76 @@
+import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { ApiService } from 'src/app/services/api.service';
+import { urls } from 'src/app/urls/main';
+import { Profile } from 'src/app/models/business/profile';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs/internal/Subject';
+import { FormControlProviderService } from 'src/app/forms/services/form-control-provider.service';
+import { BusinessService } from 'src/app/services/business.service';
+
+@Component({
+  selector: "profile",
+  templateUrl: "./profile.component.html",
+  styleUrls: ["./profile.component.scss"]
+})
+export class ProfileComponent implements OnInit {
+  private destroyed$: Subject<boolean> = new Subject<boolean>();
+
+  profileForm: FormGroup;
+  profile: Profile;
+
+  formLocked: boolean = true;
+  BASE_URL: string;
+
+  constructor(
+    private api: ApiService,
+    private fcProvider: FormControlProviderService,
+    private businessService: BusinessService
+  ) {}
+
+  ngOnInit() {
+    this.BASE_URL = urls.business.profile_store_get;
+    this.profileForm = this.fcProvider.registerProfileControls();
+    this.fetchProfile();
+  }
+
+  fetchProfile(): void {
+    this.api
+      .get<Profile>(this.BASE_URL)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((profile: Profile) => {
+        this.setProfileForm(profile);
+        this.profileForm.disable();
+      });
+  }
+
+  setProfileForm(profile: Profile): void {
+    this.profileForm.get("name").setValue(profile.name);
+    this.profileForm.get("description").setValue(profile.description);
+    this.profileForm.get("website").setValue(profile.website);
+    this.profileForm.get("googlePlaceId").setValue(profile.googlePlaceId);
+    this.profile = profile;
+
+    this.businessService.updateProfile(profile);
+  }
+
+  submit(): void {
+    this.api
+      .patch<Profile>(this.BASE_URL, this.profileForm.value)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((profile: Profile) => {
+        this.setProfileForm(profile);
+        this.toggleLock();
+      });
+  }
+
+  toggleLock(): void {
+    this.formLocked = !this.formLocked;
+    this.profileForm.disabled
+      ? this.profileForm.enable()
+      : this.profileForm.disable();
+    if (this.formLocked) {
+      this.setProfileForm(this.profile);
+    }
+  }
+}

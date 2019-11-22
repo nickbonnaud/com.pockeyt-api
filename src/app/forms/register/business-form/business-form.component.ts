@@ -10,7 +10,7 @@ import { lengthMatchValidator } from '../../validators/length-match-validator';
 import { patterns } from '../../validators/patterns';
 
 @Component({
-  selector: 'app-business-form',
+  selector: 'business-form',
   templateUrl: './business-form.component.html',
   styleUrls: ['./business-form.component.scss']
 })

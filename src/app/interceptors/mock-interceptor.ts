@@ -148,6 +148,22 @@ export class MockInterceptor implements HttpInterceptor {
     return { ...req.body, identifer: 'fake_identifier' };
   }
 
+  private patchProfile(req: HttpRequest<any>) {
+    return { ...req.body, identifer: 'fake_identifier' };
+  }
+
+  private getProfile(req: HttpRequest<any>) {
+    return {
+      data: {
+        identifier: "6dd53fa0-0cbb-11ea-8e78-a377c0aba722",
+        name: "Dickens PLC",
+        website: "reilly.info",
+        description: "Itaque nulla et itaque libero sed. Vero est et et expedita sapiente. Architecto officia nesciunt placeat molestiae et.",
+        google_place_id: null
+      }
+    }
+  }
+
   private postPhotos(req: HttpRequest<any>) {
     if (req.body.is_logo) {
       return {

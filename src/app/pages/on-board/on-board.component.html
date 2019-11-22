@@ -7,7 +7,7 @@
           <h4 class="lorem">
             Alright, lets get started! First lets get some basic information about your business.
           </h4>
-          <app-profile-form [parentFormGroup]="profileForm"></app-profile-form>
+          <profile-form [parentFormGroup]="profileForm"></profile-form>
           <button disabled nbButton nbStepperNext>prev</button>
           <button [disabled]="profileForm.invalid" (click)="goToPhotos()" nbButton nbStepperNext>next</button>
         </form>
@@ -18,7 +18,7 @@
           <h4 class="lorem">
             Alright! Let's get your Logo and Banner so customers know who you are!
           </h4>
-          <app-photo-form [parentFormGroup]="photosForm"></app-photo-form>
+          <photo-form [parentFormGroup]="photosForm"></photo-form>
           <button nbButton nbStepperPrevious (click)="goToProfile()">prev</button>
           <button [disabled]="photosForm.invalid" nbButton nbStepperNext (click)="goToBusiness()">next</button>
         </form>
@@ -29,7 +29,7 @@
           <h4 class="lorem">
             Great, we are on our way! Next, lets get some information about your business so you can get paid!
           </h4>
-          <app-business-form [parentFormGroup]="businessForm"></app-business-form>
+          <business-form [parentFormGroup]="businessForm"></business-form>
           <button nbButton nbStepperPrevious (click)="goToPhotos()">prev</button>
           <button [disabled]="businessForm.invalid" nbButton nbStepperNext (click)="goToOwner()">next</button>
         </form>
@@ -43,7 +43,7 @@
           <p class="lorem">
             Please add every person that has a 25% stake or higher in your business.
           </p>
-          <app-owner-form (ownersChanged)="changeOwners($event)" [parentFormGroup]="ownerForm"></app-owner-form>
+          <owner-form (ownersChanged)="changeOwners($event)" [parentFormGroup]="ownerForm"></owner-form>
           <button nbButton nbStepperPrevious (click)="goToBusiness()">prev</button>
           <button [disabled]="owners.length === 0" nbButton nbStepperNext (click)="goToBank()">next</button>
         </form>
@@ -54,7 +54,7 @@
           <h4 class="lorem">
             Almost done! Now all we need is the banking information for your business, that way we know where to deposit your transactions!
           </h4>
-          <app-bank-form [parentFormGroup]="bankForm"></app-bank-form>
+          <bank-form [parentFormGroup]="bankForm"></bank-form>
           <button nbButton nbStepperPrevious (click)="goToOwner()">prev</button>
           <button [disabled]="bankForm.invalid" nbButton nbStepperNext (click)="goToMap()">next</button>
         </form>
@@ -65,7 +65,7 @@
           <h4 class="lorem">
             Great! Now let's set up your Geo Fence! Adjust the size of the circle so it just fits around your business's location.
           </h4>
-          <app-map-form [parentFormGroup]="mapForm"></app-map-form>
+          <map-form [parentFormGroup]="mapForm"></map-form>
           <button nbButton nbStepperPrevious (click)="goToBank()">prev</button>
           <button [disabled]="mapForm.invalid" nbButton nbStepperNext (click)="goToPos()">next</button>
         </form>
@@ -76,7 +76,7 @@
           <h4 class="lorem">
             Last step, we promise! We just need some info about your current Payment System.
           </h4>
-          <app-pos-form [parentFormGroup]="posForm"></app-pos-form>
+          <pos-form [parentFormGroup]="posForm"></pos-form>
           <button nbButton nbStepperPrevious (click)="goToMap()">prev</button>
           <button [disabled]="posForm.invalid" nbButton nbStepperNext (click)="finishOnboard()">Finish</button>
         </form>

@@ -1,0 +1,9 @@
+<nb-card>
+  <nb-card-body>
+    <form [formGroup]="profileForm" label="Profile">
+      <profile-form [parentFormGroup]="profileForm"></profile-form>
+      <button nbButton (click)="toggleLock()">{{ formLocked ? 'Unlock' : 'Cancel' }}</button>
+      <button class="float-r" [disabled]="profileForm.invalid || formLocked" (click)="submit()" nbButton>Submit</button>
+    </form>
+  </nb-card-body>
+</nb-card>

@@ -9,7 +9,7 @@ import { Subject } from 'rxjs';
 import { OwnerListDialogComponent } from 'src/app/dialogs/owner-list-dialog/owner-list-dialog.component';
 
 @Component({
-  selector: 'app-owner-form',
+  selector: 'owner-form',
   templateUrl: './owner-form.component.html',
   styleUrls: ['./owner-form.component.scss']
 })

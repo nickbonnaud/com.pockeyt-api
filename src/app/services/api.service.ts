@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class ApiService {
   constructor(private http: HttpClient) {}
@@ -11,6 +11,11 @@ export class ApiService {
   post<T>(endpoint: string, body: T, resourceId?: string): Observable<T> {
     endpoint = resourceId != undefined ? `${endpoint}/${resourceId}` : endpoint;
     return this.http.post<T>(endpoint, body);
+  }
+
+  patch<T>(endpoint: string, body: T, resourceId?: string): Observable<T> {
+    endpoint = resourceId != undefined ? `${endpoint}/${resourceId}` : endpoint;
+    return this.http.patch<T>(endpoint, body);
   }
 
   get<T>(endpoint: string): Observable<T> {

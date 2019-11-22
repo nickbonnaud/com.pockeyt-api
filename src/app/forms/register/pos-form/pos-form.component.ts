@@ -5,7 +5,7 @@ import { takeUntil } from 'rxjs/operators';
 import { POS_TYPES } from 'src/assets/data/pos-types';
 
 @Component({
-  selector: 'app-pos-form',
+  selector: 'pos-form',
   templateUrl: './pos-form.component.html',
   styleUrls: ['./pos-form.component.scss']
 })
