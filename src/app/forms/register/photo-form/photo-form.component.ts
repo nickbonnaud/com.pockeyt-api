@@ -2,6 +2,8 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { FormGroup, AbstractControl } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { BusinessService } from 'src/app/services/business.service';
+import { Business } from 'src/app/models/business/business';
 
 @Component({
   selector: 'photo-form',
@@ -10,6 +12,7 @@ import { Subject } from 'rxjs';
 })
 export class PhotoFormComponent implements OnInit, OnDestroy {
   @Input() parentFormGroup: FormGroup;
+  @Input() editMode: boolean;
 
   private destroyed$: Subject<boolean> = new Subject<boolean>();
 
@@ -20,14 +23,25 @@ export class PhotoFormComponent implements OnInit, OnDestroy {
   logoPreviewUrl: string | ArrayBuffer = null;
   bannerPreviewUrl: string | ArrayBuffer = null;
 
-  constructor() { }
+  constructor(private businessService: BusinessService) {}
 
   ngOnInit(): void {
     this.bannerControl = this.parentFormGroup.get('banner');
     this.logoControl = this.parentFormGroup.get('logo');
 
+    this.fetchPhotos();
     this.watchLogo();
     this.watchBanner();
+  }
+
+  fetchPhotos(): void {
+    this.businessService.business$
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((business: Business) => {
+        let photos = business.photos;
+        photos.banner.largeUrl != undefined ? this.bannerPreviewUrl = photos.banner.largeUrl : null;
+        photos.logo.largeUrl != undefined ? this.logoPreviewUrl = photos.logo.largeUrl : null;
+      });
   }
 
   onImageInput(event: any) {

@@ -6,6 +6,7 @@ import { OnBoardComponent } from './on-board/on-board.component';
 import { SalesCenterComponent } from './sales-center/sales-center.component';
 import { CustomersCenterComponent } from './customers-center/customers-center.component';
 import { ProfileComponent } from './profile/profile.component';
+import { PhotosComponent } from './photos/photos.component';
 
 
 const routes: Routes = [{
@@ -31,6 +32,10 @@ const routes: Routes = [{
     {
       path: 'account/profile',
       component: ProfileComponent
+    },
+    {
+      path: 'account/photos',
+      component: PhotosComponent
     },
     {
       path: '',

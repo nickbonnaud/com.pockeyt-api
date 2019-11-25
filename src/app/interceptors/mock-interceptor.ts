@@ -99,7 +99,9 @@ const responses = [
 
 const externalUrls: string[] = ['https://maps.googleapis.com'];
 
-@Injectable()
+@Injectable({
+  providedIn: "root"
+})
 export class MockInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (!environment.production && this.notExternalUrl(req)) {
@@ -152,14 +154,14 @@ export class MockInterceptor implements HttpInterceptor {
     return { ...req.body, identifer: 'fake_identifier' };
   }
 
-  private getProfile(req: HttpRequest<any>) {
+  getProfile(req: HttpRequest<any> = null) {
     return {
       data: {
         identifier: "6dd53fa0-0cbb-11ea-8e78-a377c0aba722",
         name: "Dickens PLC",
         website: "reilly.info",
         description: "Itaque nulla et itaque libero sed. Vero est et et expedita sapiente. Architecto officia nesciunt placeat molestiae et.",
-        google_place_id: null
+        google_place_id: 'fekncdacdacd'
       }
     }
   }
@@ -184,6 +186,21 @@ export class MockInterceptor implements HttpInterceptor {
         }
       };
     }
+  }
+
+  getPhotos(req: HttpRequest<any> = null) {
+    return {
+      logo: {
+        name: req == undefined ? "logo_name" : req.body.name,
+        small_url: "assets/images/mock/download.jpg",
+        large_url: "assets/images/mock/download.jpg"
+      },
+      banner: {
+        name: req == undefined ? "banner_name" : req.body.name,
+        small_url: "assets/images/mock/banana.png",
+        large_url: "assets/images/mock/banana.png"
+      }
+    };
   }
 
   private postBank(req: HttpRequest<any>) {

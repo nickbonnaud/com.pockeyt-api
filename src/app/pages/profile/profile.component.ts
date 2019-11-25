@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ApiService } from 'src/app/services/api.service';
 import { urls } from 'src/app/urls/main';
@@ -7,19 +7,21 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs/internal/Subject';
 import { FormControlProviderService } from 'src/app/forms/services/form-control-provider.service';
 import { BusinessService } from 'src/app/services/business.service';
+import { Business } from 'src/app/models/business/business';
 
 @Component({
   selector: "profile",
   templateUrl: "./profile.component.html",
   styleUrls: ["./profile.component.scss"]
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy {
   private destroyed$: Subject<boolean> = new Subject<boolean>();
 
   profileForm: FormGroup;
   profile: Profile;
 
   formLocked: boolean = true;
+  loading: boolean = false;
   BASE_URL: string;
 
   constructor(
@@ -35,33 +37,35 @@ export class ProfileComponent implements OnInit {
   }
 
   fetchProfile(): void {
-    this.api
-      .get<Profile>(this.BASE_URL)
+    this.businessService.business$
       .pipe(takeUntil(this.destroyed$))
-      .subscribe((profile: Profile) => {
+      .subscribe((business: Business) => {
+        let profile = business.profile;
+        delete profile["identifier"];
         this.setProfileForm(profile);
         this.profileForm.disable();
       });
   }
 
   setProfileForm(profile: Profile): void {
-    this.profileForm.get("name").setValue(profile.name);
-    this.profileForm.get("description").setValue(profile.description);
-    this.profileForm.get("website").setValue(profile.website);
-    this.profileForm.get("googlePlaceId").setValue(profile.googlePlaceId);
+    this.profileForm.setValue(profile);
     this.profile = profile;
-
-    this.businessService.updateProfile(profile);
   }
 
   submit(): void {
-    this.api
-      .patch<Profile>(this.BASE_URL, this.profileForm.value)
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe((profile: Profile) => {
-        this.setProfileForm(profile);
-        this.toggleLock();
-      });
+    if (!this.loading) {
+      this.loading = true;
+      this.api
+        .patch<Profile>(this.BASE_URL, this.profileForm.value)
+        .pipe(takeUntil(this.destroyed$))
+        .subscribe((profile: Profile) => {
+          delete profile["identifer"];
+          this.setProfileForm(profile);
+          this.toggleLock();
+          this.businessService.updateProfile(profile);
+          this.loading = false;
+        });
+    }
   }
 
   toggleLock(): void {
@@ -72,5 +76,10 @@ export class ProfileComponent implements OnInit {
     if (this.formLocked) {
       this.setProfileForm(this.profile);
     }
+  }
+
+  ngOnDestroy(): void {
+    this.destroyed$.next(true);
+    this.destroyed$.unsubscribe();
   }
 }

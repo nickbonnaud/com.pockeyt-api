@@ -11,13 +11,31 @@ import { Bank } from '../models/business/bank';
 import { PosAccount } from '../models/business/pos-account';
 import { Address } from '../models/business/address';
 import { Owner } from '../models/business/owner';
+import { environment } from 'src/environments/environment';
+import { MockInterceptor } from '../interceptors/mock-interceptor';
+import { BodyInterceptor } from '../interceptors/body-Interceptor';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BusinessService {
   business$: BehaviorSubject<Business> = new BehaviorSubject<Business>(this.newBusiness());
-  constructor() { }
+  constructor(private mockData: MockInterceptor, private bodyMutator: BodyInterceptor) {
+    if (!environment.production) {
+      this.createTestBusiness();
+    }
+   }
+
+   createTestBusiness(): void {
+    this.updateBusiness(this.newBusiness());
+    let profile: any = this.mockData.getProfile()["data"];
+    profile = this.bodyMutator.toCamelCase(profile);
+    this.updateProfile(profile);
+
+    let photos: any = this.mockData.getPhotos()
+    photos = this.bodyMutator.toCamelCase(photos);
+    this.updatePhotos(photos);
+   }
 
   updateBusiness(business: Business): void {
     this.business$.next(business);

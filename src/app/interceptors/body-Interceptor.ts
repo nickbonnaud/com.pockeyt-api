@@ -6,7 +6,9 @@ import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpResponse } fr
 import { Observable } from 'rxjs';
 import { mapKeys, snakeCase, camelCase } from 'lodash';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class BodyInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (req.body != undefined) {
@@ -23,7 +25,7 @@ export class BodyInterceptor implements HttpInterceptor {
     );
   }
 
-  private toCamelCase(o: object): object {
+  toCamelCase(o: object): object {
     let newO, origKey, newKey, value;
     if (o instanceof Array) {
       return o.map(value => {

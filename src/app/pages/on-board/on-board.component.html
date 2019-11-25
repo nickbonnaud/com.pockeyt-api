@@ -18,7 +18,7 @@
           <h4 class="lorem">
             Alright! Let's get your Logo and Banner so customers know who you are!
           </h4>
-          <photo-form [parentFormGroup]="photosForm"></photo-form>
+          <photo-form [parentFormGroup]="photosForm" [editMode]="false"></photo-form>
           <button nbButton nbStepperPrevious (click)="goToProfile()">prev</button>
           <button [disabled]="photosForm.invalid" nbButton nbStepperNext (click)="goToBusiness()">next</button>
         </form>

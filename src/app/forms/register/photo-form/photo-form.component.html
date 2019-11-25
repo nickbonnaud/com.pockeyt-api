@@ -1,137 +1,209 @@
 <div [formGroup]="parentFormGroup">
-  <ng-container *ngIf="!bannerActive">
-    <ng-container *ngIf="logoControl.invalid">
-      <p class="pad-top">Your logo should be a square image no smaller than 400 x 400 pixels.</p>
+  <ng-container *ngIf="!editMode">
+    <ng-container *ngIf="!bannerActive">
+      <ng-container *ngIf="logoControl.invalid">
+        <p class="pad-top">Your logo should be a square image no smaller than 400 x 400 pixels.</p>
 
-      <div class="row">
-        <div class="col-sm-12">
-          <div class="form-group">
-            <div class="logo-container">
-              <nb-icon icon="image" class="img"></nb-icon>
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="form-group">
+              <div class="logo-container">
+                <nb-icon icon="image" class="img"></nb-icon>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="row">
-        <div class="col-sm-6">
-          <div class="form-group">
-            <button nbButton fullWidth (click)="fileInput.click()">
-              <nb-icon icon="upload"></nb-icon>Upload Logo</button>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <button nbButton fullWidth (click)="fileInput.click()">
+                <nb-icon icon="upload"></nb-icon>Upload Logo
+              </button>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group">
+              <button disabled nbButton fullWidth (click)="next()">
+                Upload Banner<nb-icon icon="arrow-forward"></nb-icon></button>
+            </div>
           </div>
         </div>
-        <div class="col-sm-6">
-          <div class="form-group">
-            <button disabled nbButton fullWidth (click)="next()">
-              Upload Banner<nb-icon icon="arrow-forward"></nb-icon></button>
+      </ng-container>
+
+      <ng-container *ngIf="logoControl.valid">
+        <div class="row pad-top">
+          <div class="col-sm-12">
+            <div class="form-group">
+              <div class="logo-container">
+                <img class="logo" [src]="logoPreviewUrl">
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <button status="warning" nbButton fullWidth (click)="fileInput.click()">
+                <nb-icon icon="upload"></nb-icon>Change Logo
+              </button>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group">
+              <button nbButton fullWidth (click)="next()">
+                Upload Banner<nb-icon icon="arrow-forward"></nb-icon></button>
+            </div>
+          </div>
+        </div>
+      </ng-container>
     </ng-container>
 
-    <ng-container *ngIf="logoControl.valid">
-      <div class="row pad-top">
-        <div class="col-sm-12">
-          <div class="form-group">
-            <div class="logo-container">
-              <img class="logo" [src]="logoPreviewUrl">
+    <ng-container *ngIf="bannerActive">
+      <ng-container *ngIf="bannerControl.invalid">
+        <p class="pad-top">Your banner should be a rectangular image no smaller than 1000 x 720 pixels.</p>
+
+        <div class="row">
+          <div class="col-sm-3"></div>
+          <div class="col-sm-6">
+            <div class="form-group">
+              <div class="banner-container">
+                <nb-icon icon="image" class="img"></nb-icon>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-3"></div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <button nbButton fullWidth (click)="prev()">
+                <nb-icon icon="arrow-back"></nb-icon>Change Logo
+              </button>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group">
+              <button nbButton fullWidth (click)="fileInput.click()">
+                <nb-icon icon="upload"></nb-icon>Upload Banner
+              </button>
             </div>
           </div>
         </div>
-      </div>
+      </ng-container>
 
-      <div class="row">
-        <div class="col-sm-6">
-          <div class="form-group">
-            <button status="warning" nbButton fullWidth (click)="fileInput.click()">
-              <nb-icon icon="upload"></nb-icon>Change Logo
-            </button>
+      <ng-container *ngIf="bannerControl.valid">
+        <div class="row pad-top">
+          <div class="col-sm-3"></div>
+          <div class="col-sm-6">
+            <div class="form-group">
+              <div class="banner-container">
+                <img [src]="bannerPreviewUrl">
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-3"></div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <button nbButton fullWidth (click)="prev()">
+                <nb-icon icon="arrow-back"></nb-icon>Change Logo
+              </button>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group">
+              <button status="warning" nbButton fullWidth (click)="fileInput.click()">
+                <nb-icon icon="upload"></nb-icon>Change Banner
+              </button>
+            </div>
           </div>
         </div>
-        <div class="col-sm-6">
-          <div class="form-group">
-            <button nbButton fullWidth (click)="next()">
-              Upload Banner<nb-icon icon="arrow-forward"></nb-icon></button>
-          </div>
-        </div>
-      </div>
+      </ng-container>
+    </ng-container>
+
+    <ng-container *ngIf="logoControl.touched && logoControl.invalid">
+      <p class="caption status-danger" *ngIf="!!logoControl.errors?.required">A Logo is required!</p>
+      <p class="caption status-danger" *ngIf="!!logoControl.errors?.requiredFileType">Logo must be a .jpg, .jpeg, or .png!
+      </p>
+    </ng-container>
+
+    <ng-container *ngIf="bannerControl.touched && bannerControl.invalid">
+      <p class="caption status-danger" *ngIf="!!bannerControl.errors?.required">A Banner is required!</p>
+      <p class="caption status-danger" *ngIf="!!bannerControl.errors?.requiredFileType">Banner must be a .jpg, .jpeg, or
+        .png!
+      </p>
     </ng-container>
   </ng-container>
 
-  <ng-container *ngIf="bannerActive">
-    <ng-container *ngIf="bannerControl.invalid">
-      <p class="pad-top">Your banner should be a rectangular image no smaller than 1000 x 720 pixels.</p>
-
-      <div class="row">
-        <div class="col-sm-3"></div>
-        <div class="col-sm-6">
-          <div class="form-group">
-            <div class="banner-container">
-              <nb-icon icon="image" class="img"></nb-icon>
+  <ng-container *ngIf="editMode">
+    <ng-container *ngIf="!bannerActive">
+      <ng-container *ngIf="logoPreviewUrl != undefined">
+        <div class="row pad-top">
+          <div class="col-sm-12">
+            <div class="form-group">
+              <div class="logo-container">
+                <img class="logo" [src]="logoPreviewUrl">
+              </div>
             </div>
           </div>
         </div>
-        <div class="col-sm-3"></div>
-      </div>
 
-      <div class="row">
-        <div class="col-sm-6">
-          <div class="form-group">
-            <button nbButton fullWidth (click)="prev()">
-              <nb-icon icon="arrow-back"></nb-icon>Change Logo</button>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <button status="warning" nbButton fullWidth (click)="fileInput.click()">
+                <nb-icon icon="upload"></nb-icon>Change Logo
+              </button>
+            </div>
           </div>
-        </div>
-        <div class="col-sm-6">
-          <div class="form-group">
-            <button nbButton fullWidth (click)="fileInput.click()">
-              <nb-icon icon="upload"></nb-icon>Upload Banner
-            </button>
-          </div>
-        </div>
-      </div>
-    </ng-container>
-
-    <ng-container *ngIf="bannerControl.valid">
-      <div class="row pad-top">
-        <div class="col-sm-3"></div>
-        <div class="col-sm-6">
-          <div class="form-group">
-            <div class="banner-container">
-              <img [src]="bannerPreviewUrl">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <button nbButton fullWidth (click)="next()">
+                View Banner<nb-icon icon="arrow-forward"></nb-icon></button>
             </div>
           </div>
         </div>
-        <div class="col-sm-3"></div>
-      </div>
-
-      <div class="row">
-        <div class="col-sm-6">
-          <div class="form-group">
-            <button nbButton fullWidth (click)="prev()">
-              <nb-icon icon="arrow-back"></nb-icon>Change Logo
-            </button>
-          </div>
-        </div>
-        <div class="col-sm-6">
-          <div class="form-group">
-            <button status="warning" nbButton fullWidth (click)="fileInput.click()">
-              <nb-icon icon="upload"></nb-icon>Change Banner
-            </button>
-          </div>
-        </div>
-      </div>
+      </ng-container>
     </ng-container>
-  </ng-container>
 
-  <ng-container *ngIf="logoControl.touched && logoControl.invalid">
-    <p class="caption status-danger" *ngIf="!!logoControl.errors?.required">A Logo is required!</p>
-    <p class="caption status-danger" *ngIf="!!logoControl.errors?.requiredFileType">Logo must be a .jpg, .jpeg, or .png!</p>
-  </ng-container>
+    <ng-container *ngIf="bannerActive">
+      <ng-container *ngIf="bannerPreviewUrl != undefined">
+        <div class="row pad-top">
+          <div class="col-sm-3"></div>
+          <div class="col-sm-6">
+            <div class="form-group">
+              <div class="banner-container">
+                <img [src]="bannerPreviewUrl">
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-3"></div>
+        </div>
 
-  <ng-container *ngIf="bannerControl.touched && bannerControl.invalid">
-    <p class="caption status-danger" *ngIf="!!bannerControl.errors?.required">A Banner is required!</p>
-    <p class="caption status-danger" *ngIf="!!bannerControl.errors?.requiredFileType">Banner must be a .jpg, .jpeg, or .png!
-    </p>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <button nbButton fullWidth (click)="prev()">
+                <nb-icon icon="arrow-back"></nb-icon>View Logo
+              </button>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group">
+              <button status="warning" nbButton fullWidth (click)="fileInput.click()">
+                <nb-icon icon="upload"></nb-icon>Change Banner
+              </button>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+
   </ng-container>
 
   <input #fileInput type="file" (change)="onImageInput($event)" style="display: none;">

@@ -40,6 +40,10 @@ export class PagesComponent {
         {
           title: "Profile",
           link: "account/profile"
+        },
+        {
+          title: "Logo & Banner",
+          link: "account/photos"
         }
       ]
     }

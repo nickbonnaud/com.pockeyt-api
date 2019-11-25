@@ -8,8 +8,8 @@ import { OnBoardModule } from './on-board/on-board.module';
 import { NbMenuModule } from '@nebular/theme';
 import { SalesCenterModule } from './sales-center/sales-center.module';
 import { CustomersCenterModule } from './customers-center/customers-center.module';
-import { ProfileComponent } from './profile/profile.component';
 import { ProfileModule } from './profile/profile.module';
+import { PhotosModule } from './photos/photos.module';
 
 
 
@@ -23,6 +23,7 @@ import { ProfileModule } from './profile/profile.module';
     SalesCenterModule,
     CustomersCenterModule,
     ProfileModule,
+    PhotosModule,
     OnBoardModule,
     NbMenuModule.forRoot()
   ]
