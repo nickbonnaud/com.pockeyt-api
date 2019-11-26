@@ -7,6 +7,7 @@ import { SalesCenterComponent } from './sales-center/sales-center.component';
 import { CustomersCenterComponent } from './customers-center/customers-center.component';
 import { ProfileComponent } from './profile/profile.component';
 import { PhotosComponent } from './photos/photos.component';
+import { BusinessDataComponent } from './business-data/business-data.component';
 
 
 const routes: Routes = [{
@@ -36,6 +37,10 @@ const routes: Routes = [{
     {
       path: 'account/photos',
       component: PhotosComponent
+    },
+    {
+      path: 'account/business-data',
+      component: BusinessDataComponent
     },
     {
       path: '',

@@ -10,6 +10,7 @@ import { SalesCenterModule } from './sales-center/sales-center.module';
 import { CustomersCenterModule } from './customers-center/customers-center.module';
 import { ProfileModule } from './profile/profile.module';
 import { PhotosModule } from './photos/photos.module';
+import { BusinessDataModule } from './business-data/business-data.module';
 
 
 
@@ -24,6 +25,7 @@ import { PhotosModule } from './photos/photos.module';
     CustomersCenterModule,
     ProfileModule,
     PhotosModule,
+    BusinessDataModule,
     OnBoardModule,
     NbMenuModule.forRoot()
   ]

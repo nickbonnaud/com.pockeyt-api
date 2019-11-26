@@ -22,7 +22,7 @@ export class PhotosComponent implements OnInit, OnDestroy {
   photos: Photos;
   profile: Profile;
 
-  BASE_URL: string;
+  BASE_URL: string = urls.business.photos_store;
   loading: boolean = false;
 
   constructor (
@@ -65,13 +65,11 @@ export class PhotosComponent implements OnInit, OnDestroy {
   postPhoto(photoData: any): void {
     if (!this.loading) {
       this.loading = true;
-      console.log('here');
-      this.api.post<Photos>(urls.business.photos_store, photoData, this.profile.identifier)
+      this.api.post<Photos>(this.BASE_URL, photoData, this.profile.identifier)
         .pipe(takeUntil(this.destroyed$))
         .subscribe((photos: Photos) => {
           this.businessService.updatePhotos(photos);
           this.loading = false;
-          console.log('boom');
         })
     }
   }

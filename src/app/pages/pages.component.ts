@@ -44,6 +44,10 @@ export class PagesComponent {
         {
           title: "Logo & Banner",
           link: "account/photos"
+        },
+        {
+          title: "Business Info",
+          link: "account/business-data"
         }
       ]
     }

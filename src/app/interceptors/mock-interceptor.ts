@@ -211,6 +211,28 @@ export class MockInterceptor implements HttpInterceptor {
     return { ...req.body, identifer: 'fake_identifier' };
   }
 
+  private patchAccount(req: HttpRequest<any>) {
+    return { ...req.body };
+  }
+
+  getAccount(req: HttpRequest<any> = null) {
+    return {
+      data: {
+        identifier: "f8b717c0-1041-11ea-8b65-7d41af110d21",
+        ein: "38-6208188",
+        business_name: "Gutkowski Group",
+        address: {
+          address: "261 Gust Station",
+          address_secondary: "",
+          city: "gardnerville",
+          state: "WA",
+          zip: "53366",
+        },
+        entity_type: "soleProprietorship"
+      }
+    }
+  }
+
   private postOwner(req: HttpRequest<any>) {
     return { ...req.body, identifer: 'fake_identifier' };
   }
