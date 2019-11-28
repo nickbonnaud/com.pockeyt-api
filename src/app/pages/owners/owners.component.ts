@@ -198,10 +198,7 @@ export class OwnersComponent implements OnInit, OnDestroy {
   }
 
   send(formData: any, id: string): Observable<Owner> {
-    if (!environment.production) {
-      formData["identifier"] = id;
-    }
-    return this.api.patch<Owner>(this.BASE_URL, formData);
+    return this.api.patch<Owner>(this.BASE_URL, formData, this.selectedOwner.identifier);
   }
 
   trackByFn(index: number, owner: Owner): number {
@@ -247,7 +244,7 @@ export class OwnersComponent implements OnInit, OnDestroy {
     if (!this.loading) {
       this.loading = true;
       this.api
-        .delete<any>(this.BASE_URL, [])
+        .delete<any>(this.BASE_URL, [], this.selectedOwner.identifier)
         .pipe(takeUntil(this.destroyed$))
         .subscribe(response => {
           if (response.success) {
