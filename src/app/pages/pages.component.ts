@@ -48,6 +48,10 @@ export class PagesComponent {
         {
           title: "Business Info",
           link: "account/business-data"
+        },
+        {
+          title: "Owners",
+          link: "account/owners"
         }
       ]
     }

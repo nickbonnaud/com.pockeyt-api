@@ -89,14 +89,20 @@ export class OwnerFormComponent implements OnInit, OnDestroy {
   }
 
   openDialog(prevOwner: Owner): void {
-    this.dialogService.open(ConfirmOrCancelDialogComponent, {
-      context: {
-        title: 'Primary Owner already assigned!',
-        body: `Test User is already assigned as the primary? Do you wish to change?`
-      }
-    }).onClose.pipe(takeUntil(this.destroyed$)).subscribe(changePrimary => {
-      changePrimary ? prevOwner.primary = false : this.primaryControl.setValue(false);
-    });
+    this.dialogService
+      .open(ConfirmOrCancelDialogComponent, {
+        closeOnBackdropClick: false,
+        context: {
+          title: "Primary Owner already assigned!",
+          body: `${prevOwner.firstName} ${prevOwner.lastName} is already assigned as the primary? Do you wish to change?`
+        }
+      })
+      .onClose.pipe(takeUntil(this.destroyed$))
+      .subscribe(changePrimary => {
+        changePrimary
+          ? (prevOwner.primary = false)
+          : this.primaryControl.setValue(false);
+      });
   }
 
   markStateAsDirty(): void {

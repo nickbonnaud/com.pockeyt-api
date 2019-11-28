@@ -11,6 +11,8 @@ import { CustomersCenterModule } from './customers-center/customers-center.modul
 import { ProfileModule } from './profile/profile.module';
 import { PhotosModule } from './photos/photos.module';
 import { BusinessDataModule } from './business-data/business-data.module';
+import { OwnersModule } from './owners/owners.module';
+import { WarningDialogComponent } from '../dialogs/warning-dialog/warning-dialog.component';
 
 
 
@@ -26,8 +28,10 @@ import { BusinessDataModule } from './business-data/business-data.module';
     ProfileModule,
     PhotosModule,
     BusinessDataModule,
+    OwnersModule,
     OnBoardModule,
     NbMenuModule.forRoot()
-  ]
+  ],
+  entryComponents: [WarningDialogComponent]
 })
 export class PagesModule { }

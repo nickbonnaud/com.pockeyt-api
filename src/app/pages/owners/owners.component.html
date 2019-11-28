@@ -1,0 +1,50 @@
+<div class="row">
+  <div class="col-md-6">
+    <nb-card class="scroll">
+      <nb-card-header>
+        <span *ngIf="formLocked" (click)="addOwner()" class="float-r">
+          <nb-icon class="action-icon" status="success" icon="plus-circle"></nb-icon>
+        </span>
+        Current Owners
+      </nb-card-header>
+      <nb-card-body>
+        <nb-list>
+          <nb-list-item class="contact" *ngFor="let owner of owners; trackBy: trackByFn" (click)="selectOwner(owner)">
+            <nb-user [name]="owner.firstName + ' ' + owner.lastName" [title]="owner.primary ? 'Primary Owner' : ''" size="large"></nb-user>
+            <span class="caption">{{ owner.percentOwnership }}%</span>
+          </nb-list-item>
+        </nb-list>
+      </nb-card-body>
+    </nb-card>
+  </div>
+
+  <div class="col-md-6">
+    <nb-card *ngIf="selectedOwner != undefined">
+      <nb-card-header>
+        <span *ngIf="owners.length > 1 && !formLocked && selectedOwner.identifier != undefined" (click)="deleteOwner()" class="float-r">
+          <nb-icon class="action-icon" status="danger" icon="close-circle"></nb-icon>
+        </span>
+        <ng-container *ngIf="selectedOwner.identifier != undefined">
+          Edit {{ selectedOwner.firstName }} {{ selectedOwner.lastName }}
+        </ng-container>
+        <ng-container *ngIf="selectedOwner.identifier == undefined">
+          Add New Owner
+        </ng-container>
+      </nb-card-header>
+      <nb-card-body>
+        <form [formGroup]="ownerForm" label="Owner Info">
+          <edit-owner [parentFormGroup]="ownerForm" [owner]="selectedOwner"></edit-owner>
+
+          <ng-container *ngIf="selectedOwner.identifier != undefined">
+            <button nbButton (click)="toggleLock()">{{ formLocked ? 'Unlock' : 'Cancel' }}</button>
+            <button class="float-r" nbButton [disabled]="ownerForm.invalid || formLocked" (click)="submit()">Submit</button>
+          </ng-container>
+          <ng-container *ngIf="selectedOwner.identifier == undefined">
+            <button nbButton (click)="cancelNew()">Cancel</button>
+            <button class="float-r" nbButton [disabled]="ownerForm.invalid" (click)="submitNew()">Submit</button>
+          </ng-container>
+        </form>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>

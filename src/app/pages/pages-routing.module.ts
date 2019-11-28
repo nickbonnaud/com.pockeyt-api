@@ -8,6 +8,7 @@ import { CustomersCenterComponent } from './customers-center/customers-center.co
 import { ProfileComponent } from './profile/profile.component';
 import { PhotosComponent } from './photos/photos.component';
 import { BusinessDataComponent } from './business-data/business-data.component';
+import { OwnersComponent } from './owners/owners.component';
 
 
 const routes: Routes = [{
@@ -41,6 +42,10 @@ const routes: Routes = [{
     {
       path: 'account/business-data',
       component: BusinessDataComponent
+    },
+    {
+      path: 'account/owners',
+      component: OwnersComponent
     },
     {
       path: '',

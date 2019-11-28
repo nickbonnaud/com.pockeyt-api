@@ -23,26 +23,58 @@ export class FormControlProviderService {
 
   registerProfileControls(): FormGroup {
     return this.fb.group({
-      name: ['', Validators.compose([Validators.required, Validators.minLength(2)])],
-      description: ['', Validators.compose([Validators.required, Validators.minLength(25)])],
-      website: ['', Validators.compose([Validators.required, Validators.pattern(patterns.website)])],
-      googlePlaceId: ['']
+      name: [
+        "",
+        Validators.compose([Validators.required, Validators.minLength(2)])
+      ],
+      description: [
+        "",
+        Validators.compose([Validators.required, Validators.minLength(25)])
+      ],
+      website: [
+        "",
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(patterns.website)
+        ])
+      ],
+      googlePlaceId: [""]
     });
   }
 
   registerMapControls(): FormGroup {
     return this.fb.group({
-      radius: [50, Validators.compose([Validators.required, Validators.max(200), Validators.min(50), numberValidator])],
-      lat: ['', Validators.compose([Validators.required])],
-      lng: ['', Validators.compose([Validators.required])]
+      radius: [
+        50,
+        Validators.compose([
+          Validators.required,
+          Validators.max(200),
+          Validators.min(50),
+          numberValidator
+        ])
+      ],
+      lat: ["", Validators.compose([Validators.required])],
+      lng: ["", Validators.compose([Validators.required])]
     });
   }
 
   registerPosTypeControls(): FormGroup {
     return this.fb.group({
-      type: ['', Validators.compose([Validators.required, selectionExistsValidator(this.posTypesToArray())])],
-      takesTips: ['', Validators.compose([Validators.required, booleanValidator])],
-      allowsOpenTickets: ['', Validators.compose([Validators.required, booleanValidator])]
+      type: [
+        "",
+        Validators.compose([
+          Validators.required,
+          selectionExistsValidator(this.posTypesToArray())
+        ])
+      ],
+      takesTips: [
+        "",
+        Validators.compose([Validators.required, booleanValidator])
+      ],
+      allowsOpenTickets: [
+        "",
+        Validators.compose([Validators.required, booleanValidator])
+      ]
     });
   }
 
@@ -50,13 +82,22 @@ export class FormControlProviderService {
     const states: string[] = STATE_OPTIONS;
 
     return this.fb.group({
-      businessName: ['', Validators.compose([Validators.required, Validators.minLength(2)])],
-      address: ['', Validators.compose([Validators.required])],
-      addressSecondary: [''],
-      city: ['', Validators.compose([Validators.required])],
-      state: ['', Validators.compose([Validators.required, selectionExistsValidator(states)])],
+      businessName: [
+        "",
+        Validators.compose([Validators.required, Validators.minLength(2)])
+      ],
+      address: ["", Validators.compose([Validators.required])],
+      addressSecondary: [""],
+      city: ["", Validators.compose([Validators.required])],
+      state: [
+        "",
+        Validators.compose([
+          Validators.required,
+          selectionExistsValidator(states)
+        ])
+      ],
       zip: [
-        '',
+        "",
         Validators.compose([
           Validators.required,
           Validators.pattern(patterns.numbers_only),
@@ -64,15 +105,18 @@ export class FormControlProviderService {
         ])
       ],
       entityType: [
-        '',
+        "",
         Validators.compose([
           Validators.required,
           selectionExistsValidator(this.entityTypesToArray())
         ])
       ],
       ein: [
-        '',
-        Validators.compose([Validators.pattern(patterns.numbers_only), lengthMatchValidator(9)])
+        "",
+        Validators.compose([
+          Validators.pattern(patterns.numbers_only),
+          lengthMatchValidator(9)
+        ])
       ]
     });
   }
@@ -82,53 +126,62 @@ export class FormControlProviderService {
 
     return this.fb.group({
       firstName: [
-        '',
+        "",
         Validators.compose([
           Validators.required,
           Validators.pattern(patterns.letters_dashes_spaces)
         ])
       ],
       lastName: [
-        '',
+        "",
         Validators.compose([
           Validators.required,
           Validators.pattern(patterns.letters_dashes_spaces)
         ])
       ],
       title: [
-        '',
+        "",
         Validators.compose([
           Validators.required,
           Validators.pattern(patterns.letters_dashes_spaces)
         ])
       ],
-      email: ['', Validators.compose([Validators.required, Validators.email])],
+      email: ["", Validators.compose([Validators.required, Validators.email])],
       phone: [
-        '',
+        "",
         Validators.compose([
           Validators.required,
           Validators.pattern(patterns.numbers_only),
           lengthMatchValidator(10)
         ])
       ],
-      dob: ['', Validators.compose([Validators.required, Validators.pattern(patterns.date)])],
+      dob: [
+        "",
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(patterns.date)
+        ])
+      ],
       ssn: [
-        '',
+        "",
         Validators.compose([
           Validators.required,
           Validators.pattern(patterns.numbers_only),
           lengthMatchValidator(9)
         ])
       ],
-      address: ['', Validators.compose([Validators.required])],
-      addressSecondary: [''],
-      city: ['', Validators.compose([Validators.required])],
+      address: ["", Validators.compose([Validators.required])],
+      addressSecondary: [""],
+      city: ["", Validators.compose([Validators.required])],
       state: [
-        '',
-        Validators.compose([Validators.required, selectionExistsValidator(states)])
+        "",
+        Validators.compose([
+          Validators.required,
+          selectionExistsValidator(states)
+        ])
       ],
       zip: [
-        '',
+        "",
         Validators.compose([
           Validators.required,
           Validators.pattern(patterns.numbers_only),
@@ -136,7 +189,7 @@ export class FormControlProviderService {
         ])
       ],
       primary: [
-        '',
+        "",
         Validators.compose([
           Validators.required,
           booleanValidator,
@@ -144,7 +197,93 @@ export class FormControlProviderService {
         ])
       ],
       percentOwnership: [
-        '',
+        "",
+        Validators.compose([
+          Validators.required,
+          numberValidator,
+          percentOwnValidator(owners)
+        ])
+      ]
+    });
+  }
+
+  updateOwnerControls(owners: Owner[]): FormGroup {
+    const states: string[] = STATE_OPTIONS;
+
+    return this.fb.group({
+      firstName: [
+        "",
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(patterns.letters_dashes_spaces)
+        ])
+      ],
+      lastName: [
+        "",
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(patterns.letters_dashes_spaces)
+        ])
+      ],
+      title: [
+        "",
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(patterns.letters_dashes_spaces)
+        ])
+      ],
+      email: ["", Validators.compose([Validators.required, Validators.email])],
+      phone: [
+        "",
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(patterns.numbers_only),
+          lengthMatchValidator(10)
+        ])
+      ],
+      dob: [
+        "",
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(patterns.date)
+        ])
+      ],
+      ssn: [
+        "",
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(patterns.maskedSsn),
+          lengthMatchValidator(9)
+        ])
+      ],
+      address: ["", Validators.compose([Validators.required])],
+      addressSecondary: [""],
+      city: ["", Validators.compose([Validators.required])],
+      state: [
+        "",
+        Validators.compose([
+          Validators.required,
+          selectionExistsValidator(states)
+        ])
+      ],
+      zip: [
+        "",
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(patterns.numbers_only),
+          lengthMatchValidator(5)
+        ])
+      ],
+      primary: [
+        "",
+        Validators.compose([
+          Validators.required,
+          booleanValidator,
+          primaryOwnerValidator(owners)
+        ])
+      ],
+      percentOwnership: [
+        "",
         Validators.compose([
           Validators.required,
           numberValidator,
@@ -156,35 +295,35 @@ export class FormControlProviderService {
 
   registerBankControls(): FormGroup {
     const states: string[] = STATE_OPTIONS;
-    const accountTypeOptions: string[] = [
-      'checking',
-      'savings'
-    ];
+    const accountTypeOptions: string[] = ["checking", "savings"];
 
     return this.fb.group({
       firstName: [
-        '',
+        "",
         Validators.compose([
           Validators.required,
           Validators.pattern(patterns.letters_dashes_spaces)
         ])
       ],
       lastName: [
-        '',
+        "",
         Validators.compose([
           Validators.required,
           Validators.pattern(patterns.letters_dashes_spaces)
         ])
       ],
-      address: ['', Validators.compose([Validators.required])],
-      addressSecondary: [''],
-      city: ['', Validators.compose([Validators.required])],
+      address: ["", Validators.compose([Validators.required])],
+      addressSecondary: [""],
+      city: ["", Validators.compose([Validators.required])],
       state: [
-        '',
-        Validators.compose([Validators.required, selectionExistsValidator(states)])
+        "",
+        Validators.compose([
+          Validators.required,
+          selectionExistsValidator(states)
+        ])
       ],
       zip: [
-        '',
+        "",
         Validators.compose([
           Validators.required,
           Validators.pattern(patterns.numbers_only),
@@ -192,7 +331,7 @@ export class FormControlProviderService {
         ])
       ],
       routing: [
-        '',
+        "",
         Validators.compose([
           Validators.required,
           Validators.pattern(patterns.numbers_only),
@@ -200,16 +339,16 @@ export class FormControlProviderService {
         ])
       ],
       accountNumber: [
-        '',
+        "",
         Validators.compose([
           Validators.required,
           Validators.pattern(patterns.numbers_only),
           Validators.minLength(6),
-          Validators.maxLength(17),
+          Validators.maxLength(17)
         ])
       ],
       accountType: [
-        '',
+        "",
         Validators.compose([
           Validators.required,
           selectionExistsValidator(accountTypeOptions)
@@ -224,17 +363,17 @@ export class FormControlProviderService {
         null,
         Validators.compose([
           Validators.required,
-          requiredFileType(['jpg', 'jpeg', 'png'])
+          requiredFileType(["jpg", "jpeg", "png"])
         ])
       ],
       banner: [
         null,
         Validators.compose([
           Validators.required,
-          requiredFileType(['jpg', 'jpeg', 'png'])
+          requiredFileType(["jpg", "jpeg", "png"])
         ])
-      ],
-    })
+      ]
+    });
   }
 
   private entityTypesToArray(): string[] {

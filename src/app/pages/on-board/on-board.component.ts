@@ -105,7 +105,6 @@ export class OnBoardComponent implements OnInit, OnDestroy {
     this.api.get(geoCodeUrl).pipe(takeUntil(this.destroyed$)).subscribe((place: any) => {
       let location: Location = (Object.assign(this.businessService.business$.value.location, { lat: place.results[0].geometry.location.lat, lng: place.results[0].geometry.location.lng}));
       this.businessService.updateLocation(location);
-      console.log(this.businessService.business$.getValue());
     });
   }
 

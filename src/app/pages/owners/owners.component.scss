@@ -1,0 +1,31 @@
+@import '../../styles/themes';
+
+@include nb-install-component() {
+  nb-card {
+    &.scroll {
+      max-height: 30rem;
+    }
+  }
+
+  .contact {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &:first-child {
+      border-top: none;
+    }
+  }
+
+  .caption {
+    font-size: 1rem;
+  }
+
+  .action-icon {
+    font-size: 1.75rem;
+  }
+
+  .float-r {
+    float: right;
+  }
+}

@@ -8,6 +8,7 @@ import { InputPromptDialogComponent } from './input-prompt-dialog/input-prompt-d
 import { EmployeePickerDialogComponent } from './employee-picker-dialog/employee-picker-dialog.component';
 import { TransactionStatusPickerDialogComponent } from './transaction-status-picker-dialog/transaction-status-picker-dialog.component';
 import { CalendarDialogComponent } from './calendar-dialog/calendar-dialog.component';
+import { WarningDialogComponent } from './warning-dialog/warning-dialog.component';
 
 
 
@@ -19,7 +20,8 @@ import { CalendarDialogComponent } from './calendar-dialog/calendar-dialog.compo
     InputPromptDialogComponent,
     EmployeePickerDialogComponent,
     TransactionStatusPickerDialogComponent,
-    CalendarDialogComponent
+    CalendarDialogComponent,
+    WarningDialogComponent
   ],
   imports: [
     CommonModule,
@@ -36,7 +38,8 @@ import { CalendarDialogComponent } from './calendar-dialog/calendar-dialog.compo
     TransactionDialogComponent,
     InputPromptDialogComponent,
     EmployeePickerDialogComponent,
-    TransactionStatusPickerDialogComponent
+    TransactionStatusPickerDialogComponent,
+    WarningDialogComponent
   ]
 })
 export class DialogsModule { }

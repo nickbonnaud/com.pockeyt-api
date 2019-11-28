@@ -21,4 +21,9 @@ export class ApiService {
   get<T>(endpoint: string): Observable<T> {
     return this.http.get<T>(endpoint);
   }
+
+  delete<T>(endpoint: string, body: T, resourceId?: string): Observable<T> {
+    endpoint = resourceId != undefined ? `${endpoint}/${resourceId}` : endpoint;
+    return this.http.delete<T>(endpoint, body);
+  }
 }

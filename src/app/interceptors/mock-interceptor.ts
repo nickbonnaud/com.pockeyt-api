@@ -234,7 +234,98 @@ export class MockInterceptor implements HttpInterceptor {
   }
 
   private postOwner(req: HttpRequest<any>) {
-    return { ...req.body, identifer: 'fake_identifier' };
+    return {
+      identifier: "fake_id",
+      address: {
+        address: req.body.address,
+        address_secondary: null,
+        city: req.body.city,
+        state: req.body.state,
+        zip: req.body.zip
+      },
+      dob: req.body.dob,
+      ssn: req.body.ssn,
+      last_name: req.body.last_name,
+      first_name: req.body.first_name,
+      title: req.body.title,
+      phone: req.body.phone,
+      email: req.body.email,
+      primary: req.body.primary,
+      percent_ownership: req.body.percent_ownership
+    };
+  }
+
+  private deleteOwner(req: HttpRequest<any>){
+    return {
+      success: true
+    }
+  }
+
+  private patchOwner(req: HttpRequest<any>) {
+    return {
+      identifier: req.body.identifier,
+      address: {
+        address: req.body.address,
+        address_secondary: null,
+        city: req.body.city,
+        state: req.body.state,
+        zip: req.body.zip
+      },
+      dob: req.body.dob,
+      ssn: req.body.ssn,
+      last_name: req.body.last_name,
+      first_name: req.body.first_name,
+      title: req.body.title,
+      phone: req.body.phone,
+      email: req.body.email,
+      primary: req.body.primary,
+      percent_ownership: req.body.percent_ownership
+    };
+  }
+
+  getOwner(req: HttpRequest<any> = null) {
+    return {
+      data: [
+        {
+          identifier: "df8de560-1073-11ea-80a1-93b22131cec1",
+          address: {
+            address: "93469 Breitenberg Gardens Suite 047",
+            address_secondary: null,
+            city: "Flossieshire",
+            state: "VT",
+            zip: "86069"
+          },
+          dob: "03/30/1977",
+          ssn: "XXXXX3426",
+          last_name: "Romaguera",
+          first_name: "Camryn",
+          title: "CEO",
+          phone: "9507856208",
+          email: "mable74@hills.info",
+          primary: false,
+          percent_ownership: 25
+        },
+        {
+          identifier: "e0463b50-1073-11ea-886b-a9ffe5da05b2",
+          address: {
+            address: "307 Bauch Corner Apt. 689",
+            address_secondary: null,
+            city: "South Vergiebury",
+            state: "MT",
+            zip: "44550"
+          },
+          dob: "04/12/2014",
+          ssn: "XXXXX4614",
+          last_name: "Runolfsson",
+          first_name: "Trycia",
+          title: "CEO",
+          phone: "5364477871",
+          email: "erica.nikolaus@yahoo.com",
+          primary: true,
+          percent_ownership: 25
+        }
+      ]
+    };
   }
 
   private postLocation(req: HttpRequest<any>) {
