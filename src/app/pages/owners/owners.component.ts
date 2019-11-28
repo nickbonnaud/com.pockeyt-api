@@ -198,7 +198,7 @@ export class OwnersComponent implements OnInit, OnDestroy {
   }
 
   send(formData: any, id: string): Observable<Owner> {
-    return this.api.patch<Owner>(this.BASE_URL, formData, this.selectedOwner.identifier);
+    return this.api.patch<Owner>(this.BASE_URL, formData, id);
   }
 
   trackByFn(index: number, owner: Owner): number {
