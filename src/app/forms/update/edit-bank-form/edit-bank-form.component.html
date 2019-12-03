@@ -1,0 +1,140 @@
+<div [formGroup]="parentFormGroup">
+
+  <div class="row">
+    <div class="col-sm-6">
+      <input [status]="firstNameControl.touched ? (firstNameControl.invalid ? 'danger' : 'success') : ''" nbInput
+        fullWidth shape="round" id="firstName" type="text" placeholder="Account holder first name"
+        formControlName="firstName">
+      <ng-container *ngIf="firstNameControl.invalid && firstNameControl.touched">
+        <p class="caption status-danger" *ngIf="firstNameControl.hasError('required')">First Name is required!</p>
+        <p class="caption status-danger" *ngIf="firstNameControl.hasError('pattern')">First Name cannot contain special
+          characters or numbers!</p>
+      </ng-container>
+    </div>
+
+    <div class="col-sm-6">
+      <div class="form-group">
+        <input [status]="lastNameControl.touched ? (lastNameControl.invalid ? 'danger' : 'success') : ''" nbInput
+          fullWidth shape="round" id="firstName" type="text" placeholder="Account holder last name"
+          formControlName="lastName">
+        <ng-container *ngIf="lastNameControl.invalid && lastNameControl.touched">
+          <p class="caption status-danger" *ngIf="lastNameControl.hasError('required')">Last Name is required!</p>
+          <p class="caption status-danger" *ngIf="lastNameControl.hasError('pattern')">Last Name cannot contain special
+            characters or numbers!</p>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="form-group">
+        <input [status]="addressControl.touched ? (addressControl.invalid ? 'danger' : 'success') : ''" nbInput
+          fullWidth shape="round" id="address" type="text" placeholder="Account holder address"
+          formControlName="address">
+        <ng-container *ngIf="addressControl.invalid && addressControl.touched">
+          <p class="caption status-danger" *ngIf="addressControl.hasError('required')">Business Address is required!</p>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="col-sm-6">
+      <div class="form-group">
+        <input nbInput fullWidth shape="round" id="addressSecondary" type="text"
+          placeholder="Unit, Number, Etc. (optional)" formControlName="addressSecondary">
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="form-group">
+        <input [status]="cityControl.touched ? (cityControl.invalid ? 'danger' : 'success') : ''" nbInput fullWidth
+          shape="round" id="city" type="text" placeholder="City" formControlName="city">
+        <ng-container *ngIf="cityControl.invalid && cityControl.touched">
+          <p class="caption status-danger" *ngIf="cityControl.hasError('required')">City is required!</p>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="col-sm-3">
+      <div class="form-group">
+        <nb-select (click)="markStateAsDirty()"
+          [status]="stateControl.dirty ? (stateControl.invalid ? 'danger' : 'success') : ''" fullWidth shape="round"
+          id="state" placeholder="State" class="select-margin" formControlName="state">
+          <nb-option *ngFor="let state of states" [value]="state">{{ state }}</nb-option>
+        </nb-select>
+        <ng-container *ngIf="stateControl.invalid && stateControl.dirty">
+          <p class="caption status-danger" *ngIf="stateControl.hasError('required')">State is required!</p>
+          <p class="caption status-danger" *ngIf="stateControl.hasError('selectionExists')">Selection is not a valid
+            state!</p>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="col-sm-3">
+      <div class="form-group">
+        <input mask="00000" [status]="zipControl.touched ? (zipControl.invalid ? 'danger' : 'success') : ''" nbInput
+          fullWidth shape="round" id="zip" type="tel" placeholder="Zip/Postal Code" formControlName="zip">
+        <ng-container *ngIf="zipControl.invalid && zipControl.touched">
+          <p class="caption status-danger" *ngIf="zipControl.hasError('required')">Zip is required!</p>
+          <p class="caption status-danger" *ngIf="zipControl.hasError('pattern')">Zip can only be numbers!</p>
+          <p class="caption status-danger" *ngIf="zipControl.hasError('lengthMatch')">Zip must be 5 numbers long!</p>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="form-group">
+        <input mask="AAAAA0000"
+          [status]="routingNumberControl.touched ? (routingNumberControl.invalid ? 'danger' : 'success') : ''" nbInput
+          fullWidth shape="round" id="routingNumber" type="tel" placeholder="Routing Number"
+          formControlName="routingNumber">
+        <ng-container *ngIf="routingNumberControl.invalid && routingNumberControl.touched">
+          <p class="caption status-danger" *ngIf="routingNumberControl.hasError('required')">Routing Number is required!
+          </p>
+          <p class="caption status-danger" *ngIf="routingNumberControl.hasError('pattern')">Routing Number can only be
+            numbers!</p>
+          <p class="caption status-danger" *ngIf="routingNumberControl.hasError('lengthMatch')">Routing Number must be 9
+            numbers long!</p>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="form-group">
+        <input mask="A{6}9{11}"
+          [status]="accountNumberControl.touched ? (accountNumberControl.invalid ? 'danger' : 'success') : ''" nbInput
+          fullWidth shape="round" id="accountNumber" type="tel" placeholder="Account Number"
+          formControlName="accountNumber">
+        <ng-container *ngIf="accountNumberControl.invalid && accountNumberControl.touched">
+          <p class="caption status-danger" *ngIf="accountNumberControl.hasError('required')">Account Number is required!
+          </p>
+          <p class="caption status-danger" *ngIf="accountNumberControl.hasError('pattern')">Account Number can only be
+            numbers!</p>
+          <p class="caption status-danger" *ngIf="accountNumberControl.hasError('minlength')">Account Number must be at
+            least 6 numbers long!</p>
+          <p class="caption status-danger" *ngIf="accountNumberControl.hasError('maxlength')">Account Number must be less
+            than 18 numbers long!</p>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="form-group">
+        <nb-select (click)="markTypeAsDirty()"
+          [status]="typeControl.dirty ? (typeControl.invalid ? 'danger' : 'success') : ''" fullWidth shape="round"
+          id="type" placeholder="Account Type" class="select-margin" formControlName="type">
+          <nb-option *ngFor="let type of typeOptions" [value]="type.value">{{ type.title }}</nb-option>
+        </nb-select>
+        <ng-container *ngIf="typeControl.invalid && typeControl.dirty">
+          <p class="caption status-danger" *ngIf="typeControl.hasError('required')">Account Type is required!</p>
+          <p class="caption status-danger" *ngIf="typeControl.hasError('selectionExists')">Selection is not a valid
+            Account Type!</p>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

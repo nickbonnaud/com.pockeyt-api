@@ -147,11 +147,11 @@ export class MockInterceptor implements HttpInterceptor {
   }
 
   private postProfile(req: HttpRequest<any>) {
-    return { ...req.body, identifer: 'fake_identifier' };
+    return { ...req.body, identifier: 'fake_identifier' };
   }
 
   private patchProfile(req: HttpRequest<any>) {
-    return { ...req.body, identifer: 'fake_identifier' };
+    return { ...req.body, identifier: 'fake_identifier' };
   }
 
   getProfile(req: HttpRequest<any> = null) {
@@ -204,11 +204,51 @@ export class MockInterceptor implements HttpInterceptor {
   }
 
   private postBank(req: HttpRequest<any>) {
-    return { ...req.body, identifer: 'fake_identifier' };
+    return { ...req.body, identifier: 'fake_identifier' };
+  }
+
+  getBank(req: HttpRequest<any> = null) {
+    return {
+      data: {
+        identifier: "c22ad580-1548-11ea-90e8-7168d105351c",
+        address: {
+          address: "656 Considine Manors",
+          address_secondary: null,
+          city: "Lake Joaquinborough",
+          state: "NY",
+          zip: "87097",
+        },
+        first_name: "Jean",
+        last_name: "Pierre",
+        routing_number: "XXXXX8614",
+        account_number: "XXXXX0806",
+        type: "savings",
+      }
+    }
+  }
+
+  private patchBank(req: HttpRequest<any>) {
+    return {
+      data: {
+        identifier: 'fake_identifier',
+        address: {
+          address: req.body.address,
+          address_secondary: null,
+          city: req.body.city,
+          state: req.body.state,
+          zip: req.body.zip
+        },
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        routing_number: req.body.routing_number,
+        account_number: req.body.account_number,
+        type: req.body.type
+      }
+    }
   }
 
   private postAccount(req: HttpRequest<any>) {
-    return { ...req.body, identifer: 'fake_identifier' };
+    return { ...req.body, identifier: 'fake_identifier' };
   }
 
   private patchAccount(req: HttpRequest<any>) {
@@ -329,11 +369,11 @@ export class MockInterceptor implements HttpInterceptor {
   }
 
   private postLocation(req: HttpRequest<any>) {
-    return { ...req.body, identifer: 'fake_identifier' };
+    return { ...req.body, identifier: 'fake_identifier' };
   }
 
   private postPos(req: HttpRequest<any>) {
-    return { ...req.body, identifer: 'fake_identifier', status: 'pending' };
+    return { ...req.body, identifier: 'fake_identifier', status: 'pending' };
   }
 
   private getPos(req: HttpRequest<any>) {

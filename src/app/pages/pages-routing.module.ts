@@ -9,6 +9,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { PhotosComponent } from './photos/photos.component';
 import { BusinessDataComponent } from './business-data/business-data.component';
 import { OwnersComponent } from './owners/owners.component';
+import { BankComponent } from './bank/bank.component';
 
 
 const routes: Routes = [{
@@ -46,6 +47,10 @@ const routes: Routes = [{
     {
       path: 'account/owners',
       component: OwnersComponent
+    },
+    {
+      path: 'account/banking',
+      component: BankComponent
     },
     {
       path: '',

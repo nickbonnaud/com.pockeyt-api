@@ -17,6 +17,7 @@ import { PhotoFormComponent } from './register/photo-form/photo-form.component';
 import { PosFormComponent } from './register/pos-form/pos-form.component';
 import { MapFormComponent } from './register/map-form/map-form.component';
 import { EditOwnerComponent } from './update/edit-owner/edit-owner.component';
+import { EditBankFormComponent } from './update/edit-bank-form/edit-bank-form.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { EditOwnerComponent } from './update/edit-owner/edit-owner.component';
     PosFormComponent,
     GooglePlacesDirective,
     MapFormComponent,
-    EditOwnerComponent
+    EditOwnerComponent,
+    EditBankFormComponent
   ],
   entryComponents: [ConfirmOrCancelDialogComponent, OwnerListDialogComponent],
   imports: [
@@ -54,7 +56,8 @@ import { EditOwnerComponent } from './update/edit-owner/edit-owner.component';
     PhotoFormComponent,
     MapFormComponent,
     PosFormComponent,
-    EditOwnerComponent
+    EditOwnerComponent,
+    EditBankFormComponent
   ]
 })
 export class AppFormsModule {}

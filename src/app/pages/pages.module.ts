@@ -13,6 +13,7 @@ import { PhotosModule } from './photos/photos.module';
 import { BusinessDataModule } from './business-data/business-data.module';
 import { OwnersModule } from './owners/owners.module';
 import { WarningDialogComponent } from '../dialogs/warning-dialog/warning-dialog.component';
+import { BankModule } from './bank/bank.module';
 
 
 
@@ -29,6 +30,7 @@ import { WarningDialogComponent } from '../dialogs/warning-dialog/warning-dialog
     PhotosModule,
     BusinessDataModule,
     OwnersModule,
+    BankModule,
     OnBoardModule,
     NbMenuModule.forRoot()
   ],

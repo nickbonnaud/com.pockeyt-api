@@ -12,7 +12,7 @@ export class BankFormComponent implements OnInit {
 
 
   states: string[] = STATE_OPTIONS;
-  accountTypeOptions: any[] = [
+  typeOptions: any[] = [
     {title: 'Checking', value: 'checking'},
     {title: 'Savings', value: 'savings'}
   ]
@@ -24,9 +24,9 @@ export class BankFormComponent implements OnInit {
   cityControl: AbstractControl;
   stateControl: AbstractControl;
   zipControl: AbstractControl;
-  routingControl: AbstractControl;
+  routingNumberControl: AbstractControl;
   accountNumberControl: AbstractControl;
-  accountTypeControl: AbstractControl;
+  typeControl: AbstractControl;
 
   constructor() { }
 
@@ -38,14 +38,14 @@ export class BankFormComponent implements OnInit {
     this.cityControl = this.parentFormGroup.get('city');
     this.stateControl = this.parentFormGroup.get('state');
     this.zipControl = this.parentFormGroup.get('zip');
-    this.routingControl = this.parentFormGroup.get('routing');
+    this.routingNumberControl = this.parentFormGroup.get('routingNumber');
     this.accountNumberControl = this.parentFormGroup.get('accountNumber');
-    this.accountTypeControl = this.parentFormGroup.get('accountType');
+    this.typeControl = this.parentFormGroup.get('type');
   }
 
-  markAccountTypeAsDirty(): void {
-    if (!this.accountTypeControl.dirty) {
-      this.accountTypeControl.markAsDirty();
+  markTypeAsDirty(): void {
+    if (!this.typeControl.dirty) {
+      this.typeControl.markAsDirty();
     }
   }
 

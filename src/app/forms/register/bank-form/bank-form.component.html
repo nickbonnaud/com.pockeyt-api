@@ -74,11 +74,11 @@
   <div class="row">
     <div class="col-sm-4">
       <div class="form-group">
-        <input mask="000000000" [status]="routingControl.touched ? (routingControl.invalid ? 'danger' : 'success') : ''" nbInput fullWidth shape="round" id="routing" type="tel" placeholder="Routing Number" formControlName="routing">
-        <ng-container *ngIf="routingControl.invalid && routingControl.touched">
-          <p class="caption status-danger" *ngIf="!!routingControl.errors?.required">Routing Number is required!</p>
-          <p class="caption status-danger" *ngIf="!!routingControl.errors?.pattern">Routing Number can only be numbers!</p>
-          <p class="caption status-danger" *ngIf="!!routingControl.errors?.lengthMatch">Routing Number must be 9 numbers long!</p>
+        <input mask="000000000" [status]="routingNumberControl.touched ? (routingNumberControl.invalid ? 'danger' : 'success') : ''" nbInput fullWidth shape="round" id="routingNumber" type="tel" placeholder="Routing Number" formControlName="routingNumber">
+        <ng-container *ngIf="routingNumberControl.invalid && routingNumberControl.touched">
+          <p class="caption status-danger" *ngIf="!!routingNumberControl.errors?.required">Routing Number is required!</p>
+          <p class="caption status-danger" *ngIf="!!routingNumberControl.errors?.pattern">Routing Number can only be numbers!</p>
+          <p class="caption status-danger" *ngIf="!!routingNumberControl.errors?.lengthMatch">Routing Number must be 9 numbers long!</p>
         </ng-container>
       </div>
     </div>
@@ -87,22 +87,22 @@
       <div class="form-group">
         <input mask="0000009{17}" [status]="accountNumberControl.touched ? (accountNumberControl.invalid ? 'danger' : 'success') : ''" nbInput fullWidth shape="round" id="accountNumber" type="tel" placeholder="Account Number" formControlName="accountNumber">
         <ng-container *ngIf="accountNumberControl.invalid && accountNumberControl.touched">
-          <p class="caption status-danger" *ngIf="!!accountNumberControl.errors?.required">Routing Number is required!</p>
-          <p class="caption status-danger" *ngIf="!!accountNumberControl.errors?.pattern">Routing Number can only be numbers!</p>
-          <p class="caption status-danger" *ngIf="!!accountNumberControl.errors?.minlength">Routing Number must be at least 6 numbers long!</p>
-          <p class="caption status-danger" *ngIf="!!accountNumberControl.errors?.maxlength">Routing Number must be less than 18 numbers long!</p>
+          <p class="caption status-danger" *ngIf="!!accountNumberControl.errors?.required">Account Number is required!</p>
+          <p class="caption status-danger" *ngIf="!!accountNumberControl.errors?.pattern">Account Number can only be numbers!</p>
+          <p class="caption status-danger" *ngIf="!!accountNumberControl.errors?.minlength">Account Number must be at least 6 numbers long!</p>
+          <p class="caption status-danger" *ngIf="!!accountNumberControl.errors?.maxlength">Account Number must be less than 18 numbers long!</p>
         </ng-container>
       </div>
     </div>
 
     <div class="col-sm-4">
       <div class="form-group">
-        <nb-select (click)="markAccountTypeAsDirty()" [status]="accountTypeControl.dirty ? (accountTypeControl.invalid ? 'danger' : 'success') : ''" fullWidth shape="round" id="accountType" placeholder="Account Type" class="select-margin" formControlName="accountType">
-          <nb-option *ngFor="let type of accountTypeOptions" [value]="type.value">{{ type.title }}</nb-option>
+        <nb-select (click)="markTypeAsDirty()" [status]="typeControl.dirty ? (typeControl.invalid ? 'danger' : 'success') : ''" fullWidth shape="round" id="type" placeholder="Account Type" class="select-margin" formControlName="type">
+          <nb-option *ngFor="let type of typeOptions" [value]="type.value">{{ type.title }}</nb-option>
         </nb-select>
-        <ng-container *ngIf="accountTypeControl.invalid && accountTypeControl.dirty">
-          <p class="caption status-danger" *ngIf="!!accountTypeControl.errors?.required">Account Type is required!</p>
-          <p class="caption status-danger" *ngIf="!!accountTypeControl.errors?.selectionExists">Selection is not a valid Account Type!</p>
+        <ng-container *ngIf="typeControl.invalid && typeControl.dirty">
+          <p class="caption status-danger" *ngIf="!!typeControl.errors?.required">Account Type is required!</p>
+          <p class="caption status-danger" *ngIf="!!typeControl.errors?.selectionExists">Selection is not a valid Account Type!</p>
         </ng-container>
       </div>
     </div>

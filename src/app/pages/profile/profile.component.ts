@@ -56,7 +56,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     if (!this.loading) {
       this.loading = true;
       this.api
-        .patch<Profile>(this.BASE_URL, this.profileForm.value)
+        .patch<Profile>(this.BASE_URL, this.profileForm.value, this.profile.identifier)
         .pipe(takeUntil(this.destroyed$))
         .subscribe((profile: Profile) => {
           delete profile["identifer"];

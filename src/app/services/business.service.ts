@@ -42,7 +42,10 @@ export class BusinessService {
     let businessOwners: any = this.mockData.getOwner()['data'];
     businessOwners = this.bodyMutator.toCamelCase(businessOwners);
 
-    this.updateAccounts(businessAccount, businessOwners, new Bank());
+    let bank: any = this.mockData.getBank()['data'];
+    bank = this.bodyMutator.toCamelCase(bank);
+
+    this.updateAccounts(businessAccount, businessOwners, bank);
    }
 
   updateBusiness(business: Business): void {

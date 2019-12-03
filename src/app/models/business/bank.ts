@@ -4,7 +4,7 @@ export class Bank {
   firstName: string;
   lastName: string;
   address: Address;
-  routing: string;
+  routingNumber: string;
   accountNumber: string;
   type: string;
 }

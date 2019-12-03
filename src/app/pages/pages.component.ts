@@ -52,6 +52,10 @@ export class PagesComponent {
         {
           title: "Owners",
           link: "account/owners"
+        },
+        {
+          title: "Banking",
+          link: "account/banking"
         }
       ]
     }

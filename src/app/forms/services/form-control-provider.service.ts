@@ -252,7 +252,7 @@ export class FormControlProviderService {
         "",
         Validators.compose([
           Validators.required,
-          Validators.pattern(patterns.maskedSsn),
+          Validators.pattern(patterns.masked),
           lengthMatchValidator(9)
         ])
       ],
@@ -295,7 +295,7 @@ export class FormControlProviderService {
 
   registerBankControls(): FormGroup {
     const states: string[] = STATE_OPTIONS;
-    const accountTypeOptions: string[] = ["checking", "savings"];
+    const typeOptions: string[] = ["checking", "savings"];
 
     return this.fb.group({
       firstName: [
@@ -330,7 +330,7 @@ export class FormControlProviderService {
           lengthMatchValidator(5)
         ])
       ],
-      routing: [
+      routingNumber: [
         "",
         Validators.compose([
           Validators.required,
@@ -347,11 +347,75 @@ export class FormControlProviderService {
           Validators.maxLength(17)
         ])
       ],
-      accountType: [
+      type: [
         "",
         Validators.compose([
           Validators.required,
-          selectionExistsValidator(accountTypeOptions)
+          selectionExistsValidator(typeOptions)
+        ])
+      ]
+    });
+  }
+
+  UpdateBankControls(): FormGroup {
+    const states: string[] = STATE_OPTIONS;
+    const typeOptions: string[] = ["checking", "savings"];
+
+    return this.fb.group({
+      firstName: [
+        "",
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(patterns.letters_dashes_spaces)
+        ])
+      ],
+      lastName: [
+        "",
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(patterns.letters_dashes_spaces)
+        ])
+      ],
+      address: ["", Validators.compose([Validators.required])],
+      addressSecondary: [""],
+      city: ["", Validators.compose([Validators.required])],
+      state: [
+        "",
+        Validators.compose([
+          Validators.required,
+          selectionExistsValidator(states)
+        ])
+      ],
+      zip: [
+        "",
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(patterns.numbers_only),
+          lengthMatchValidator(5)
+        ])
+      ],
+      routingNumber: [
+        "",
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(patterns.masked),
+          lengthMatchValidator(9)
+        ])
+      ],
+      accountNumber: [
+        "",
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(patterns.masked),
+          Validators.minLength(6),
+          Validators.maxLength(17)
+        ])
+      ],
+      type: [
+        "",
+        Validators.compose([
+          Validators.required,
+          selectionExistsValidator(typeOptions)
         ])
       ]
     });
