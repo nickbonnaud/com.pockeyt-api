@@ -46,6 +46,10 @@ export class BusinessService {
     bank = this.bodyMutator.toCamelCase(bank);
 
     this.updateAccounts(businessAccount, businessOwners, bank);
+
+    let location: any = this.mockData.getLocation()['data'];
+    location = this.bodyMutator.toCamelCase(location);
+    this.updateLocation(location);
    }
 
   updateBusiness(business: Business): void {

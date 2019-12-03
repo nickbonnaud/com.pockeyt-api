@@ -10,6 +10,7 @@ import { PhotosComponent } from './photos/photos.component';
 import { BusinessDataComponent } from './business-data/business-data.component';
 import { OwnersComponent } from './owners/owners.component';
 import { BankComponent } from './bank/bank.component';
+import { GeoFenceComponent } from './geo-fence/geo-fence.component';
 
 
 const routes: Routes = [{
@@ -51,6 +52,10 @@ const routes: Routes = [{
     {
       path: 'account/banking',
       component: BankComponent
+    },
+    {
+      path: 'account/geo-fence',
+      component: GeoFenceComponent
     },
     {
       path: '',

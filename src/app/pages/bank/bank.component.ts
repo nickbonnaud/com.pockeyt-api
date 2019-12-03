@@ -17,7 +17,6 @@ import { Business } from 'src/app/models/business/business';
 export class BankComponent implements OnInit, OnDestroy {
   private destroyed$: Subject<boolean> = new Subject<boolean>();
 
-
   bankForm: FormGroup;
   bank: Bank;
 

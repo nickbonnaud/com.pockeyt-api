@@ -42,10 +42,10 @@ export class FormControlProviderService {
     });
   }
 
-  registerMapControls(): FormGroup {
+  registerMapControls(radius: number = null): FormGroup {
     return this.fb.group({
       radius: [
-        50,
+        radius == null ? 50 : radius,
         Validators.compose([
           Validators.required,
           Validators.max(200),

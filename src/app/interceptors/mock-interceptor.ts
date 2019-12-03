@@ -372,6 +372,28 @@ export class MockInterceptor implements HttpInterceptor {
     return { ...req.body, identifier: 'fake_identifier' };
   }
 
+  getLocation(req: HttpRequest<any> = null) {
+    return {
+      data: {
+        identifier: "45e29f80-15fa-11ea-af40-a548ae86dffa",
+        lat: 35.925712,
+        lng: -79.037973,
+        radius: 75
+      }
+    };
+  }
+
+  private patchLocation(req: HttpRequest<any>) {
+    return {
+      data: {
+        identifier: "45e29f80-15fa-11ea-af40-a548ae86dffa",
+        lat: req.body.lat,
+        lng: req.body.lng,
+        radius: req.body.radius
+      }
+    };
+  }
+
   private postPos(req: HttpRequest<any>) {
     return { ...req.body, identifier: 'fake_identifier', status: 'pending' };
   }

@@ -1,0 +1,12 @@
+<nb-card>
+  <nb-card-header>
+    Geo Fence
+  </nb-card-header>
+  <nb-card-body>
+    <form [formGroup]="mapForm" label="Geo Fence">
+      <map-form [parentFormGroup]="mapForm"></map-form>
+      <button nbButton (click)="toggleLock()">{{ formLocked ? 'Unlock' : 'Cancel' }}</button>
+      <button nbButton class="float-r" [disabled]="mapForm.invalid || formLocked" (click)="submit()">Submit</button>
+    </form>
+  </nb-card-body>
+</nb-card>

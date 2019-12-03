@@ -56,6 +56,10 @@ export class PagesComponent {
         {
           title: "Banking",
           link: "account/banking"
+        },
+        {
+          title: "Geo Fence",
+          link: "account/geo-fence"
         }
       ]
     }
