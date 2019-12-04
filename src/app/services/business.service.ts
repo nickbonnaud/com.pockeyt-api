@@ -50,6 +50,10 @@ export class BusinessService {
     let location: any = this.mockData.getLocation()['data'];
     location = this.bodyMutator.toCamelCase(location);
     this.updateLocation(location);
+
+    let posAccount: any = this.mockData.getPos();
+    posAccount = this.bodyMutator.toCamelCase(posAccount);
+    this.updatePosAccount(posAccount);
    }
 
   updateBusiness(business: Business): void {

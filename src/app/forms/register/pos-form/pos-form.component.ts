@@ -1,7 +1,5 @@
 import { FormGroup, AbstractControl } from '@angular/forms';
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { POS_TYPES } from 'src/assets/data/pos-types';
 
 @Component({

@@ -15,6 +15,7 @@ import { OwnersModule } from './owners/owners.module';
 import { WarningDialogComponent } from '../dialogs/warning-dialog/warning-dialog.component';
 import { BankModule } from './bank/bank.module';
 import { GeoFenceModule } from './geo-fence/geo-fence.module';
+import { PosModule } from './pos/pos.module';
 
 
 
@@ -33,6 +34,7 @@ import { GeoFenceModule } from './geo-fence/geo-fence.module';
     OwnersModule,
     BankModule,
     GeoFenceModule,
+    PosModule,
     OnBoardModule,
     NbMenuModule.forRoot()
   ],

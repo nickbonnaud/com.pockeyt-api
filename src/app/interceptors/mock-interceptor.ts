@@ -398,13 +398,23 @@ export class MockInterceptor implements HttpInterceptor {
     return { ...req.body, identifier: 'fake_identifier', status: 'pending' };
   }
 
-  private getPos(req: HttpRequest<any>) {
+  getPos(req: HttpRequest<any> = null) {
     return {
-      identifier: '1f1beda0-da45-11e9-bb04-99c1aceb43be',
-      type: 'square',
+      identifier: "1f1beda0-da45-11e9-bb04-99c1aceb43be",
+      type: "vend",
       takes_tips: true,
       allows_open_tickets: false,
-      status: 'fail_webhook'
+      status: "successfully connected"
+    };
+  }
+
+  private patchPos(req: HttpRequest<any> = null) {
+    return {
+      identifier: "1f1beda0-da45-11e9-bb04-99c1aceb43be",
+      type: req.body.type,
+      takes_tips: req.body.takes_tips,
+      allows_open_tickets: req.body.allows_open_tickets,
+      status: "success"
     };
   }
 

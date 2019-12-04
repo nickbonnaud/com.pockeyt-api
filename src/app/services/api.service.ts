@@ -15,6 +15,7 @@ export class ApiService {
 
   patch<T>(endpoint: string, body: T, resourceId?: string): Observable<T> {
     endpoint = resourceId != undefined ? `${endpoint}/${resourceId}` : endpoint;
+    console.log(endpoint);
     return this.http.patch<T>(endpoint, body);
   }
 

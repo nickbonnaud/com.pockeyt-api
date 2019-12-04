@@ -1,0 +1,15 @@
+<nb-card>
+  <nb-card-header>
+    <ng-container>
+      <span class="float-r">Status: {{ posAccount.status | uppercase }}</span>
+    </ng-container>
+    Point of Sale Info
+  </nb-card-header>
+  <nb-card-body>
+    <form [formGroup]="posForm" label="Pos Info">
+      <edit-pos-form [parentFormGroup]="posForm"></edit-pos-form>
+      <button nbButton (click)="toggleLock()">{{ formLocked ? 'Unlock' : 'Cancel' }}</button>
+      <button nbButton class="float-r" [disabled]="posForm.invalid || formLocked" (click)="submit()">Submit</button>
+    </form>
+  </nb-card-body>
+</nb-card>

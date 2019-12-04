@@ -1,0 +1,44 @@
+<div [formGroup]="parentFormGroup">
+
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="form-group">
+        <nb-select (click)="markTypeAsDirty()"
+          [status]="typeControl.dirty ? (typeControl.invalid ? 'danger' : 'success') : ''" fullWidth shape="round"
+          id="type" placeholder="Current POS system" formControlName="type">
+          <nb-option *ngFor="let posType of posOptions" [value]="posType.value">{{ posType.name }}</nb-option>
+        </nb-select>
+        <ng-container *ngIf="typeControl.invalid && typeControl.dirty">
+          <p class="caption status-danger" *ngIf="!!typeControl.errors?.required">Please select your current POS system.
+          </p>
+          <p class="caption status-danger" *ngIf="!!typeControl.errors?.selectionExists">Selected POS system is not
+            valid!</p>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="col-sm-4 checkbox">
+      <div class="form-group">
+        <nb-checkbox [status]="tipsControl.dirty ? (tipsControl.invalid ? 'danger' : 'success') : ''" id="takesTips" formControlName="takesTips">Take Tips</nb-checkbox>
+        <ng-container *ngIf="tipsControl.invalid && tipsControl.dirty">
+          <p class="caption status-danger" *ngIf="!!tipsControl.errors?.required">Please select whether your system
+            currently takes tips.</p>
+          <p class="caption status-danger" *ngIf="!!tipsControl.errors?.isBoolean">Must be Yes or No!</p>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="col-sm-4 checkbox">
+      <div class="form-group">
+        <nb-checkbox [status]="openTicketsControl.dirty ? (openTicketsControl.invalid ? 'danger' : 'success') : ''" id="allowsOpenTickets" formControlName="allowsOpenTickets">Allow Tabs/Tickets?</nb-checkbox>
+        <ng-container *ngIf="openTicketsControl.invalid && openTicketsControl.dirty">
+          <p class="caption status-danger" *ngIf="!!openTicketsControl.errors?.required">Please select whether your
+            system
+            currently allows open tickets/tabs.</p>
+          <p class="caption status-danger" *ngIf="!!openTicketsControl.errors?.isBoolean">Must be Yes or No!</p>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+
