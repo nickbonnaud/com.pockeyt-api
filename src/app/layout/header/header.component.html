@@ -9,12 +9,43 @@
 
 <div class="header-container">
   <nb-actions size="small">
-    <nb-action class="control-item" icon="email-outline"></nb-action>
-    <nb-action class="control-item" icon="bell-outline"></nb-action>
+    <nb-action
+      [nbTooltip]="business.accounts.accountStatus.name" nbTooltipStatus="warning" nbTooltipPlacement="bottom"
+      *ngIf="business.accounts.accountStatus.code >= 100 && business.accounts.accountStatus.code < 200"
+      class="control-item" icon="info-outline"></nb-action>
+
+    <nb-action
+    [nbTooltip]="business.accounts.accountStatus.name" nbTooltipStatus="success" nbTooltipPlacement="bottom"
+      *ngIf="business.accounts.accountStatus.code >= 200 && business.accounts.accountStatus.code < 300"
+      class="control-item" icon="checkmark-square-outline"></nb-action>
+
+    <nb-action
+      [nbTooltip]="business.accounts.accountStatus.name" nbTooltipStatus="danger" nbTooltipPlacement="bottom"
+      *ngIf="business.accounts.accountStatus.code >= 500"
+      class="control-item" icon="alert-triangle-outline"></nb-action>
+
+
+    <nb-action [nbTooltip]="business.posAccount.status.name + ' to ' + business.posAccount.type.toUpperCase()" nbTooltipStatus="warning" nbTooltipPlacement="bottom"
+      *ngIf="business.posAccount.status.code >= 100 && business.posAccount.status.code < 200" class="control-item"
+      icon="code-outline"></nb-action>
+
+    <nb-action [nbTooltip]="business.posAccount.status.name + ' to ' + business.posAccount.type.toUpperCase()" nbTooltipStatus="success" nbTooltipPlacement="bottom"
+      *ngIf="business.posAccount.status.code >= 200 && business.posAccount.status.code < 300" class="control-item"
+      icon="code-outline"></nb-action>
+
+    <nb-action [nbTooltip]="business.posAccount.status.name + ' to ' + business.posAccount.type.toUpperCase()" nbTooltipStatus="danger" nbTooltipPlacement="bottom"
+      *ngIf="business.posAccount.status.code >= 500" class="control-item" icon="code-outline"></nb-action>
+
+    <nb-action nbPopoverTrigger="click" nbPopoverPlacement="bottom" [nbPopover]="messageList" [nbPopoverContext]="{messages: messages, popOver: popOver, message$: message$}" *ngIf="unreadMessageCount > 0" class="control-item"
+      icon="bell-outline" [badgeText]="unreadMessageCount" badgePosition="top left" badgeStatus="info"></nb-action>
+    <nb-action nbPopoverTrigger="click" nbPopoverPlacement="bottom" [nbPopover]="messageList" *ngIf="unreadMessageCount == 0" class="control-item"
+      icon="bell-outline"></nb-action>
+
+
     <nb-action class="user-action">
       <nb-user  [nbContextMenu]="logOutMenu"
                 [onlyPicture]="businessPictureOnly"
-                [name]="business?.name"
+                [name]="business.profile.name"
                 [picture]="business?.photos.logo.smallUrl">
       </nb-user>
     </nb-action>

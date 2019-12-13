@@ -66,7 +66,7 @@ import { RecentCustomersComponent } from './recent-customers/recent-customers.co
     TransactionListComponent,
     CustomerFinderComponent,
     ActiveCustomersComponent,
-    RecentCustomersComponent
+    RecentCustomersComponent,
   ]
 })
 export class ComponentsModule {}

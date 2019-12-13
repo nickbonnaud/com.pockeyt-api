@@ -1,0 +1,17 @@
+<form class="form" [formGroup]="messageForm" (ngSubmit)="submitMessage()">
+  <label for="title">Subject:</label>
+  <input [status]="messageForm.get('title').touched ? (messageForm.get('title').invalid ? 'danger' : 'success') : ''" nbInput size="medium" id="title" type="text" formControlName="title">
+  <ng-container *ngIf="messageForm.get('title').invalid && messageForm.get('title').touched">
+    <p class="caption status-danger" *ngIf="!!messageForm.get('title').errors?.required">Subject is Required!</p>
+    <p class="caption status-danger" *ngIf="!!messageForm.get('title').errors?.minlength">Subject must be longer!</p>
+  </ng-container>
+
+  <label class="text-label" for="body">Message:</label>
+  <textarea [status]="messageForm.get('body').touched ? (messageForm.get('body').invalid ? 'danger' : 'success') : ''" nbInput id="body" formControlName="body"></textarea>
+  <ng-container *ngIf="messageForm.get('body').invalid && messageForm.get('body').touched">
+    <p class="caption status-danger" *ngIf="!!messageForm.get('body').errors?.required">Message is Required!</p>
+    <p class="caption status-danger" *ngIf="!!messageForm.get('body').errors?.minlength">Message must be longer!</p>
+  </ng-container>
+
+  <button type="submit" [disabled]="messageForm.invalid || loading" class="mt-20" nbButton status="success" fullWidth>Submit</button>
+</form>

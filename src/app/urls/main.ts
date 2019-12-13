@@ -22,7 +22,9 @@ export const urls = {
     customers: `${environment.base_url}/api/business/customers`,
 
     transactions: `${environment.base_url}/api/business/transactions`,
-    transaction_status: `${environment.base_url}/api/business/status/transaction`
+    transaction_status: `${environment.base_url}/api/business/status/transaction`,
+
+    messages: `${environment.base_url}/api/business/message`,
   },
 
   oauth: {

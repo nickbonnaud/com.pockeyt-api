@@ -1,0 +1,19 @@
+<nb-card class="scroll popover-card">
+  <nb-card-header>
+    <span class="float-r">
+      <button (click)="createNewMessage()" nbButton status="primary" shape="round" size="small">
+        <nb-icon icon="edit-outline"></nb-icon>New Message
+      </button>
+    </span>
+    <span>Messages</span>
+  </nb-card-header>
+  <nb-list nbInfiniteList [threshold]="500" (bottomThreshold)="fetchMoreMessages()">
+    <nb-list-item *ngFor="let message of messages; trackBy: trackByFn" (click)="viewMessageStream(message)">
+      <span class="date text-hint">{{ message.updatedAt | date:"short" }}</span>
+      <span [ngClass]="!message.read || message.unreadReply ? 'text-link' : 'text-hint'">{{ message.title }}</span>
+    </nb-list-item>
+  </nb-list>
+  <nb-card-footer class="text-c">
+    <button size="large" nbButton status="primary" (click)="closeMessageList()">Close</button>
+  </nb-card-footer>
+</nb-card>

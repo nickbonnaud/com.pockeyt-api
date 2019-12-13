@@ -14,12 +14,14 @@ import { Owner } from '../models/business/owner';
 import { environment } from 'src/environments/environment';
 import { MockInterceptor } from '../interceptors/mock-interceptor';
 import { BodyInterceptor } from '../interceptors/body-Interceptor';
+import { Status } from '../models/other-data/status';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BusinessService {
   business$: BehaviorSubject<Business> = new BehaviorSubject<Business>(this.newBusiness());
+
   constructor(private mockData: MockInterceptor, private bodyMutator: BodyInterceptor) {
     if (!environment.production) {
       this.createTestBusiness();
@@ -54,6 +56,13 @@ export class BusinessService {
     let posAccount: any = this.mockData.getPos();
     posAccount = this.bodyMutator.toCamelCase(posAccount);
     this.updatePosAccount(posAccount);
+
+    let accountStatus: Status =  {
+      name: 'Account Active',
+      code: 200
+    }
+
+    this.updateAccountStatus(accountStatus);
    }
 
   updateBusiness(business: Business): void {
@@ -76,6 +85,12 @@ export class BusinessService {
     accounts.ownerAccounts = owners;
     accounts.bankAccount = bank;
     this.updateBusiness(Object.assign(this.business$.value, { accounts: accounts }));
+  }
+
+  updateAccountStatus(status: Status): void {
+    let accounts: Accounts = this.business$.value.accounts;
+    accounts.accountStatus = status;
+    this.updateBusiness(Object.assign(this.business$.value, {accounts: accounts}))
   }
 
   updatePosAccount(posAccount: PosAccount): void {
