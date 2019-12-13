@@ -44,7 +44,6 @@ export class CustomerListComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   fetchCustomers(url: string): void {
-    console.log(url);
     if (!this.loading) {
       this.loading = true;
       this.api

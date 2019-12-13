@@ -1,0 +1,37 @@
+@import '~bootstrap/scss/mixins/breakpoints';
+@import '~@nebular/theme/styles/global/breakpoints';
+@import '../../styles/themes';
+
+@include nb-install-component() {
+  nb-chat {
+    margin: 3rem auto 0;
+    width: 500px;
+
+  }
+
+  .chat-container {
+    margin-bottom: 2rem;
+  }
+
+  @include media-breakpoint-down(xxl) {
+    nb-chat {
+      width: 400px;
+    }
+  }
+
+  @include media-breakpoint-down(md) {
+    nb-chat {
+      width: 400px;
+    }
+
+    .chart-description {
+      width: 90%;
+    }
+  }
+
+  @include media-breakpoint-down(is) {
+    nb-chat {
+      width: 300px;
+    }
+  }
+}

@@ -8,7 +8,7 @@
     <span>Messages</span>
   </nb-card-header>
   <nb-list nbInfiniteList [threshold]="500" (bottomThreshold)="fetchMoreMessages()">
-    <nb-list-item *ngFor="let message of messages; trackBy: trackByFn" (click)="viewMessageStream(message)">
+    <nb-list-item class="clickable" *ngFor="let message of messages; trackBy: trackByFn" (click)="viewMessageStream(message)">
       <span class="date text-hint">{{ message.updatedAt | date:"short" }}</span>
       <span [ngClass]="!message.read || message.unreadReply ? 'text-link' : 'text-hint'">{{ message.title }}</span>
     </nb-list-item>

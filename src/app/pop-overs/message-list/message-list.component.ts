@@ -1,9 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Message } from 'src/app/models/other-data/message';
 import { NbPopoverDirective, NbWindowService, NbWindowRef } from '@nebular/theme';
 import { Subject } from 'rxjs/internal/Subject';
 import { NewMessageWindowComponent } from 'src/app/windows/new-message-window/new-message-window.component';
 import { Reply } from 'src/app/models/other-data/reply';
+import { ChatWindowComponent } from 'src/app/windows/chat-window/chat-window.component';
 
 @Component({
   selector: "app-message-list",
@@ -14,6 +15,7 @@ export class MessageListComponent {
   @Input() messages: Message[];
   @Input() popOver: NbPopoverDirective;
   @Input() message$: Subject<Message>;
+  @Input() fetchMoreMessages$: Subject<boolean>;
 
   constructor(private windowService: NbWindowService) {}
 
@@ -28,11 +30,10 @@ export class MessageListComponent {
     );
     windowRef$.next(windowRef);
     windowRef$.unsubscribe();
-    this.popOver.hide();
+    this.closeMessageList()
   }
 
   unreadResponse(message: Message): boolean {
-    console.log(message);
     const unreadMessage: boolean = !message.read && !message.sentByBusiness;
 
     let unreadReply: boolean = false;
@@ -46,9 +47,20 @@ export class MessageListComponent {
     return unreadMessage || unreadReply;
   }
 
-  viewMessageStream(message: Message): void {}
+  viewMessageStream(message: Message): void {
+    this.windowService.open(
+      ChatWindowComponent,
+      {
+        title: `${message.title.substring(0,20)}...`,
+        context: { message: message, message$: this.message$ }
+      }
+    );
+    this.closeMessageList();
+  }
 
-  fetchMoreMessages(): void {}
+  fetchMoreMessages(): void {
+    this.fetchMoreMessages$.next(true);
+  }
 
   trackByFn(index: number, message: Message): number {
     if (!message) {

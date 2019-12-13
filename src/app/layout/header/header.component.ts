@@ -11,6 +11,7 @@ import { Message } from 'src/app/models/other-data/message';
 import { urls } from 'src/app/urls/main';
 import { Reply } from 'src/app/models/other-data/reply';
 import { MessageListComponent } from 'src/app/pop-overs/message-list/message-list.component';
+import { PaginatorService } from 'src/app/services/paginator.service';
 
 
 @Component({
@@ -23,6 +24,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private destroy$: Subject<void> = new Subject<void>();
   message$: Subject<Message> = new Subject<Message>();
+  fetchMoreMessages$: Subject<boolean> = new Subject<boolean>();
 
   loading: boolean = false;
   BASE_URL: string;
@@ -32,7 +34,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   businessPictureOnly = false;
 
   business: Business;
-  messages: Message[];
+  messages: Message[] = [];
   unreadMessageCount: number;
 
   messageList = MessageListComponent;
@@ -45,7 +47,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     private menuService: NbMenuService,
     private businessService: BusinessService,
     private api: ApiService,
-    private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef,
+    private paginator: PaginatorService
   ) {}
 
   ngOnInit(): void {
@@ -63,24 +66,34 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.watchBusiness();
     this.watchMessages();
-    this.fetchMessages();
+    this.watchGetMoreMessages();
+    this.fetchMessages(this.BASE_URL);
   }
 
   ngAfterViewInit(): void {
     this.ref.detectChanges();
   }
 
-  fetchMessages(): void {
+  fetchMessages(url: string): void {
     if (!this.loading) {
       this.loading = true;
       this.api
-        .get<Message[]>(this.BASE_URL)
+        .get<Message[]>(url)
         .pipe(takeUntil(this.destroy$))
         .subscribe((messages: Message[]) => {
-          this.messages = messages;
+          this.messages.push(...messages);
           this.setMessageBadge();
           this.loading = false;
         });
+    }
+  }
+
+  fetchMoreMessages(): void {
+    if (!this.loading) {
+      const nextUrl: string = this.paginator.getNextUrl(this.BASE_URL);
+      if (nextUrl != undefined) {
+        this.fetchMessages(nextUrl);
+      }
     }
   }
 
@@ -107,6 +120,17 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     return (unreadMessage || unreadReply);
   }
 
+  watchGetMoreMessages(): void {
+    this.fetchMoreMessages$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((fetchMore: boolean) => {
+        if (fetchMore) {
+          this.fetchMoreMessages();
+        }
+      })
+  }
+
+
   watchBusiness(): void {
     this.businessService.business$
       .pipe(takeUntil(this.destroy$))
@@ -118,15 +142,21 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   watchMessages(): void {
     this.message$
       .pipe(takeUntil(this.destroy$))
-      .subscribe((message: Message) => {
-        this.messages.unshift(message);
+      .subscribe((newMessage: Message) => {
+        const index: number = this.messages.findIndex((message: Message) => {
+          return newMessage.identifier == message.identifier;
+        });
+        index >= 0
+          ? (this.messages[index] = newMessage)
+          : this.messages.unshift(newMessage);
       });
   }
 
   ngOnDestroy(): void {
+    this.message$.unsubscribe();
+    this.fetchMoreMessages$.unsubscribe();
     this.destroy$.next();
     this.destroy$.complete();
-    this.message$.unsubscribe();
   }
 
   toggleSidebar(): boolean {

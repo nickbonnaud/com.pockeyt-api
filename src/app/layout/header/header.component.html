@@ -36,8 +36,10 @@
     <nb-action [nbTooltip]="business.posAccount.status.name + ' to ' + business.posAccount.type.toUpperCase()" nbTooltipStatus="danger" nbTooltipPlacement="bottom"
       *ngIf="business.posAccount.status.code >= 500" class="control-item" icon="code-outline"></nb-action>
 
-    <nb-action nbPopoverTrigger="click" nbPopoverPlacement="bottom" [nbPopover]="messageList" [nbPopoverContext]="{messages: messages, popOver: popOver, message$: message$}" *ngIf="unreadMessageCount > 0" class="control-item"
-      icon="bell-outline" [badgeText]="unreadMessageCount" badgePosition="top left" badgeStatus="info"></nb-action>
+    <nb-action nbPopoverTrigger="click" nbPopoverPlacement="bottom" [nbPopover]="messageList"
+      [nbPopoverContext]="{messages: messages, popOver: popOver, message$: message$, fetchMoreMessages$: fetchMoreMessages$}"
+      *ngIf="unreadMessageCount > 0" class="control-item" icon="bell-outline" [badgeText]="unreadMessageCount"
+      badgePosition="top left" badgeStatus="info"></nb-action>
     <nb-action nbPopoverTrigger="click" nbPopoverPlacement="bottom" [nbPopover]="messageList" *ngIf="unreadMessageCount == 0" class="control-item"
       icon="bell-outline"></nb-action>
 

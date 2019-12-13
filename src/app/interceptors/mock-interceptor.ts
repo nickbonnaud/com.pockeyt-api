@@ -98,6 +98,10 @@ const responses = [
   {
     url: urls.business.messages,
     body: "Messages"
+  },
+  {
+    url: urls.business.replies,
+    body: "Replies"
   }
 ];
 
@@ -164,7 +168,6 @@ export class MockInterceptor implements HttpInterceptor {
   private postMessages(req: HttpRequest<any>) {
     let message = req.body;
     message['identifier'] = 'fake_identifier';
-    message['sent_by_business'] = true;
     message['read'] = true;
     message["read_by_admin"] = false;
     message['unread_reply'] = false;
@@ -174,6 +177,16 @@ export class MockInterceptor implements HttpInterceptor {
 
 
     return message;
+  }
+
+  private postReplies(req: HttpRequest<any>) {
+    let reply = req.body;
+    reply["identifier"] = "fake_identifier";
+    reply["read"] = true;
+    reply["read_by_admin"] = false;
+    reply["created_at"] = Date().toString();
+    reply["updated_at"] = Date().toString();
+    return reply;
   }
 
   private getMessages(req: HttpRequest<any> = null) {

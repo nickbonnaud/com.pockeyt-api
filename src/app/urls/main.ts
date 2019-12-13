@@ -25,6 +25,7 @@ export const urls = {
     transaction_status: `${environment.base_url}/api/business/status/transaction`,
 
     messages: `${environment.base_url}/api/business/message`,
+    replies: `${environment.base_url}/api/business/reply`
   },
 
   oauth: {

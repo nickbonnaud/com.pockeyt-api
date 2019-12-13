@@ -1,0 +1,22 @@
+<div class="chat-container">
+  <nb-chat [title]="message.title" size="small" status="primary">
+    <nb-chat-message
+      type="text"
+      [message]="message.body"
+      [reply]="!message.sentByBusiness"
+      [sender]="message.sentByBusiness ? business.profile.name : adminReplyName"
+      [date]="message.createdAt">
+    </nb-chat-message>
+    <nb-chat-message *ngFor="let reply of message.replies"
+      type="text"
+      [message]="reply.body"
+      [reply]="!reply.sentByBusiness"
+      [sender]="reply.sentByBusiness ? business.profile.name : adminReplyName"
+      [date]="reply.createdAt">
+    </nb-chat-message>
+
+    <nb-chat-form (send)="send($event)"
+      dropFiles="false">
+    </nb-chat-form>
+  </nb-chat>
+</div>

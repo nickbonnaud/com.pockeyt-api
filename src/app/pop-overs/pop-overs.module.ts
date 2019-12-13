@@ -4,6 +4,7 @@ import { MessageListComponent } from './message-list/message-list.component';
 import { NbCardModule, NbButtonModule, NbListModule, NbIconModule, NbWindowModule, NbInputModule } from '@nebular/theme';
 import { NewMessageWindowComponent } from '../windows/new-message-window/new-message-window.component';
 import { WindowsModule } from '../windows/windows.module';
+import { ChatWindowComponent } from '../windows/chat-window/chat-window.component';
 
 
 
@@ -18,7 +19,7 @@ import { WindowsModule } from '../windows/windows.module';
     WindowsModule,
     NbWindowModule.forChild()
   ],
-  entryComponents: [NewMessageWindowComponent],
+  entryComponents: [NewMessageWindowComponent, ChatWindowComponent],
   exports: [MessageListComponent]
 })
 export class PopOversModule {}

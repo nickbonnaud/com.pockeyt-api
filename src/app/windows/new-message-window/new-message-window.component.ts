@@ -46,11 +46,14 @@ export class NewMessageWindowComponent implements OnInit, OnDestroy {
   submitMessage(): void {
     if (!this.loading) {
       this.loading = true;
+      let formData = this.messageForm.value;
+      formData["sentByBusiness"] = true;
       this.api
-        .post<Message>(this.BASE_URL, this.messageForm.value)
+        .post<Message>(this.BASE_URL, formData)
         .pipe(takeUntil(this.destroyed$))
         .subscribe((message: Message) => {
           this.message$.next(message);
+          this.loading = false;
           this.ref.close();
         });
     }
