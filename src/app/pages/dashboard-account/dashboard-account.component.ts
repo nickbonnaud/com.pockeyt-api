@@ -112,7 +112,7 @@ export class DashboardAccountComponent implements OnInit, OnDestroy {
       this.loading = true;
       const formData = { password: this.accountForm.get("password").value };
       return this.api
-        .post<any>(urls.auth.verify, formData)
+        .post<any>(urls.auth.verify, formData, this.business.identifier)
         .pipe(takeUntil(this.destroyed$));
     }
   }

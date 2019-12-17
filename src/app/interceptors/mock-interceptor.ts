@@ -110,6 +110,10 @@ const responses = [
   {
     url: urls.business.business_update,
     body: "Business"
+  },
+  {
+    url: urls.auth.logout,
+    body:'Logout'
   }
 ];
 
@@ -179,6 +183,21 @@ export class MockInterceptor implements HttpInterceptor {
         password_verified: true
       }
     };
+  }
+
+  private getLogout(req: HttpRequest<any>) {
+    return {
+      data: {
+        token: {
+          value: null,
+          expiry: null
+        }
+      },
+      errors: {
+        email:  [],
+        password:  []
+      }
+    }
   }
 
   private patchBusiness(req: HttpRequest<any>) {

@@ -13,6 +13,7 @@ import { Reply } from 'src/app/models/other-data/reply';
 import { MessageListComponent } from 'src/app/pop-overs/message-list/message-list.component';
 import { PaginatorService } from 'src/app/services/paginator.service';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 
 @Component({
@@ -33,8 +34,9 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   ]
   contextMenuTag = 'context_menu';
 
-  loading: boolean = false;
-  BASE_URL: string;
+  loadingMessages: boolean = false;
+  loadingLogout: boolean = false;
+  BASE_URL_MESSAGES: string;
 
   appName: string = environment.app_name;
   businessPictureOnly = false;
@@ -55,11 +57,12 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     private api: ApiService,
     private ref: ChangeDetectorRef,
     private paginator: PaginatorService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
-    this.BASE_URL = urls.business.messages;
+    this.BASE_URL_MESSAGES = urls.business.messages;
     const { xl } = this.breakPointService.getBreakpointsMap();
     this.themeService
       .onMediaQueryChange()
@@ -75,7 +78,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     this.watchBusiness();
     this.watchMessages();
     this.watchGetMoreMessages();
-    this.fetchMessages(this.BASE_URL);
+    this.fetchMessages(this.BASE_URL_MESSAGES);
   }
 
   ngAfterViewInit(): void {
@@ -96,31 +99,46 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
             );
             break;
           case this.contextMenuItems[1].title:
-            // Logout user
+            this.logout();
           default:
             break;
         }
       });
   }
 
+  logout(): void {
+    if (!this.loadingLogout) {
+      this.loadingLogout = true;
+      this.api
+        .get<any>(urls.auth.logout)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((res: any) => {
+          if (res.token.value == null) {
+            this.loadingLogout = false;
+            this.router.navigateByUrl("/auth/login");
+          }
+        });
+    }
+  }
+
 
   fetchMessages(url: string): void {
-    if (!this.loading) {
-      this.loading = true;
+    if (!this.loadingMessages) {
+      this.loadingMessages = true;
       this.api
         .get<Message[]>(url)
         .pipe(takeUntil(this.destroy$))
         .subscribe((messages: Message[]) => {
           this.messages.push(...messages);
           this.setMessageBadge();
-          this.loading = false;
+          this.loadingMessages = false;
         });
     }
   }
 
   fetchMoreMessages(): void {
-    if (!this.loading) {
-      const nextUrl: string = this.paginator.getNextUrl(this.BASE_URL);
+    if (!this.loadingMessages) {
+      const nextUrl: string = this.paginator.getNextUrl(this.BASE_URL_MESSAGES);
       if (nextUrl != undefined) {
         this.fetchMessages(nextUrl);
       }
@@ -187,6 +205,10 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     this.fetchMoreMessages$.unsubscribe();
     this.destroy$.next();
     this.destroy$.complete();
+
+    this.paginator.removePageData(this.BASE_URL_MESSAGES);
+    this.businessService.updateBusiness(undefined);
+    this.authService.setToken(undefined);
   }
 
   toggleSidebar(): boolean {
