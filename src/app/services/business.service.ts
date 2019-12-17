@@ -29,7 +29,10 @@ export class BusinessService {
    }
 
    createTestBusiness(): void {
-    this.updateBusiness(this.newBusiness());
+    let business: Business = this.newBusiness();
+    business.email = 'fake_email@gmail.com';
+    business.identifier = 'fake_id';
+    this.updateBusiness(business);
     let profile: any = this.mockData.getProfile()["data"];
     profile = this.bodyMutator.toCamelCase(profile);
     this.updateProfile(profile);

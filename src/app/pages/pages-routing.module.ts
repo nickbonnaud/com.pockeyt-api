@@ -12,6 +12,7 @@ import { OwnersComponent } from './owners/owners.component';
 import { BankComponent } from './bank/bank.component';
 import { GeoFenceComponent } from './geo-fence/geo-fence.component';
 import { PosComponent } from './pos/pos.component';
+import { DashboardAccountComponent } from './dashboard-account/dashboard-account.component';
 
 
 const routes: Routes = [{
@@ -61,6 +62,10 @@ const routes: Routes = [{
     {
       path: 'account/pos-account',
       component: PosComponent
+    },
+    {
+      path: 'account/settings',
+      component: DashboardAccountComponent
     },
     {
       path: '',

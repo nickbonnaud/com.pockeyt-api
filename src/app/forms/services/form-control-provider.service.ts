@@ -14,6 +14,7 @@ import { numberValidator } from '../validators/number-validator';
 import { percentOwnValidator } from '../validators/percent-own-validator';
 import { requiredFileType } from '../validators/required-file-type';
 import { PosType } from 'src/app/models/other-data/pos-type';
+import { passwordMatchValidator } from "../validators/password-match-validator";
 
 @Injectable({
   providedIn: AppFormsModule

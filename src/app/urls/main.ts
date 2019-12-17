@@ -4,10 +4,12 @@ export const urls = {
   auth: {
     register: `${environment.base_url}/api/business/auth/register`,
     login: `${environment.base_url}/api/business/auth/login`,
-    logout: `${environment.base_url}/api/business/auth/logout`
+    logout: `${environment.base_url}/api/business/auth/logout`,
+    verify: `${environment.base_url}/api/business/auth/verify`
   },
 
   business: {
+    business_update: `${environment.base_url}/api/business/me`,
     profile_store_get: `${environment.base_url}/api/business/profile`,
     photos_store: `${environment.base_url}/api/business/photos`,
     account_store_patch: `${environment.base_url}/api/business/payfac/business`,

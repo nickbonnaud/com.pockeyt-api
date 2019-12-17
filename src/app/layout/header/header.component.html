@@ -45,7 +45,8 @@
 
 
     <nb-action class="user-action">
-      <nb-user  [nbContextMenu]="logOutMenu"
+      <nb-user  [nbContextMenu]="contextMenuItems"
+                [nbContextMenuTag]="contextMenuTag"
                 [onlyPicture]="businessPictureOnly"
                 [name]="business.profile.name"
                 [picture]="business?.photos.logo.smallUrl">

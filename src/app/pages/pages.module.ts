@@ -16,6 +16,8 @@ import { WarningDialogComponent } from '../dialogs/warning-dialog/warning-dialog
 import { BankModule } from './bank/bank.module';
 import { GeoFenceModule } from './geo-fence/geo-fence.module';
 import { PosModule } from './pos/pos.module';
+import { DashboardAccountComponent } from './dashboard-account/dashboard-account.component';
+import { DashboardAccountModule } from './dashboard-account/dashboard-account.module';
 
 
 
@@ -36,6 +38,7 @@ import { PosModule } from './pos/pos.module';
     GeoFenceModule,
     PosModule,
     OnBoardModule,
+    DashboardAccountModule,
     NbMenuModule.forRoot()
   ],
   entryComponents: [WarningDialogComponent]

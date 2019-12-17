@@ -11,4 +11,8 @@ export class AuthService {
   getToken(): Token {
     return this.token;
   }
+
+  setToken(token: Token): void {
+    this.token = token;
+  }
 }

@@ -102,6 +102,14 @@ const responses = [
   {
     url: urls.business.replies,
     body: "Replies"
+  },
+  {
+    url: urls.auth.verify,
+    body: "Verify"
+  },
+  {
+    url: urls.business.business_update,
+    body: "Business"
   }
 ];
 
@@ -165,16 +173,36 @@ export class MockInterceptor implements HttpInterceptor {
     return { ...req.body, identifier: "fake_identifier" };
   }
 
+  private postVerify(req: HttpRequest<any>) {
+    return {
+      data: {
+        password_verified: true
+      }
+    };
+  }
+
+  private patchBusiness(req: HttpRequest<any>) {
+    return {
+      data: {
+        identifier: "fake_identifier",
+        email: req.body.email,
+        token: {
+          value: "token_value",
+          expiry: Date().toString()
+        }
+      }
+    };
+  }
+
   private postMessages(req: HttpRequest<any>) {
     let message = req.body;
-    message['identifier'] = 'fake_identifier';
-    message['read'] = true;
+    message["identifier"] = "fake_identifier";
+    message["read"] = true;
     message["read_by_admin"] = false;
-    message['unread_reply'] = false;
-    message['created_at'] = Date().toString();
-    message['updated_at'] = Date().toString();
-    message['replies'] = [];
-
+    message["unread_reply"] = false;
+    message["created_at"] = Date().toString();
+    message["updated_at"] = Date().toString();
+    message["replies"] = [];
 
     return message;
   }

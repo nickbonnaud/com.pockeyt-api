@@ -3,7 +3,7 @@ import { Business } from './../../models/business/business';
 import { environment } from 'src/environments/environment';
 import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { NbSidebarService, NbMediaBreakpointsService, NbThemeService, NbMenuService, NbPopoverDirective } from '@nebular/theme';
-import { map, takeUntil } from 'rxjs/operators';
+import { map, takeUntil, filter } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { BusinessService } from 'src/app/services/business.service';
 import { ApiService } from 'src/app/services/api.service';
@@ -12,6 +12,7 @@ import { urls } from 'src/app/urls/main';
 import { Reply } from 'src/app/models/other-data/reply';
 import { MessageListComponent } from 'src/app/pop-overs/message-list/message-list.component';
 import { PaginatorService } from 'src/app/services/paginator.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -26,11 +27,16 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   message$: Subject<Message> = new Subject<Message>();
   fetchMoreMessages$: Subject<boolean> = new Subject<boolean>();
 
+  contextMenuItems = [
+    { title: 'Dashboard Settings' },
+    { title: 'Logout' }
+  ]
+  contextMenuTag = 'context_menu';
+
   loading: boolean = false;
   BASE_URL: string;
 
   appName: string = environment.app_name;
-  logOutMenu = [{ title: "Log out" }];
   businessPictureOnly = false;
 
   business: Business;
@@ -48,7 +54,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     private businessService: BusinessService,
     private api: ApiService,
     private ref: ChangeDetectorRef,
-    private paginator: PaginatorService
+    private paginator: PaginatorService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -64,6 +71,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         (isLessThanXl: boolean) => (this.businessPictureOnly = isLessThanXl)
       );
 
+    this.watchMenuService();
     this.watchBusiness();
     this.watchMessages();
     this.watchGetMoreMessages();
@@ -73,6 +81,28 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   ngAfterViewInit(): void {
     this.ref.detectChanges();
   }
+
+  watchMenuService(): void {
+    this.menuService.onItemClick()
+      .pipe(
+        filter(({ tag }) => tag === this.contextMenuTag),
+        map(({ item: { title } }) => title),
+        takeUntil(this.destroy$)
+      ).subscribe((title: string) => {
+        switch (title) {
+          case this.contextMenuItems[0].title:
+            this.router.navigateByUrl(
+              `/dashboard/account/settings`
+            );
+            break;
+          case this.contextMenuItems[1].title:
+            // Logout user
+          default:
+            break;
+        }
+      });
+  }
+
 
   fetchMessages(url: string): void {
     if (!this.loading) {

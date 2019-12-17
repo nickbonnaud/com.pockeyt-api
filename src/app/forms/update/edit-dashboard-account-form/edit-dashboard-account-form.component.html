@@ -1,0 +1,68 @@
+<div [formGroup]="parentFormGroup">
+
+  <ng-container *ngIf="formLocked">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="form-group">
+            <input [status]="passwordControl.touched ? (passwordControl.invalid  ? 'danger' : 'success') : ''" nbInput
+              fullWidth shape="round" id="password" type="password" placeholder="Current Password"
+              formControlName="password">
+            <ng-container *ngIf="passwordControl.invalid && passwordControl.touched">
+              <p class="caption status-danger" *ngIf="!!passwordControl.errors?.required">Password is required!</p>
+              <p class="caption status-danger" *ngIf="!!passwordControl.errors?.minlength">Password must be at least 6
+                characters!</p>
+              <p class="caption status-danger" *ngIf="!!passwordControl.errors?.maxlength">Password cannot be longer than 50
+                characters!</p>
+              <p class="caption status-danger" *ngIf="!!passwordControl.errors?.pattern">Must have at least 1 number, 1 uppercase, and
+                1 special character!</p>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+  </ng-container>
+
+  <ng-container *ngIf="!formLocked">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <input [status]="emailControl.touched ? (emailControl.invalid  ? 'danger' : 'success') : ''" nbInput fullWidth
+            shape="round" id="email" type="email" placeholder="Login Email" formControlName="email">
+          <ng-container *ngIf="emailControl.invalid && emailControl.touched">
+            <p class="caption status-danger" *ngIf="!!emailControl.errors?.required">Email is required!</p>
+            <p class="caption status-danger" *ngIf="!!emailControl.errors?.email">Email must be a valid email address</p>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="form-group">
+          <input [status]="newPasswordControl.touched ? (newPasswordControl.invalid  ? 'danger' : 'success') : ''" nbInput
+            fullWidth shape="round" id="newPassword" type="password" placeholder="New Password"
+            formControlName="newPassword">
+          <ng-container *ngIf="newPasswordControl.invalid && newPasswordControl.touched">
+            <p class="caption status-danger" *ngIf="!!newPasswordControl.errors?.required">New Password is required!</p>
+            <p class="caption status-danger" *ngIf="!!newPasswordControl.errors?.minlength">Password must be at least 6
+              characters!</p>
+            <p class="caption status-danger" *ngIf="!!newPasswordControl.errors?.maxlength">Password cannot be longer than
+              50 characters!</p>
+            <p class="caption status-danger" *ngIf="!!newPasswordControl.errors?.pattern">Must have at least 1 number, 1 uppercase, and
+            1 special character!</p>
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="col-sm-6">
+        <div class="form-group">
+          <input [status]="newPasswordMatchControl.touched ? (parentFormGroup.invalid  ? 'danger' : 'success') : ''"
+            nbInput fullWidth shape="round" id="newPasswordMatch" type="password" placeholder="Confirm new Password"
+            formControlName="newPasswordMatch">
+          <ng-container *ngIf="parentFormGroup.invalid && newPasswordMatchControl.touched">
+            <p class="caption status-danger" *ngIf="!!parentFormGroup.errors?.match">Passwords do not match!</p>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>

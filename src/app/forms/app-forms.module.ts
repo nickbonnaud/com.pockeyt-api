@@ -19,6 +19,7 @@ import { MapFormComponent } from './register/map-form/map-form.component';
 import { EditOwnerComponent } from './update/edit-owner/edit-owner.component';
 import { EditBankFormComponent } from './update/edit-bank-form/edit-bank-form.component';
 import { EditPosFormComponent } from './update/edit-pos-form/edit-pos-form.component';
+import { EditDashboardAccountFormComponent } from './update/edit-dashboard-account-form/edit-dashboard-account-form.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { EditPosFormComponent } from './update/edit-pos-form/edit-pos-form.compo
     MapFormComponent,
     EditOwnerComponent,
     EditBankFormComponent,
-    EditPosFormComponent
+    EditPosFormComponent,
+    EditDashboardAccountFormComponent
   ],
   entryComponents: [ConfirmOrCancelDialogComponent, OwnerListDialogComponent],
   imports: [
@@ -60,7 +62,8 @@ import { EditPosFormComponent } from './update/edit-pos-form/edit-pos-form.compo
     PosFormComponent,
     EditOwnerComponent,
     EditBankFormComponent,
-    EditPosFormComponent
+    EditPosFormComponent,
+    EditDashboardAccountFormComponent
   ]
 })
 export class AppFormsModule {}
