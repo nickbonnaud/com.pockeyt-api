@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DashboardAccountComponent } from './dashboard-account.component';
-import { NbCardModule, NbButtonModule } from '@nebular/theme';
+import { NbCardModule, NbButtonModule, NbSpinnerModule } from '@nebular/theme';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppFormsModule } from 'src/app/forms/app-forms.module';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
@@ -16,6 +16,7 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     NbButtonModule,
     ReactiveFormsModule,
     AppFormsModule,
+    NbSpinnerModule,
     SweetAlert2Module.forChild()
   ]
 })

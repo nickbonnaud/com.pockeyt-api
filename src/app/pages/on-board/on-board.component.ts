@@ -16,6 +16,7 @@ import { Subject, Observable, forkJoin } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Business } from 'src/app/models/business/business';
 import { environment } from 'src/environments/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-on-board',
@@ -24,6 +25,8 @@ import { environment } from 'src/environments/environment';
 })
 export class OnBoardComponent implements OnInit, OnDestroy {
   private destroyed$: Subject<boolean> = new Subject<boolean>();
+
+  loading: boolean = true;
 
   profileForm: FormGroup;
   businessForm: FormGroup;
@@ -40,7 +43,8 @@ export class OnBoardComponent implements OnInit, OnDestroy {
     private fcProvider: FormControlProviderService,
     private api: ApiService,
     private businessService: BusinessService,
-    private auth: AuthService
+    private auth: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -56,7 +60,6 @@ export class OnBoardComponent implements OnInit, OnDestroy {
   }
 
   goToPhotos(): void {
-    this.redirectToOauth();
     this.currentStep = 'photos';
   }
 
@@ -109,6 +112,7 @@ export class OnBoardComponent implements OnInit, OnDestroy {
   }
 
   finishOnboard(): void {
+    this.loading = true;
     forkJoin([
       this.storeProfile(),
       this.storeBusinessData(),
@@ -124,6 +128,7 @@ export class OnBoardComponent implements OnInit, OnDestroy {
         this.submitPhotos(data[0])
           .pipe(takeUntil(this.destroyed$))
           .subscribe((logoBannerPhotos: [Photos, Photos]) => {
+            this.loading = false;
             this.updatePhotos(logoBannerPhotos);
             this.redirectToOauth();
           });
@@ -132,8 +137,13 @@ export class OnBoardComponent implements OnInit, OnDestroy {
 
   redirectToOauth(): void {
     const posType: string = this.posForm.get('type').value;
-    const url: string = `${urls.oauth[posType]}&state=${this.auth.getToken()}`
-    window.location.href = url;
+    let url: string = urls.oauth[posType];
+    if (url != undefined) {
+      url = `${url}&state=${this.auth.getToken()}`;
+      window.location.href = url;
+    } else {
+      this.router.navigate([`/dashboard/home`], { queryParams: {oauth: 'success'}});
+    }
   }
 
   storeBusinessData(): Observable<[BusinessAccount, Owner[], Bank]> {
@@ -175,11 +185,15 @@ export class OnBoardComponent implements OnInit, OnDestroy {
   }
 
   submitPhotos(profile: Profile): Observable<[Photos, Photos]> {
-    let logoData = this.photosForm.get('logo').value;
-    logoData['is_logo'] = true;
+    const logoData: any = {
+      photo: this.photosForm.get("logo").value,
+      isLogo: true
+    };
 
-    let bannerData = this.photosForm.get('banner').value;
-    bannerData['is_logo'] = false;
+    const bannerData: any = {
+      photo: this.photosForm.get("banner").value,
+      isLogo: false
+    };
 
     return forkJoin([
       this.postPhoto(logoData, profile.identifier),

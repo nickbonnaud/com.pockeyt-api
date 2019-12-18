@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PosComponent } from './pos.component';
 import { AppFormsModule } from 'src/app/forms/app-forms.module';
-import { NbCardModule, NbButtonModule } from '@nebular/theme';
+import { NbCardModule, NbButtonModule, NbSpinnerModule } from '@nebular/theme';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
     NbCardModule,
     NbButtonModule,
     ReactiveFormsModule,
+    NbSpinnerModule,
     CommonModule
   ]
 })

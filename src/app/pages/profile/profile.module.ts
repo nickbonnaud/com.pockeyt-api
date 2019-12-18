@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { ProfileComponent } from './profile.component';
 import { ComponentsModule } from 'src/app/components/components.module';
-import { NbCardModule, NbButtonModule } from '@nebular/theme';
+import { NbCardModule, NbButtonModule, NbSpinnerModule } from '@nebular/theme';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppFormsModule } from 'src/app/forms/app-forms.module';
 
@@ -14,6 +14,7 @@ import { AppFormsModule } from 'src/app/forms/app-forms.module';
     AppFormsModule,
     NbCardModule,
     NbButtonModule,
+    NbSpinnerModule,
     ReactiveFormsModule
   ]
 })

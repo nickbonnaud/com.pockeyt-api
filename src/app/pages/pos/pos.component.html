@@ -9,7 +9,7 @@
     <form [formGroup]="posForm" label="Pos Info">
       <edit-pos-form [parentFormGroup]="posForm"></edit-pos-form>
       <button nbButton (click)="toggleLock()">{{ formLocked ? 'Unlock' : 'Cancel' }}</button>
-      <button nbButton class="float-r" [disabled]="posForm.invalid || formLocked" (click)="submit()">Submit</button>
+      <button [nbSpinner]="loading" nbButton class="float-r" [disabled]="posForm.invalid || formLocked" (click)="submit()">Submit</button>
     </form>
   </nb-card-body>
 </nb-card>

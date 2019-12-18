@@ -19,13 +19,13 @@
         <form *ngIf="showIDForm" class="form-inline" [formGroup]="idFinderForm" (ngSubmit)="doSearchId()">
           <input type="text" nbInput fullWidth shape="round" placeholder="Find by ID" formControlName="customerId"
             mask="A{8}-A{4}-A{4}-A{4}-A{12}" [dropSpecialCharacters]="false">
-          <button [disabled]="idFinderForm.invalid || loading" type="submit" nbButton status="primary">Search</button>
+          <button [nbSpinner]="loading" [disabled]="idFinderForm.invalid || loading" type="submit" nbButton status="primary">Search</button>
         </form>
 
         <form *ngIf="!showIDForm" class="form-inline" [formGroup]="nameFinderForm" (ngSubmit)="doSearchName()">
           <input type="text" nbInput fullWidth shape="round" placeholder="First Name" formControlName="firstName">
           <input type="text" nbInput fullWidth shape="round" placeholder="Last Name" formControlName="lastName">
-          <button [disabled]="nameFinderForm.invalid || loading" type="submit" nbButton status="primary">Search</button>
+          <button [nbSpinner]="loading" [disabled]="nameFinderForm.invalid || loading" type="submit" nbButton status="primary">Search</button>
         </form>
       </nb-card-body>
     </nb-card>

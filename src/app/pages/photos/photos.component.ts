@@ -57,20 +57,25 @@ export class PhotosComponent implements OnInit, OnDestroy {
     const isLogo: boolean = fileData.banner == undefined;
     if ((isLogo && this.photosForm.get('logo').valid) || (!isLogo && this.photosForm.get('banner').valid)) {
       let photoData = isLogo ? this.photosForm.get('logo').value : this.photosForm.get('banner').value;
-      photoData['is_logo'] = isLogo;
-      this.postPhoto(photoData);
+
+      this.postPhoto(photoData, isLogo);
     }
   }
 
-  postPhoto(photoData: any): void {
+  postPhoto(photoData: any, isLogo: boolean): void {
     if (!this.loading) {
       this.loading = true;
-      this.api.post<Photos>(this.BASE_URL, photoData, this.profile.identifier)
+      const photoFile: any = {
+        photo: photoData,
+        isLogo: isLogo
+      }
+      this.api
+        .post<Photos>(this.BASE_URL, photoFile, this.profile.identifier)
         .pipe(takeUntil(this.destroyed$))
         .subscribe((photos: Photos) => {
           this.businessService.updatePhotos(photos);
           this.loading = false;
-        })
+        });
     }
   }
 

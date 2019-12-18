@@ -29,6 +29,7 @@ export class OwnersComponent implements OnInit, OnDestroy {
 
   formLocked: boolean = true;
   loading: boolean = false;
+  loadingDelete: boolean = false;
   BASE_URL: string;
 
   constructor(
@@ -136,7 +137,7 @@ export class OwnersComponent implements OnInit, OnDestroy {
   }
 
   submit(): void {
-    if (!this.loading) {
+    if (!this.loading && !this.loadingDelete) {
       this.loading = true;
       if (this.ownersToUpdate.length > 0) {
         let ownersObservable: Observable<Owner>[] = [];
@@ -173,6 +174,7 @@ export class OwnersComponent implements OnInit, OnDestroy {
     this.ownersToUpdate = [];
     this.toggleLock();
     this.loading = false;
+    this.loadingDelete = false;
   }
 
   setNewOwnerValue(newOwnerValue: Owner): void {
@@ -241,8 +243,8 @@ export class OwnersComponent implements OnInit, OnDestroy {
   }
 
   sendDelete(): void {
-    if (!this.loading) {
-      this.loading = true;
+    if (!this.loadingDelete && !this.loadingDelete) {
+      this.loadingDelete = true;
       this.api
         .delete<any>(this.BASE_URL, [], this.selectedOwner.identifier)
         .pipe(takeUntil(this.destroyed$))
@@ -272,7 +274,7 @@ export class OwnersComponent implements OnInit, OnDestroy {
   }
 
   submitNew(): void {
-    if (!this.loading) {
+    if (!this.loading && !this.loadingDelete) {
       this.loading = true;
       this.api.post<Owner>(this.BASE_URL, this.ownerForm.value)
         .pipe(takeUntil(this.destroyed$))

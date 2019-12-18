@@ -64,7 +64,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
   showOauthAlert(posAccount: PosAccount, params: Params): void {
     if (params.oauth === 'success') {
       if (posAccount.status.code === 100 && this.business.posAccount.status.code !== 100) {
-        const title = 'Success! Connected XXXX account!';
+        const title = 'Success! Onboarding Complete!';
         this.showSuccessAlert(title);
       }
     } else if (params.oauth === 'fail') {

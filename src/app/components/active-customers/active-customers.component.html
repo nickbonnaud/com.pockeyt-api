@@ -1,8 +1,8 @@
-<nb-card class="scroll">
+<nb-card class="scroll"[nbSpinner]="loading">
   <nb-card-header>
     <h6>Current Customers</h6>
   </nb-card-header>
   <nb-card-body>
-    <customer-list [query]="query"></customer-list>
+    <customer-list (loadingCustomers)="updateLoading($event)" [query]="query"></customer-list>
   </nb-card-body>
 </nb-card>

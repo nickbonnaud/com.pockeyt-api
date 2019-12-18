@@ -26,6 +26,7 @@ export class DashboardAccountComponent implements OnInit, OnDestroy {
 
   formLocked: boolean = false;
   loading: boolean = false;
+  loadingPassCheck: boolean = false;
   correctCurrentPassword: boolean = false;
 
   constructor(
@@ -42,17 +43,32 @@ export class DashboardAccountComponent implements OnInit, OnDestroy {
 
   buildForm(): void {
     this.accountForm = this.fb.group({
-      email: ["", Validators.compose([Validators.required, Validators.email])],
-      password: ["", Validators.compose([Validators.required, Validators.minLength(6), Validators.maxLength(50), Validators.pattern(patterns.password)])],
-      newPassword: ["", Validators.compose([Validators.required, Validators.minLength(6), Validators.maxLength(50), Validators.pattern(patterns.password)])],
+      email: ["", Validators.compose([Validators.email])],
+      password: ["", Validators.compose([Validators.required, Validators.minLength(6), Validators.pattern(patterns.password)])],
+      newPassword: ["", Validators.compose([Validators.minLength(6), Validators.pattern(patterns.password)])],
       newPasswordMatch: [""],
-    }, {validator: this.matchPasswords });
+    }, {validator: [this.matchPasswords, this.requiredIf] });
   }
 
   matchPasswords(group: FormGroup): { [key: string]: any } | null {
     let newPassword = group.get("newPassword").value;
     let passwordMatch = group.get("newPasswordMatch").value;
+    newPassword = newPassword == undefined ? "" : newPassword;
+    passwordMatch = passwordMatch == undefined ? "" : passwordMatch;
+
     return newPassword === passwordMatch ? null : { match: true };
+  }
+
+  requiredIf(group: FormGroup): { [key: string]: any } | null {
+    let newPassword: string = group.get("newPassword").value;
+    newPassword = newPassword == undefined ? "" : newPassword;
+
+    let email: string = group.get('email').value;
+
+    if (email.length == 0 && newPassword.length == 0) {
+      return { requiredIf: true }
+    }
+    return null;
   }
 
   setForm(): void {
@@ -96,7 +112,7 @@ export class DashboardAccountComponent implements OnInit, OnDestroy {
       this.accountForm.get("newPasswordMatch").enable();
     } else {
       this.checkValidCurrentPassword().subscribe((res: any) => {
-        this.loading = false;
+        this.loadingPassCheck = false;
         if (res.passwordVerified) {
           this.correctCurrentPassword = true;
           this.unlockForm();
@@ -108,11 +124,11 @@ export class DashboardAccountComponent implements OnInit, OnDestroy {
   }
 
   checkValidCurrentPassword(): Observable<any> {
-    if (!this.loading) {
-      this.loading = true;
+    if (!this.loadingPassCheck) {
+      this.loadingPassCheck = true;
       const formData = { password: this.accountForm.get("password").value };
       return this.api
-        .post<any>(urls.auth.verify, formData, this.business.identifier)
+        .post<any>(urls.auth.verify, formData)
         .pipe(takeUntil(this.destroyed$));
     }
   }
@@ -128,7 +144,8 @@ export class DashboardAccountComponent implements OnInit, OnDestroy {
       this.api
         .patch<any>(
           urls.business.business_update,
-          formData
+          formData,
+          this.business.identifier
         )
         .pipe(takeUntil(this.destroyed$))
         .subscribe((loginData: any) => {
@@ -138,7 +155,7 @@ export class DashboardAccountComponent implements OnInit, OnDestroy {
           this.authService.setToken(loginData.token);
           this.loading = false;
           this.lockForm();
-          this.showAlert('Successfully updated login', 'success');
+          this.showAlert("Successfully updated login", "success");
         });
     }
   }

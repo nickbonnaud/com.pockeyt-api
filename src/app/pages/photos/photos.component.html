@@ -2,7 +2,7 @@
   <nb-card-header>
     Business Banner & Logo
   </nb-card-header>
-  <nb-card-body>
+  <nb-card-body [nbSpinner]="loading" nbSpinnerSize="giant">
     <form [formGroup]="photosForm" label="Logo and Banner">
       <photo-form [parentFormGroup]="photosForm" [editMode]="true"></photo-form>
     </form>

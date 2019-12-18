@@ -4,7 +4,7 @@
     <form [formGroup]="businessForm" label="Business Info">
       <business-form [parentFormGroup]="businessForm"></business-form>
       <button nbButton (click)="toggleLock()">{{ formLocked ? 'Unlock' : 'Cancel' }}</button>
-      <button class="float-r" nbButton [disabled]="businessForm.invalid || formLocked" (click)="submit()">Submit</button>
+      <button [nbSpinner]="loading" class="float-r" nbButton [disabled]="businessForm.invalid || formLocked" (click)="submit()">Submit</button>
     </form>
   </nb-card-body>
 </nb-card>

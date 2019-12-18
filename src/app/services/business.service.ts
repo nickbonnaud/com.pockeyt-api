@@ -37,7 +37,7 @@ export class BusinessService {
     profile = this.bodyMutator.toCamelCase(profile);
     this.updateProfile(profile);
 
-    let photos: any = this.mockData.getPhotos()
+    let photos: any = this.mockData.getPhotos()['data'];
     photos = this.bodyMutator.toCamelCase(photos);
     this.updatePhotos(photos);
 
@@ -87,6 +87,7 @@ export class BusinessService {
     accounts.businessAccount = businessAccount;
     accounts.ownerAccounts = owners;
     accounts.bankAccount = bank;
+    accounts.accountStatus = this.business$.value.accounts.accountStatus;
     this.updateBusiness(Object.assign(this.business$.value, { accounts: accounts }));
   }
 

@@ -14,6 +14,7 @@ import { NbAuthModule, NbPasswordAuthStrategy, NbAuthJWTToken } from '@nebular/a
 import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { HttpInterceptorProviders } from './interceptors';
 import { urls } from './urls/main';
+import { patterns } from './forms/validators/patterns';
 
 
 export let options: Partial<IConfig> | (() => Partial<IConfig>);
@@ -30,35 +31,35 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
     NbUserModule,
     HttpClientModule,
     LayoutModule,
-    NbThemeModule.forRoot({ name: 'cosmic' }),
+    NbThemeModule.forRoot({ name: "cosmic" }),
     NbSidebarModule.forRoot(),
     NgxMaskModule.forRoot(options),
 
     NbAuthModule.forRoot({
       strategies: [
         NbPasswordAuthStrategy.setup({
-          name: 'email',
+          name: "email",
           token: {
             class: NbAuthJWTToken,
 
-            key: 'data.token.value'
+            key: "data.token.value"
           },
 
           login: {
             endpoint: urls.auth.login,
-            method: 'post'
+            method: "post"
           },
           register: {
             endpoint: urls.auth.register,
-            method: 'post',
+            method: "post",
             redirect: {
-              success: '/welcome',
+              success: "/welcome",
               failure: null
             }
           },
           logout: {
             endpoint: urls.auth.logout,
-            method: 'get'
+            method: "get"
           }
         })
       ],
@@ -68,7 +69,8 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
         },
         validation: {
           password: {
-            minLength: 6
+            minLength: 6,
+            regexp: patterns.password
           }
         }
       }

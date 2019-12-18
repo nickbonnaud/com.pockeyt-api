@@ -132,6 +132,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
           this.messages.push(...messages);
           this.setMessageBadge();
           this.loadingMessages = false;
+          this.ref.detectChanges();
         });
     }
   }

@@ -6,4 +6,5 @@ import { NbRegisterComponent } from '@nebular/auth';
   templateUrl: './register.component.html',
 })
 export class RegisterComponent extends NbRegisterComponent {
+
 }

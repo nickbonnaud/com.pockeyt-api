@@ -5,8 +5,8 @@
   <nb-card-body>
     <form [formGroup]="accountForm" label="Dashboard Account">
       <edit-dashboard-account-form [parentFormGroup]="accountForm" [formLocked]="formLocked"></edit-dashboard-account-form>
-      <button nbButton [disabled]="accountForm.get('password').invalid" (click)="toggleLock()">{{ formLocked ? 'Unlock' : 'Cancel'  }}</button>
-      <button nbButton (click)="submit()" class="float-r" [disabled]="accountForm.invalid || formLocked">submit</button>
+      <button [nbSpinner]="loadingPassCheck" nbButton [disabled]="accountForm.get('password').invalid" (click)="toggleLock()">{{ formLocked ? 'Unlock' : 'Cancel'  }}</button>
+      <button [nbSpinner]="loading" nbButton (click)="submit()" class="float-r" [disabled]="accountForm.invalid || formLocked">submit</button>
     </form>
   </nb-card-body>
 </nb-card>

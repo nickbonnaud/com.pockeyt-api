@@ -84,8 +84,16 @@ const responses = [
     body: "ActiveCustomersOne"
   },
   {
+    url: `${urls.business.customers}?status=active&withTransaction=true`,
+    body: "ActiveTransactionCustomersOne"
+  },
+  {
     url: `${urls.business.customers}?status=active&page=2`,
     body: "ActiveCustomersTwo"
+  },
+  {
+    url: `${urls.business.customers}?status=active&withTransaction=true&page=2`,
+    body: "ActiveTransactionCustomersTwo"
   },
   {
     url: `${urls.business.customers}?status=historic`,
@@ -113,7 +121,7 @@ const responses = [
   },
   {
     url: urls.auth.logout,
-    body:'Logout'
+    body: "Logout"
   }
 ];
 
@@ -194,10 +202,10 @@ export class MockInterceptor implements HttpInterceptor {
         }
       },
       errors: {
-        email:  [],
-        password:  []
+        email: [],
+        password: []
       }
-    }
+    };
   }
 
   private patchBusiness(req: HttpRequest<any>) {
@@ -381,20 +389,24 @@ export class MockInterceptor implements HttpInterceptor {
   private postPhotos(req: HttpRequest<any>) {
     if (req.body.is_logo) {
       return {
-        logo: {
-          name: req.body.name,
-          small_url: "assets/images/mock/download.jpg",
-          large_url: "assets/images/mock/download.jpg"
-        },
-        banner: {}
+        data: {
+          logo: {
+            name: req.body.photo.name,
+            small_url: "assets/images/mock/download.jpg",
+            large_url: "assets/images/mock/download.jpg"
+          },
+          banner: {}
+        }
       };
     } else {
       return {
-        logo: {},
-        banner: {
-          name: req.body.name,
-          small_url: "assets/images/mock/banana.png",
-          large_url: "assets/images/mock/banana.png"
+        data: {
+          logo: {},
+          banner: {
+            name: req.body.photo.name,
+            small_url: "assets/images/mock/banana.png",
+            large_url: "assets/images/mock/banana.png"
+          }
         }
       };
     }
@@ -402,15 +414,17 @@ export class MockInterceptor implements HttpInterceptor {
 
   getPhotos(req: HttpRequest<any> = null) {
     return {
-      logo: {
-        name: req == undefined ? "logo_name" : req.body.name,
-        small_url: "assets/images/mock/download.jpg",
-        large_url: "assets/images/mock/download.jpg"
-      },
-      banner: {
-        name: req == undefined ? "banner_name" : req.body.name,
-        small_url: "assets/images/mock/banana.png",
-        large_url: "assets/images/mock/banana.png"
+      data: {
+        logo: {
+          name: req == undefined ? "logo_name" : req.body.name,
+          small_url: "assets/images/mock/download.jpg",
+          large_url: "assets/images/mock/download.jpg"
+        },
+        banner: {
+          name: req == undefined ? "banner_name" : req.body.name,
+          small_url: "assets/images/mock/banana.png",
+          large_url: "assets/images/mock/banana.png"
+        }
       }
     };
   }
@@ -464,7 +478,21 @@ export class MockInterceptor implements HttpInterceptor {
   }
 
   private patchAccount(req: HttpRequest<any>) {
-    return { ...req.body };
+    return {
+      data: {
+        identifier: "f8b717c0-1041-11ea-8b65-7d41af110d21",
+        ein: req.body.ein,
+        business_name: req.body.business_name,
+        address: {
+          address: req.body.address,
+          address_secondary: req.body.address_secondary,
+          city: req.body.city,
+          state: req.body.state,
+          zip: req.body.zip
+        },
+        entity_type: req.body.entity_type
+      }
+    };
   }
 
   getAccount(req: HttpRequest<any> = null) {
@@ -515,7 +543,7 @@ export class MockInterceptor implements HttpInterceptor {
 
   private patchOwner(req: HttpRequest<any>) {
     return {
-      identifier: req.body.identifier,
+      identifier: "identifier",
       address: {
         address: req.body.address,
         address_secondary: null,
@@ -1022,6 +1050,199 @@ export class MockInterceptor implements HttpInterceptor {
     };
   }
 
+  private getActiveTransactionCustomersOne(req: HttpRequest<any>) {
+    return {
+      data: [
+        {
+          customer: {
+            identifier: "7369a320-de38-11e9-b813-a7431fdda378",
+            email: "lizzie.walker@example.org",
+            first_name: "Freeman",
+            last_name: "Ruecker",
+            photo: {
+              name: "logo-1569266964SWUAB.png",
+              small_url: `assets/images/mock/avatar-${this.randomNum(
+                1,
+                6
+              )}.png`,
+              large_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`
+            }
+          },
+          transaction: {
+            identifier: "73d1cc60-de38-11e9-9b75-0b3f966648ce",
+            employee_id: null,
+            tax: "35",
+            tip: "0",
+            net_sales: "2000",
+            total: "2035",
+            partial_payment: "0",
+            locked: "1",
+            bill_created_at: "2019-09-23 19:29:25",
+            updated_at: "2019-09-23 19:29:25",
+            status: "open",
+            purchased_items: [
+              {
+                name: "ullam",
+                sub_name: null,
+                price: "2000"
+              },
+              {
+                name: "quia",
+                sub_name: null,
+                price: "2000"
+              },
+              {
+                name: "et",
+                sub_name: null,
+                price: "2000"
+              },
+              {
+                name: "sed",
+                sub_name: null,
+                price: "2000"
+              }
+            ],
+            refunds: [
+              {
+                total: "2035",
+                created_at: "2019-09-23 19:29:25",
+                updated_at: "2019-09-23 19:29:25"
+              }
+            ]
+          },
+          notification: null,
+          entered_at: "2019-09-25T12:15:55.000000Z"
+        },
+        {
+          customer: {
+            identifier: "73dad080-de38-11e9-82b0-1fdf7bcf0a5c",
+            email: "bria35@example.org",
+            first_name: "Herman",
+            last_name: "Beahan",
+            photo: {
+              name: "logo-1569266965l7H8T.png",
+              small_url: `assets/images/mock/avatar-${this.randomNum(
+                1,
+                6
+              )}.png`,
+              large_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`
+            }
+          },
+          transaction: null,
+          notification: null,
+          entered_at: "2019-09-25T12:14:55.000000Z"
+        },
+        {
+          customer: {
+            identifier: "73db4cd0-de38-11e9-a3ed-8f318ffbc496",
+            email: "zschmitt@example.org",
+            first_name: "Sigmund",
+            last_name: "Mitchell",
+            photo: {
+              name: "logo-1569266965Ab7Du.png",
+              small_url: `assets/images/mock/avatar-${this.randomNum(
+                1,
+                6
+              )}.png`,
+              large_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`
+            }
+          },
+          transaction: null,
+          notification: null,
+          entered_at: "2019-09-25T12:13:55.000000Z"
+        },
+        {
+          customer: {
+            identifier: "73dbbbe0-de38-11e9-a2ad-514b7a235c2f",
+            email: "jana.mraz@example.org",
+            first_name: "Josefa",
+            last_name: "Kuvalis",
+            photo: {
+              name: "logo-1569266965kBxNw.png",
+              small_url: `assets/images/mock/avatar-${this.randomNum(
+                1,
+                6
+              )}.png`,
+              large_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`
+            }
+          },
+          transaction: null,
+          notification: null,
+          entered_at: "2019-09-25T12:12:55.000000Z"
+        },
+        {
+          customer: {
+            identifier: "73dc27d0-de38-11e9-a856-a74a02bf5db7",
+            email: "myrtie42@example.net",
+            first_name: "Zelda",
+            last_name: "Stark",
+            photo: {
+              name: "logo-1569266965Q7G26.png",
+              small_url: `assets/images/mock/avatar-${this.randomNum(
+                1,
+                6
+              )}.png`,
+              large_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`
+            }
+          },
+          transaction: {
+            identifier: "73e8ae10-de38-11e9-89a0-4d1f466d5015",
+            employee_id: null,
+            tax: "35",
+            tip: "0",
+            net_sales: "2000",
+            total: "2035",
+            partial_payment: "0",
+            locked: "1",
+            bill_created_at: "2019-09-23 19:29:25",
+            updated_at: "2019-09-23 19:29:25",
+            status: "closed",
+            purchased_items: [
+              {
+                name: "pariatur",
+                sub_name: null,
+                price: "2000"
+              },
+              {
+                name: "ipsam",
+                sub_name: null,
+                price: "2000"
+              },
+              {
+                name: "libero",
+                sub_name: null,
+                price: "2000"
+              },
+              {
+                name: "voluptatem",
+                sub_name: null,
+                price: "2000"
+              }
+            ],
+            refunds: []
+          },
+          notification: null,
+          entered_at: "2019-09-25T12:11:55.000000Z"
+        }
+      ],
+      links: {
+        first: `${urls.business.customers}?status=active&withTransaction=true&page=1`,
+        last: `${urls.business.customers}?status=active&withTransaction=true&page=2`,
+        prev: null,
+        next: `${urls.business.customers}?status=active&withTransaction=true&page=2`
+      },
+      meta: {
+        current_page: 1,
+        from: 1,
+        last_page: 2,
+        path: urls.business.customers,
+        per_page: 5,
+        to: 5,
+        total: 10
+      }
+    };
+  }
+
   private getActiveCustomersTwo(req: HttpRequest<any>) {
     return {
       data: [
@@ -1203,6 +1424,201 @@ export class MockInterceptor implements HttpInterceptor {
         first: `${urls.business.customers}?status=active&page=1`,
         last: `${urls.business.customers}?status=active&page=2`,
         prev: `${urls.business.customers}?status=active&page=1`,
+        next: null
+      },
+      meta: {
+        current_page: 2,
+        from: 6,
+        last_page: 2,
+        path: urls.business.customers,
+        per_page: 5,
+        to: 10,
+        total: 10
+      }
+    };
+  }
+
+  private getActiveTransactionCustomersTwo(req: HttpRequest<any>) {
+    return {
+      data: [
+        {
+          customer: {
+            identifier: "73ea6e30-de38-11e9-a04c-714da744cb61",
+            email: "marisa.ortiz@example.org",
+            first_name: "Candice",
+            last_name: "Predovic",
+            photo: {
+              name: "logo-1569266965gXceE.png",
+              small_url: `assets/images/mock/avatar-${this.randomNum(
+                1,
+                6
+              )}.png`,
+              large_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`
+            }
+          },
+          transaction: {
+            identifier: "73f81940-de38-11e9-bd6c-91df7c7e1aef",
+            employee_id: null,
+            tax: "35",
+            tip: "0",
+            net_sales: "2000",
+            total: "2035",
+            partial_payment: "0",
+            locked: "1",
+            bill_created_at: "2019-09-23 19:29:25",
+            updated_at: "2019-09-23 19:29:25",
+            status: "paid",
+            purchased_items: [
+              {
+                name: "ut",
+                sub_name: null,
+                price: "2000"
+              },
+              {
+                name: "enim",
+                sub_name: null,
+                price: "2000"
+              },
+              {
+                name: "ut",
+                sub_name: null,
+                price: "2000"
+              },
+              {
+                name: "vel",
+                sub_name: null,
+                price: "2000"
+              }
+            ],
+            refunds: [
+              {
+                total: "2035",
+                created_at: "2019-09-23 19:29:25",
+                updated_at: "2019-09-23 19:29:25"
+              }
+            ]
+          },
+          notification: null,
+          entered_at: "2019-09-25T12:10:55.000000Z"
+        },
+        {
+          customer: {
+            identifier: "73f9e730-de38-11e9-a78b-1742d6f58e1f",
+            email: "rasheed18@example.com",
+            first_name: "Demarcus",
+            last_name: "Langworth",
+            photo: {
+              name: "logo-1569266965lWUPu.png",
+              small_url: `assets/images/mock/avatar-${this.randomNum(
+                1,
+                6
+              )}.png`,
+              large_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`
+            }
+          },
+          transaction: null,
+          notification: null,
+          entered_at: "2019-09-25T12:17:55.000000Z"
+        },
+        {
+          customer: {
+            identifier: "73fa5a00-de38-11e9-905b-e531a83f2bcf",
+            email: "pvon@example.org",
+            first_name: "Kaylee",
+            last_name: "Kshlerin",
+            photo: {
+              name: "logo-1569266965hukYk.png",
+              small_url: `assets/images/mock/avatar-${this.randomNum(
+                1,
+                6
+              )}.png`,
+              large_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`
+            }
+          },
+          transaction: null,
+          notification: null,
+          entered_at: "2019-09-25T12:18:55.000000Z"
+        },
+        {
+          customer: {
+            identifier: "73fac780-de38-11e9-aeb2-fb17cc53400f",
+            email: "ldietrich@example.com",
+            first_name: "Micaela",
+            last_name: "Kozey",
+            photo: {
+              name: "logo-1569266965s3mMC.png",
+              small_url: `assets/images/mock/avatar-${this.randomNum(
+                1,
+                6
+              )}.png`,
+              large_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`
+            }
+          },
+          transaction: {
+            identifier: "74073240-de38-11e9-b3d2-33021e914163",
+            employee_id: null,
+            tax: "35",
+            tip: "0",
+            net_sales: "2000",
+            total: "2035",
+            partial_payment: "0",
+            locked: "1",
+            bill_created_at: "2019-09-23 19:29:25",
+            updated_at: "2019-09-23 19:29:25",
+            status: "closed",
+            purchased_items: [
+              { name: "est", sub_name: null, price: "2000" },
+              {
+                name: "explicabo",
+                sub_name: null,
+                price: "2000"
+              },
+              {
+                name: "beatae",
+                sub_name: null,
+                price: "2000"
+              },
+              {
+                name: "autem",
+                sub_name: null,
+                price: "2000"
+              }
+            ],
+            refunds: [
+              {
+                total: "2035",
+                created_at: "2019-09-23 19:29:25",
+                updated_at: "2019-09-23 19:29:25"
+              }
+            ]
+          },
+          notification: null,
+          entered_at: "2019-09-25T12:19:55.000000Z"
+        },
+        {
+          customer: {
+            identifier: "74090660-de38-11e9-9316-75a3889c0df7",
+            email: "bosco.rahsaan@example.org",
+            first_name: "Haylie",
+            last_name: "Rogahn",
+            photo: {
+              name: "logo-1569266965EsSzY.png",
+              small_url: `assets/images/mock/avatar-${this.randomNum(
+                1,
+                6
+              )}.png`,
+              large_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`
+            }
+          },
+          transaction: null,
+          notification: null,
+          entered_at: "2019-09-25T12:20:55.000000Z"
+        }
+      ],
+      links: {
+        first: `${urls.business.customers}?status=active&withTransaction=true&page=1`,
+        last: `${urls.business.customers}?status=active&withTransaction=true&page=2`,
+        prev: `${urls.business.customers}?status=active&withTransaction=true&page=1`,
         next: null
       },
       meta: {

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { OwnersComponent } from './owners.component';
 import { ComponentsModule } from 'src/app/components/components.module';
 import { AppFormsModule } from 'src/app/forms/app-forms.module';
-import { NbCardModule, NbButtonModule, NbListModule, NbUserModule, NbIconModule } from '@nebular/theme';
+import { NbCardModule, NbButtonModule, NbListModule, NbUserModule, NbIconModule, NbSpinnerModule } from '@nebular/theme';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -19,7 +19,8 @@ import { CommonModule } from '@angular/common';
     NbUserModule,
     NbIconModule,
     ReactiveFormsModule,
-    NbListModule
+    NbListModule,
+    NbSpinnerModule
   ]
 })
 export class OwnersModule {}

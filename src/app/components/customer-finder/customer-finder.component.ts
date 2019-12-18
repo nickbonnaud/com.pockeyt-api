@@ -99,7 +99,6 @@ export class CustomerFinderComponent implements OnInit, OnDestroy {
 
   fetchTransactions(url: string): void {
     if (!this.loading) {
-      console.log(url);
       this.loading = true;
       this.api
         .get<AssignedTransaction[]>(url)

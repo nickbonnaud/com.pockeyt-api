@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CustomerListComponent } from './customer-list/customer-list.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NbListModule, NbUserModule, NbIconModule, NbCardModule, NbSelectModule, NbCalendarRangeModule, NbButtonModule, NbInputModule } from '@nebular/theme';
+import { NbListModule, NbUserModule, NbIconModule, NbCardModule, NbSelectModule, NbCalendarRangeModule, NbButtonModule, NbInputModule, NbSpinnerModule } from '@nebular/theme';
 import { TransactionDialogComponent } from '../dialogs/transaction-dialog/transaction-dialog.component';
 import { SalesCardComponent } from './sales-card/sales-card.component';
 import { SalesCardsComponent } from './sales-cards/sales-cards.component';
@@ -47,6 +47,7 @@ import { RecentCustomersComponent } from './recent-customers/recent-customers.co
     NbButtonModule,
     NbCalendarRangeModule,
     NbInputModule,
+    NbSpinnerModule,
     NgxMaskModule.forChild()
   ],
   entryComponents: [

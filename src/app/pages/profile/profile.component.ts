@@ -48,8 +48,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   setProfileForm(profile: Profile): void {
-    this.profileForm.setValue(profile);
     this.profile = profile;
+    let formData = Object.assign({}, profile);
+    delete formData['identifier'];
+    this.profileForm.setValue(formData);
   }
 
   submit(): void {
@@ -59,7 +61,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
         .patch<Profile>(this.BASE_URL, this.profileForm.value, this.profile.identifier)
         .pipe(takeUntil(this.destroyed$))
         .subscribe((profile: Profile) => {
-          delete profile["identifer"];
           this.setProfileForm(profile);
           this.toggleLock();
           this.businessService.updateProfile(profile);

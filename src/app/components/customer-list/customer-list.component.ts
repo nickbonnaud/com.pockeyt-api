@@ -3,10 +3,11 @@ import { NbDialogService } from '@nebular/theme';
 import { urls } from './../../urls/main';
 import { ActiveCustomer } from './../../models/customer/active-customer';
 import { ApiService } from './../../services/api.service';
-import { Component, OnInit, OnDestroy, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { PaginatorService } from 'src/app/services/paginator.service';
+
 
 @Component({
   selector: 'customer-list',
@@ -15,11 +16,13 @@ import { PaginatorService } from 'src/app/services/paginator.service';
 })
 export class CustomerListComponent implements OnInit, OnDestroy, OnChanges {
   @Input() query: string;
+  @Output() loadingCustomers = new EventEmitter<boolean>()
+
   private destroyed$: Subject<boolean> = new Subject<boolean>();
   BASE_URL: string;
 
   customers: ActiveCustomer[] = [];
-  loading: boolean = false;
+  loading: boolean;
 
   constructor(
     private api: ApiService,
@@ -29,8 +32,15 @@ export class CustomerListComponent implements OnInit, OnDestroy, OnChanges {
   {}
 
   ngOnInit(): void {
+    this.loading = false;
+    this.loadingCustomers.emit(false);
     this.BASE_URL = `${urls.business.customers}?${this.query}`;
     this.fetchCustomers(this.BASE_URL);
+  }
+
+  changeLoading(): void {
+    this.loading = !this.loading;
+    this.loadingCustomers.emit(this.loading);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -45,13 +55,13 @@ export class CustomerListComponent implements OnInit, OnDestroy, OnChanges {
 
   fetchCustomers(url: string): void {
     if (!this.loading) {
-      this.loading = true;
+      this.changeLoading();
       this.api
         .get<ActiveCustomer[]>(url)
         .pipe(takeUntil(this.destroyed$))
         .subscribe((customers: ActiveCustomer[]) => {
           this.customers.push(...customers);
-          this.loading = false;
+          this.changeLoading();
         });
     }
   }

@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
 import { FormGroup, AbstractControl, Validators } from '@angular/forms';
-import { passwordMatchValidator } from '../../validators/password-match-validator';
 
 @Component({
   selector: "edit-dashboard-account-form",

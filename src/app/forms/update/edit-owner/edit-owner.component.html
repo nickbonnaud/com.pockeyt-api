@@ -16,7 +16,7 @@
     <div class="col-sm-6">
       <div class="form-group">
         <input [status]="lastNameControl.touched ? (lastNameControl.invalid ? 'danger' : 'success') : ''" nbInput
-          fullWidth shape="round" id="firstName" type="text" placeholder="Last Name" formControlName="lastName">
+          fullWidth shape="round" id="lastName" type="text" placeholder="Last Name" formControlName="lastName">
         <ng-container *ngIf="lastNameControl.invalid && lastNameControl.touched">
           <p class="caption status-danger" *ngIf="lastNameControl.hasError('required')">Last Name is required!</p>
           <p class="caption status-danger" *ngIf="lastNameControl.hasError('pattern')">Last Name cannot contain special

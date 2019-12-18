@@ -58,10 +58,9 @@ export class CustomersInLocationComponent implements OnInit {
   transactionQuery: string = "";
   dateQuery: string = "";
   fullQuery: string = "";
+  loading: boolean = false;
 
-  constructor(
-    private dialogService: NbDialogService,
-  ) {}
+  constructor(private dialogService: NbDialogService, private ref: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.resetSelection();
@@ -136,6 +135,11 @@ export class CustomersInLocationComponent implements OnInit {
 
   setFullQuery(): void {
     this.fullQuery = this.baseQuery + this.transactionQuery + this.dateQuery;
+  }
+
+  updateLoading(loading: boolean): void {
+    this.loading = loading;
+    this.ref.detectChanges();
   }
 
   addDateRangeToQuery(range: NbCalendarRange<Date>): void {

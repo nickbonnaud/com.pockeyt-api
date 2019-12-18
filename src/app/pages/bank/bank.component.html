@@ -6,7 +6,7 @@
     <form [formGroup]="bankForm" label="Banking Info">
       <edit-bank-form [parentFormGroup]="bankForm"></edit-bank-form>
       <button nbButton (click)="toggleLock()">{{ formLocked ? 'Unlock' : 'Cancel' }}</button>
-      <button nbButton class="float-r" [disabled]="bankForm.invalid || formLocked" (click)="submit()">Submit</button>
+      <button [nbSpinner]="loading" nbButton class="float-r" [disabled]="bankForm.invalid || formLocked" (click)="submit()">Submit</button>
     </form>
   </nb-card-body>
 </nb-card>

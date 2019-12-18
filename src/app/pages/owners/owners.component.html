@@ -19,7 +19,7 @@
   </div>
 
   <div class="col-md-6">
-    <nb-card *ngIf="selectedOwner != undefined">
+    <nb-card *ngIf="selectedOwner != undefined" [nbSpinner]="loadingDelete" nbSpinnerSize="giant">
       <nb-card-header>
         <span *ngIf="owners.length > 1 && !formLocked && selectedOwner.identifier != undefined" (click)="deleteOwner()" class="float-r">
           <nb-icon class="action-icon" status="danger" icon="close-circle"></nb-icon>
@@ -37,11 +37,11 @@
 
           <ng-container *ngIf="selectedOwner.identifier != undefined">
             <button nbButton (click)="toggleLock()">{{ formLocked ? 'Unlock' : 'Cancel' }}</button>
-            <button class="float-r" nbButton [disabled]="ownerForm.invalid || formLocked" (click)="submit()">Submit</button>
+            <button [nbSpinner]="loading" class="float-r" nbButton [disabled]="ownerForm.invalid || formLocked" (click)="submit()">Submit</button>
           </ng-container>
           <ng-container *ngIf="selectedOwner.identifier == undefined">
             <button nbButton (click)="cancelNew()">Cancel</button>
-            <button class="float-r" nbButton [disabled]="ownerForm.invalid" (click)="submitNew()">Submit</button>
+            <button [nbSpinner]="loading" class="float-r" nbButton [disabled]="ownerForm.invalid" (click)="submitNew()">Submit</button>
           </ng-container>
         </form>
       </nb-card-body>
