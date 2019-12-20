@@ -1,4 +1,3 @@
-import { AuthService } from './services/auth.service';
 import { LayoutModule } from './layout/layout.module';
 import { AuthGuardService } from './auth/services/auth-guard.service';
 import { BrowserModule } from '@angular/platform-browser';
@@ -10,11 +9,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NbThemeModule, NbLayoutModule, NbSidebarModule, NbActionsModule, NbUserModule } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { HttpClientModule } from '@angular/common/http';
-import { NbAuthModule, NbPasswordAuthStrategy, NbAuthJWTToken } from '@nebular/auth';
+import { NbAuthModule, NbPasswordAuthStrategy, NbAuthJWTToken, NbAuthSimpleToken } from '@nebular/auth';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { HttpInterceptorProviders } from './interceptors';
 import { urls } from './urls/main';
 import { patterns } from './forms/validators/patterns';
+import { environment } from 'src/environments/environment';
 
 
 export let options: Partial<IConfig> | (() => Partial<IConfig>);
@@ -31,7 +31,7 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
     NbUserModule,
     HttpClientModule,
     LayoutModule,
-    NbThemeModule.forRoot({ name: "cosmic" }),
+    NbThemeModule.forRoot({ name: "default" }),
     NbSidebarModule.forRoot(),
     NgxMaskModule.forRoot(options),
 
@@ -41,25 +41,24 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
           name: "email",
           token: {
             class: NbAuthJWTToken,
-
-            key: "data.token.value"
+            key: "token"
           },
-
+          baseEndpoint: environment.base_url,
           login: {
             endpoint: urls.auth.login,
-            method: "post"
+            method: "post",
+            redirect: {
+              success: "/dashboard/home?",
+              failure: null
+            }
           },
           register: {
             endpoint: urls.auth.register,
             method: "post",
             redirect: {
-              success: "/welcome",
+              success: "/dashboard/onboard",
               failure: null
             }
-          },
-          logout: {
-            endpoint: urls.auth.logout,
-            method: "get"
           }
         })
       ],
@@ -76,7 +75,7 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
       }
     })
   ],
-  providers: [AuthGuardService, AuthService, HttpInterceptorProviders],
+  providers: [AuthGuardService, HttpInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

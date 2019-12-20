@@ -2,8 +2,8 @@ import { environment } from './../../environments/environment';
 
 export const urls = {
   auth: {
-    register: `${environment.base_url}/api/business/auth/register`,
-    login: `${environment.base_url}/api/business/auth/login`,
+    register: `/api/business/auth/register`,
+    login: `/api/business/auth/login`,
     logout: `${environment.base_url}/api/business/auth/logout`,
     verify: `${environment.base_url}/api/business/auth/verify`
   },

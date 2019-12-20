@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { OnBoardComponent } from './on-board.component';
 import { NbCardModule, NbStepperModule, NbButtonModule } from '@nebular/theme';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 
 
@@ -15,7 +16,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     NbCardModule,
     NbStepperModule,
     NbButtonModule,
-    AppFormsModule
+    AppFormsModule,
+    SweetAlert2Module.forChild()
   ]
 })
-export class OnBoardModule { }
+export class OnBoardModule {}

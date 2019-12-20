@@ -122,6 +122,10 @@ const responses = [
   {
     url: urls.auth.logout,
     body: "Logout"
+  },
+  {
+    url: `${environment.base_url}${urls.auth.login}`,
+    body: "Login"
   }
 ];
 
@@ -206,6 +210,22 @@ export class MockInterceptor implements HttpInterceptor {
         password: []
       }
     };
+  }
+
+  private postLogin(req: HttpRequest<any>) {
+    return {
+      data: {
+        token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3RcL2FwaVwvYnVzaW5lc3NcL2F1dGhcL2xvZ2luIiwiaWF0IjoxNTc2ODczODQ4LCJleHAiOjE1NzY4Nzc0NDgsIm5iZiI6MTU3Njg3Mzg0OCwianRpIjoicXVVY1JiVm8wbTJPSEx6VyIsInN1YiI6MSwicHJ2IjoiZDU2MmQ5Y2E2MTg0OTYxMzI3YzlkZWE0YjlmMGJlMWUzY2ZiN2IyZCJ9.FvJTusGQtos0TsWg_ZOX-DU7X_Auxn6SDKFeEIg-w6Q"
+      },
+      errors: {
+        email: [
+          null
+        ],
+        password: [
+          null
+        ]
+      }
+    }
   }
 
   private patchBusiness(req: HttpRequest<any>) {

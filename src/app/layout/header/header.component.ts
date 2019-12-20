@@ -13,7 +13,7 @@ import { Reply } from 'src/app/models/other-data/reply';
 import { MessageListComponent } from 'src/app/pop-overs/message-list/message-list.component';
 import { PaginatorService } from 'src/app/services/paginator.service';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/services/auth.service';
+import { NbAuthService } from '@nebular/auth';
 
 
 @Component({
@@ -58,7 +58,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     private ref: ChangeDetectorRef,
     private paginator: PaginatorService,
     private router: Router,
-    private authService: AuthService
+    private authService: NbAuthService
   ) {}
 
   ngOnInit(): void {
@@ -209,7 +209,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.paginator.removePageData(this.BASE_URL_MESSAGES);
     this.businessService.updateBusiness(undefined);
-    this.authService.setToken(undefined);
+    this.authService.logout('email');
   }
 
   toggleSidebar(): boolean {

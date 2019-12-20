@@ -8,9 +8,9 @@ import { urls } from 'src/app/urls/main';
 import { takeUntil } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
-import { AuthService } from 'src/app/services/auth.service';
 import { SweetAlertType } from 'sweetalert2';
 import { patterns } from 'src/app/forms/validators/patterns';
+import { NbTokenService } from '@nebular/auth';
 
 @Component({
   selector: "app-dashboard-account",
@@ -32,7 +32,7 @@ export class DashboardAccountComponent implements OnInit, OnDestroy {
   constructor(
     private api: ApiService,
     private businessService: BusinessService,
-    private authService: AuthService,
+    private tokenService: NbTokenService,
     private fb: FormBuilder
   ) {}
 
@@ -152,7 +152,7 @@ export class DashboardAccountComponent implements OnInit, OnDestroy {
           this.business.email = loginData.email;
           this.business.token = loginData.token.value;
           this.businessService.updateBusiness(this.business);
-          this.authService.setToken(loginData.token);
+          this.tokenService.set(loginData.token.value);
           this.loading = false;
           this.lockForm();
           this.showAlert("Successfully updated login", "success");
