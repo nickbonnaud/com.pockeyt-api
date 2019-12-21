@@ -12,12 +12,12 @@ import { FormGroup } from '@angular/forms';
 import { Owner } from 'src/app/models/business/owner';
 import { urls } from 'src/app/urls/main';
 import { Subject, Observable, forkJoin } from 'rxjs';
-import { takeUntil, filter } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { Business } from 'src/app/models/business/business';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import { NbAuthService, NbAuthJWTToken } from '@nebular/auth';
-import { PreviousRouteService } from 'src/app/services/previous-route.service';
+import { RouteFinderService } from 'src/app/services/route-finder.service';
 import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 
 @Component({
@@ -48,7 +48,7 @@ export class OnBoardComponent implements OnInit, OnDestroy, AfterViewInit {
     private businessService: BusinessService,
     private router: Router,
     private authService: NbAuthService,
-    private previousRouteService: PreviousRouteService
+    private routeFinderService: RouteFinderService
   ) {}
 
   ngOnInit() {
@@ -68,11 +68,11 @@ export class OnBoardComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   showWelcome(): void {
-    if (this.previousRouteService.getPreviousUrl() == "/dashboard/onboard") {
+    if (this.routeFinderService.getPreviousUrl() == "/auth/register") {
       this.oauthAlert.update({
         title: `Welcome to the ${environment.app_name} Dashboard!`,
         text: `Lets get started onboarding your business. You will be set up and ready to take ${environment.app_name} Pay in no time!`,
-        type: 'success',
+        type: "success",
         showConfirmButton: true
       });
       this.oauthAlert.fire();

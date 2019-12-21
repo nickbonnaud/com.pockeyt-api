@@ -126,6 +126,10 @@ const responses = [
   {
     url: `${environment.base_url}${urls.auth.login}`,
     body: "Login"
+  },
+  {
+    url: `${environment.base_url}${urls.auth.register}`,
+    body: 'Register'
   }
 ];
 
@@ -213,9 +217,24 @@ export class MockInterceptor implements HttpInterceptor {
   }
 
   private postLogin(req: HttpRequest<any>) {
+    console.log(req.body);
     return {
       data: {
-        token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3RcL2FwaVwvYnVzaW5lc3NcL2F1dGhcL2xvZ2luIiwiaWF0IjoxNTc2ODczODQ4LCJleHAiOjE1NzY4Nzc0NDgsIm5iZiI6MTU3Njg3Mzg0OCwianRpIjoicXVVY1JiVm8wbTJPSEx6VyIsInN1YiI6MSwicHJ2IjoiZDU2MmQ5Y2E2MTg0OTYxMzI3YzlkZWE0YjlmMGJlMWUzY2ZiN2IyZCJ9.FvJTusGQtos0TsWg_ZOX-DU7X_Auxn6SDKFeEIg-w6Q"
+        token:
+          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3RcL2FwaVwvYnVzaW5lc3NcL2F1dGhcL2xvZ2luIiwiaWF0IjoxNTc2OTYzNjE5LCJleHAiOjE1NzczOTU2MTksIm5iZiI6MTU3Njk2MzYxOSwianRpIjoid29uQ08zdTVGSFI4QmgzYyIsInN1YiI6MSwicHJ2IjoiZDU2MmQ5Y2E2MTg0OTYxMzI3YzlkZWE0YjlmMGJlMWUzY2ZiN2IyZCJ9.bIDkn8VlGNcR93VKXjSW1_mnOj2BTCYBXrdjnp5g2QY"
+      },
+      errors: {
+        email: [null],
+        password: [null]
+      }
+    };
+  }
+
+  private postRegister(req: HttpRequest<any>) {
+    return {
+      data: {
+        token:
+          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3RcL2FwaVwvYnVzaW5lc3NcL2F1dGhcL2xvZ2luIiwiaWF0IjoxNTc2OTYzNjE5LCJleHAiOjE1NzczOTU2MTksIm5iZiI6MTU3Njk2MzYxOSwianRpIjoid29uQ08zdTVGSFI4QmgzYyIsInN1YiI6MSwicHJ2IjoiZDU2MmQ5Y2E2MTg0OTYxMzI3YzlkZWE0YjlmMGJlMWUzY2ZiN2IyZCJ9.bIDkn8VlGNcR93VKXjSW1_mnOj2BTCYBXrdjnp5g2QY"
       },
       errors: {
         email: [

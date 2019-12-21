@@ -3,6 +3,7 @@
 @import '../../styles/themes';
 
 @include nb-install-component() {
+
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -82,4 +83,13 @@
 
 .float-r {
   float: right;
+}
+
+.header-icons {
+  font-size: 1.6rem;
+  margin-right: 1.5rem
+}
+
+.subdued {
+  color: #8f9bb3;
 }

@@ -4,7 +4,7 @@ import { Router, NavigationEnd } from '@angular/router';
 @Injectable({
   providedIn: "root"
 })
-export class PreviousRouteService {
+export class RouteFinderService {
   private previousUrl: string;
   private currentUrl: string;
 
@@ -18,7 +18,11 @@ export class PreviousRouteService {
     });
   }
 
-  public getPreviousUrl() {
+  public getPreviousUrl(): string {
     return this.previousUrl;
+  }
+
+  public getCurrentUrl(): string {
+    return this.currentUrl;
   }
 }

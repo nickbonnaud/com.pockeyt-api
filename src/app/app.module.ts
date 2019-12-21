@@ -64,11 +64,16 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
       ],
       forms: {
         login: {
+          redirectDelay: 0,
           rememberMe: false
+        },
+        register: {
+          redirectDelay: 0,
         },
         validation: {
           password: {
             minLength: 6,
+            maxLength: 100,
             regexp: patterns.password
           }
         }

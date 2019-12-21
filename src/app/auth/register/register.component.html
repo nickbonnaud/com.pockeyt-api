@@ -59,16 +59,16 @@
 
   <div class="form-control-group">
     <label class="label" for="input-re-password">Repeat password:</label>
-    <input nbInput [(ngModel)]="user.confirmPassword" #rePass="ngModel" type="password" id="input-re-password"
-      name="rePass" placeholder="Confirm Password" fullWidth fieldSize="large"
-      [status]="rePass.dirty ? (rePass.invalid || password.value != rePass.value  ? 'danger' : 'success') : ''"
+    <input nbInput [(ngModel)]="user.passwordConfirmation" #passwordConfirmation="ngModel" type="password" id="input-re-password"
+      name="passwordConfirmation" placeholder="Confirm Password" fullWidth fieldSize="large"
+      [status]="passwordConfirmation.dirty ? (passwordConfirmation.invalid || password.value != passwordConfirmation.value  ? 'danger' : 'success') : ''"
       [required]="getConfigValue('forms.validation.password.required')"
-      [attr.aria-invalid]="rePass.invalid && rePass.touched ? true : null">
-    <ng-container *ngIf="(rePass.invalid && rePass.touched) || (rePass.touched && password.value != rePass.value)">
-      <p class="caption status-danger" *ngIf="!!rePass.errors?.required">
+      [attr.aria-invalid]="passwordConfirmation.invalid && passwordConfirmation.touched ? true : null">
+    <ng-container *ngIf="(passwordConfirmation.invalid && passwordConfirmation.touched) || (passwordConfirmation.touched && password.value != passwordConfirmation.value)">
+      <p class="caption status-danger" *ngIf="!!passwordConfirmation.errors?.required">
         Password confirmation is required!
       </p>
-      <p class="caption status-danger" *ngIf="password.value != rePass.value && !rePass.errors?.required">
+      <p class="caption status-danger" *ngIf="password.value != passwordConfirmation.value && !passwordConfirmation.errors?.required">
         Password does not match the confirm password.
       </p>
     </ng-container>
@@ -80,7 +80,7 @@
     </nb-checkbox>
   </div>
 
-  <button nbButton fullWidth status="primary" size="large" [disabled]="submitted || (!form.valid || password.value != rePass.value)"
+  <button nbButton fullWidth status="primary" size="large" [disabled]="submitted || (!form.valid || password.value != passwordConfirmation.value)"
     [class.btn-pulse]="submitted">
     Register
   </button>

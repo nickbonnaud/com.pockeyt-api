@@ -1,4 +1,4 @@
-<div class="header-container">
+<div *ngIf="!currentlyOnboarding" class="header-container">
   <div class="logo-container">
     <a (click)="toggleSidebar()" href="#" class="sidebar-toggle">
       <nb-icon icon="menu-2-outline"></nb-icon>
@@ -7,34 +7,84 @@
   </div>
 </div>
 
-<div class="header-container">
+<div *ngIf="currentlyOnboarding" class="header-container">
+  <div class="logo-container">
+    <div class="sidebar-toggle">
+      <nb-icon icon="menu-2-outline"></nb-icon>
+    </div>
+    <div class="logo" href="#">{{ appName }}<span> Dashboard</span></div>
+  </div>
+</div>
+
+<div *ngIf="!currentlyOnboarding" class="header-container">
+  <nb-icon
+    [options]="{ animation: { type: 'zoom' } }"
+    *ngIf="business.accounts.accountStatus.code >= 100 && business.accounts.accountStatus.code < 200"
+    icon="info-outline"
+    [nbTooltip]="business.accounts.accountStatus.name"
+    nbTooltipStatus="warning"
+    nbTooltipPlacement="bottom"
+    class="header-icons control-item"
+    status="warning">
+  </nb-icon>
+
+  <nb-icon
+    [options]="{ animation: { type: 'zoom' } }"
+    *ngIf="business.accounts.accountStatus.code >= 200 && business.accounts.accountStatus.code < 300"
+    [nbTooltip]="business.accounts.accountStatus.name"
+    nbTooltipStatus="success"
+    nbTooltipPlacement="bottom"
+    icon="checkmark-square-outline"
+    class="header-icons control-item"
+    status="success">
+  </nb-icon>
+
+  <nb-icon
+    [options]="{ animation: { type: 'zoom' } }"
+    *ngIf="business.accounts.accountStatus.code >= 500"
+    [nbTooltip]="business.accounts.accountStatus.name"
+    nbTooltipStatus="danger"
+    nbTooltipPlacement="bottom"
+    icon="alert-triangle-outline"
+    class="header-icons control-item"
+    status="danger">
+  </nb-icon>
+
+  <nb-icon
+    [options]="{ animation: { type: 'zoom' } }"
+    *ngIf="business.posAccount.status.code >= 100 && business.posAccount.status.code < 200"
+    [nbTooltip]="business.posAccount.status.name + ' to ' + business.posAccount.type.toUpperCase()"
+    nbTooltipStatus="warning"
+    nbTooltipPlacement="bottom"
+    icon="code-outline"
+    class="header-icons control-item"
+    status="warning">
+  </nb-icon>
+
+   <nb-icon
+    [options]="{ animation: { type: 'zoom' } }"
+    *ngIf="business.posAccount.status.code >= 200 && business.posAccount.status.code < 300"
+    [nbTooltip]="business.posAccount.status.name + ' to ' + business.posAccount.type.toUpperCase()"
+    nbTooltipStatus="success"
+    nbTooltipPlacement="bottom"
+    icon="code-outline"
+    class="header-icons control-item"
+    status="success">
+  </nb-icon>
+
+  <nb-icon
+    [options]="{ animation: { type: 'zoom' } }"
+    *ngIf="business.posAccount.status.code >= 500"
+    [nbTooltip]="business.posAccount.status.name + ' to ' + business.posAccount.type.toUpperCase()"
+    nbTooltipStatus="danger"
+    nbTooltipPlacement="bottom"
+    icon="code-outline"
+    class="header-icons control-item"
+    status="danger">
+  </nb-icon>
+
+
   <nb-actions size="small">
-    <nb-action
-      [nbTooltip]="business.accounts.accountStatus.name" nbTooltipStatus="warning" nbTooltipPlacement="bottom"
-      *ngIf="business.accounts.accountStatus.code >= 100 && business.accounts.accountStatus.code < 200"
-      class="control-item" icon="info-outline"></nb-action>
-
-    <nb-action
-    [nbTooltip]="business.accounts.accountStatus.name" nbTooltipStatus="success" nbTooltipPlacement="bottom"
-      *ngIf="business.accounts.accountStatus.code >= 200 && business.accounts.accountStatus.code < 300"
-      class="control-item" icon="checkmark-square-outline"></nb-action>
-
-    <nb-action
-      [nbTooltip]="business.accounts.accountStatus.name" nbTooltipStatus="danger" nbTooltipPlacement="bottom"
-      *ngIf="business.accounts.accountStatus.code >= 500"
-      class="control-item" icon="alert-triangle-outline"></nb-action>
-
-
-    <nb-action [nbTooltip]="business.posAccount.status.name + ' to ' + business.posAccount.type.toUpperCase()" nbTooltipStatus="warning" nbTooltipPlacement="bottom"
-      *ngIf="business.posAccount.status.code >= 100 && business.posAccount.status.code < 200" class="control-item"
-      icon="code-outline"></nb-action>
-
-    <nb-action [nbTooltip]="business.posAccount.status.name + ' to ' + business.posAccount.type.toUpperCase()" nbTooltipStatus="success" nbTooltipPlacement="bottom"
-      *ngIf="business.posAccount.status.code >= 200 && business.posAccount.status.code < 300" class="control-item"
-      icon="code-outline"></nb-action>
-
-    <nb-action [nbTooltip]="business.posAccount.status.name + ' to ' + business.posAccount.type.toUpperCase()" nbTooltipStatus="danger" nbTooltipPlacement="bottom"
-      *ngIf="business.posAccount.status.code >= 500" class="control-item" icon="code-outline"></nb-action>
 
     <nb-action nbPopoverTrigger="click" nbPopoverPlacement="bottom" [nbPopover]="messageList"
       [nbPopoverContext]="{messages: messages, popOver: popOver, message$: message$, fetchMoreMessages$: fetchMoreMessages$}"
@@ -54,4 +104,30 @@
     </nb-action>
   </nb-actions>
 
+</div>
+<div *ngIf="currentlyOnboarding" class="header-container">
+  <nb-icon [options]="{ animation: { type: 'zoom' } }"
+    icon="checkmark-square-outline"
+    class="header-icons control-item subdued">
+  </nb-icon>
+
+  <nb-icon [options]="{ animation: { type: 'zoom' } }"
+    icon="code-outline"
+    class="header-icons control-item subdued">
+  </nb-icon>
+
+  <nb-actions size="small">
+
+    <nb-action
+     class="control-item"
+     icon="bell-outline">
+    </nb-action>
+
+
+    <nb-action class="user-action">
+      <nb-user  [onlyPicture]="businessPictureOnly"
+        name="Business Name" showInitials=false title="Onboarding">
+      </nb-user>
+    </nb-action>
+  </nb-actions>
 </div>

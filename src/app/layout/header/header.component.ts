@@ -12,7 +12,7 @@ import { urls } from 'src/app/urls/main';
 import { Reply } from 'src/app/models/other-data/reply';
 import { MessageListComponent } from 'src/app/pop-overs/message-list/message-list.component';
 import { PaginatorService } from 'src/app/services/paginator.service';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { NbAuthService } from '@nebular/auth';
 
 
@@ -45,6 +45,8 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
   messages: Message[] = [];
   unreadMessageCount: number;
 
+  currentlyOnboarding: boolean;
+
   messageList = MessageListComponent;
 
   constructor(
@@ -58,8 +60,10 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     private ref: ChangeDetectorRef,
     private paginator: PaginatorService,
     private router: Router,
-    private authService: NbAuthService
-  ) {}
+    private authService: NbAuthService,
+  ) {
+    this.watchRoutes();
+  }
 
   ngOnInit(): void {
     this.BASE_URL_MESSAGES = urls.business.messages;
@@ -83,6 +87,16 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.ref.detectChanges();
+  }
+
+  watchRoutes(): void {
+    this.router.events
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(event => {
+        if (event instanceof NavigationEnd) {
+          this.currentlyOnboarding = event.url == "/dashboard/onboard";
+        }
+      })
   }
 
   watchMenuService(): void {
