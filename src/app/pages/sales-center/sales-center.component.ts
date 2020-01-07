@@ -2,14 +2,10 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-sales-center',
-  templateUrl: './sales-center.component.html',
-  styleUrls: ['./sales-center.component.scss']
+  templateUrl: './sales-center.component.html'
 })
-export class SalesCenterComponent implements OnInit {
+export class SalesCenterComponent {
 
   constructor() { }
-
-  ngOnInit() {
-  }
 
 }

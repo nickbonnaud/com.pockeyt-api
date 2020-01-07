@@ -115,7 +115,6 @@ export class TransactionListComponent implements OnInit, OnDestroy {
     params = params.length > 0 ? `?${params}` : "";
 
     this.BASE_URL = `${urls.business.transactions}${params}`;
-    console.log(this.BASE_URL);
     this.fetchTransactions(this.BASE_URL);
   }
 
@@ -344,7 +343,7 @@ export class TransactionListComponent implements OnInit, OnDestroy {
 
   getMoreTransactions(): void {
     if (!this.loading) {
-      const nextUrl = this.paginator.getNextUrl(this.BASE_URL);
+      const nextUrl: string = this.paginator.getNextUrl(this.BASE_URL);
       if (nextUrl != undefined) {
         this.fetchTransactions(nextUrl);
       }

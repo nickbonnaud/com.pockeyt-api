@@ -19,9 +19,9 @@
 <div *ngIf="!currentlyOnboarding" class="header-container">
   <nb-icon
     [options]="{ animation: { type: 'zoom' } }"
-    *ngIf="business.accounts.accountStatus.code >= 100 && business.accounts.accountStatus.code < 200"
+    *ngIf="business?.accounts.accountStatus?.code >= 100 && business?.accounts.accountStatus?.code < 200"
     icon="info-outline"
-    [nbTooltip]="business.accounts.accountStatus.name"
+    [nbTooltip]="business?.accounts.accountStatus.name"
     nbTooltipStatus="warning"
     nbTooltipPlacement="bottom"
     class="header-icons control-item"
@@ -30,8 +30,8 @@
 
   <nb-icon
     [options]="{ animation: { type: 'zoom' } }"
-    *ngIf="business.accounts.accountStatus.code >= 200 && business.accounts.accountStatus.code < 300"
-    [nbTooltip]="business.accounts.accountStatus.name"
+    *ngIf="business?.accounts.accountStatus?.code >= 200 && business?.accounts.accountStatus?.code < 300"
+    [nbTooltip]="business?.accounts.accountStatus.name"
     nbTooltipStatus="success"
     nbTooltipPlacement="bottom"
     icon="checkmark-square-outline"
@@ -41,8 +41,8 @@
 
   <nb-icon
     [options]="{ animation: { type: 'zoom' } }"
-    *ngIf="business.accounts.accountStatus.code >= 500"
-    [nbTooltip]="business.accounts.accountStatus.name"
+    *ngIf="business?.accounts.accountStatus?.code >= 500"
+    [nbTooltip]="business?.accounts.accountStatus.name"
     nbTooltipStatus="danger"
     nbTooltipPlacement="bottom"
     icon="alert-triangle-outline"
@@ -52,8 +52,8 @@
 
   <nb-icon
     [options]="{ animation: { type: 'zoom' } }"
-    *ngIf="business.posAccount.status.code >= 100 && business.posAccount.status.code < 200"
-    [nbTooltip]="business.posAccount.status.name + ' to ' + business.posAccount.type.toUpperCase()"
+    *ngIf="business?.posAccount.status?.code >= 100 && business?.posAccount.status?.code < 200"
+    [nbTooltip]="business?.posAccount.status.name + ' to ' + business?.posAccount.type.toUpperCase()"
     nbTooltipStatus="warning"
     nbTooltipPlacement="bottom"
     icon="code-outline"
@@ -63,8 +63,8 @@
 
    <nb-icon
     [options]="{ animation: { type: 'zoom' } }"
-    *ngIf="business.posAccount.status.code >= 200 && business.posAccount.status.code < 300"
-    [nbTooltip]="business.posAccount.status.name + ' to ' + business.posAccount.type.toUpperCase()"
+    *ngIf="business?.posAccount.status?.code >= 200 && business?.posAccount.status?.code < 300"
+    [nbTooltip]="business?.posAccount.status.name + ' to ' + business?.posAccount.type.toUpperCase()"
     nbTooltipStatus="success"
     nbTooltipPlacement="bottom"
     icon="code-outline"
@@ -74,8 +74,8 @@
 
   <nb-icon
     [options]="{ animation: { type: 'zoom' } }"
-    *ngIf="business.posAccount.status.code >= 500"
-    [nbTooltip]="business.posAccount.status.name + ' to ' + business.posAccount.type.toUpperCase()"
+    *ngIf="business?.posAccount.status?.code >= 500"
+    [nbTooltip]="business?.posAccount.status.name + ' to ' + business?.posAccount.type.toUpperCase()"
     nbTooltipStatus="danger"
     nbTooltipPlacement="bottom"
     icon="code-outline"
@@ -98,7 +98,7 @@
       <nb-user  [nbContextMenu]="contextMenuItems"
                 [nbContextMenuTag]="contextMenuTag"
                 [onlyPicture]="businessPictureOnly"
-                [name]="business.profile.name"
+                [name]="business?.profile.name"
                 [picture]="business?.photos.logo.smallUrl">
       </nb-user>
     </nb-action>

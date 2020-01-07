@@ -59,6 +59,24 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
               success: "/dashboard/onboard",
               failure: null
             }
+          },
+          requestPass: {
+            endpoint: urls.auth.request_reset,
+            method: "post",
+
+            redirect: {
+              success: "/auth/login",
+              failure: null
+            }
+          },
+          resetPass: {
+            endpoint: urls.auth.reset_password,
+            method: "patch",
+            redirect: {
+              success: "/auth/login",
+              failure: null
+            },
+            resetPasswordTokenKey: "token"
           }
         })
       ],
@@ -68,7 +86,10 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
           rememberMe: false
         },
         register: {
-          redirectDelay: 0,
+          redirectDelay: 0
+        },
+        requestPassword: {
+          redirectDelay: 4000
         },
         validation: {
           password: {

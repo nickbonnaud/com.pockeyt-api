@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { NbAuthComponent, NbLoginComponent } from '@nebular/auth';
+import { NbAuthComponent, NbLoginComponent, NbRequestPasswordComponent } from '@nebular/auth';
 import { RegisterComponent } from './register/register.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 
 export const routes: Routes = [
@@ -20,6 +21,14 @@ export const routes: Routes = [
       {
         path: 'login',
         component: NbLoginComponent
+      },
+      {
+        path: 'request-password',
+        component: NbRequestPasswordComponent
+      },
+      {
+        path: 'reset-password',
+        component: ResetPasswordComponent
       }
     ]
   }

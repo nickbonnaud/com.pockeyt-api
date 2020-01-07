@@ -25,6 +25,11 @@ export class PagesComponent {
       link: "sales"
     },
     {
+      title: "Refund Center",
+      icon: "clipboard-outline",
+      link: "refunds"
+    },
+    {
       title: "Customers Center",
       icon: "people-outline",
       link: "customers"

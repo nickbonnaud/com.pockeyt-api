@@ -6,11 +6,12 @@ import { RouterModule } from '@angular/router';
 import { NbAlertModule, NbInputModule, NbButtonModule, NbCheckboxModule } from '@nebular/theme';
 import { AuthRoutingModule } from './auth-routing.module';
 import { RegisterComponent } from './register/register.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 
 
 @NgModule({
-  declarations: [RegisterComponent],
+  declarations: [RegisterComponent, ResetPasswordComponent],
   imports: [
     CommonModule,
     FormsModule,

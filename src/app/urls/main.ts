@@ -5,11 +5,14 @@ export const urls = {
     register: `/api/business/auth/register`,
     login: `/api/business/auth/login`,
     logout: `${environment.base_url}/api/business/auth/logout`,
-    verify: `${environment.base_url}/api/business/auth/verify`
+    verify: `${environment.base_url}/api/business/auth/verify`,
+
+    request_reset: `/api/business/auth/request-reset`,
+    reset_password: `/api/business/auth/reset-password`
   },
 
   business: {
-    business_update: `${environment.base_url}/api/business/me`,
+    business_update: `${environment.base_url}/api/business/business`,
     profile_store_get: `${environment.base_url}/api/business/profile`,
     photos_store: `${environment.base_url}/api/business/photos`,
     account_store_patch: `${environment.base_url}/api/business/payfac/business`,
@@ -19,6 +22,7 @@ export const urls = {
     pos_store_patch_get: `${environment.base_url}/api/business/pos/account`,
     tips: `${environment.base_url}/api/business/tips`,
     employees: `${environment.base_url}/api/business/employees`,
+    me: `${environment.base_url}/api/business/me`,
 
 
     customers: `${environment.base_url}/api/business/customers`,
@@ -27,7 +31,9 @@ export const urls = {
     transaction_status: `${environment.base_url}/api/business/status/transaction`,
 
     messages: `${environment.base_url}/api/business/message`,
-    replies: `${environment.base_url}/api/business/reply`
+    replies: `${environment.base_url}/api/business/reply`,
+
+    refunds: `${environment.base_url}/api/business/refunds`,
   },
 
   oauth: {
@@ -54,6 +60,10 @@ export const urls = {
 
     id: 'id=',
     status: 'status=',
-    date: 'date[]='
+    date: 'date[]=',
+
+    recent_refund: 'recent=true',
+    date_refund: 'date[]=',
+    refund_trans_id: 'transactionId='
   }
 };

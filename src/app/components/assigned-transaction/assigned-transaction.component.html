@@ -30,6 +30,10 @@
           <span>Total</span>
           <span>{{ transaction.transaction.total / 100 | currency }}</span>
         </nb-list-item>
+         <nb-list-item class="item refund bottom-end" *ngFor="let refund of transaction.transaction.refunds">
+          <span>Refund</span>
+          <span>({{ refund.total / 100 | currency }})</span>
+        </nb-list-item>
       </nb-list>
     </div>
   </nb-card-body>

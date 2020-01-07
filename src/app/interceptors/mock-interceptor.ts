@@ -129,7 +129,35 @@ const responses = [
   },
   {
     url: `${environment.base_url}${urls.auth.register}`,
-    body: 'Register'
+    body: "Register"
+  },
+  {
+    url: urls.business.me,
+    body: "Me"
+  },
+  {
+    url: `${environment.base_url}${urls.auth.request_reset}`,
+    body: "RequestReset"
+  },
+  {
+    url: `${environment.base_url}${urls.auth.reset_password}`,
+    body: "ResetPassword"
+  },
+  {
+    url: `${urls.business.refunds}?${urls.query.recent_refund}`,
+    body: "RefundOne"
+  },
+  {
+    url: `${urls.business.refunds}?${urls.query.recent_refund}&page=2`,
+    body: "RefundTwo"
+  },
+  {
+    url: `${urls.business.refunds}?${urls.query.id}success`,
+    body: "RefundSuccess"
+  },
+  {
+    url: `${urls.business.refunds}?${urls.query.id}fail`,
+    body: "RefundFail"
   }
 ];
 
@@ -201,6 +229,132 @@ export class MockInterceptor implements HttpInterceptor {
     };
   }
 
+  private postRequestReset(req: HttpRequest<any>) {
+    return {
+      data: {
+        email_sent: true,
+        res: "passwords.sent"
+      }
+    };
+  }
+
+  private patchResetPassword(req: HttpRequest<any>) {
+    console.log(req);
+    return {
+      data: {
+        reset: true,
+        res: "passwords.sent"
+      }
+    };
+  }
+
+  private getMe(req: HttpRequest<any>) {
+    return {
+      data: {
+        identifier: "cb350580-2d75-11ea-a3b0-11f065c5b34c",
+        email: "ypollich@example.net",
+        profile: {
+          identifier: "cb3f8100-2d75-11ea-a6d4-8941c7c61442",
+          name: "Metz and Sons",
+          website: "davis.info",
+          description:
+            "Non eum et quam. Laudantium qui odit deleniti laboriosam nemo accusantium quae. Aut veniam esse voluptas enim nam accusantium.",
+          google_place_id: null
+        },
+        photos: {
+          logo: {
+            name: "logo_name",
+            small_url: "assets/images/mock/download.jpg",
+            large_url: "assets/images/mock/download.jpg"
+          },
+          banner: {
+            name: "banner_name",
+            small_url: "assets/images/mock/banana.png",
+            large_url: "assets/images/mock/banana.png"
+          }
+        },
+        accounts: {
+          business_account: {
+            identifier: "cb545d30-2d75-11ea-a3c8-3fd116d89107",
+            ein: "95-6055392",
+            business_name: "Kilback-Armstrong",
+            address: {
+              address: "731 McLaughlin Parkway Suite 202",
+              address_secondary: "",
+              city: "north albin",
+              state: "ND",
+              zip: "44971"
+            },
+            entity_type: "soleProprietorship"
+          },
+          owner_accounts: [
+            {
+              identifier: "cb57d9b0-2d75-11ea-8d00-c3d22c6f753b",
+              address: {
+                address: "5140 Jacobs Ranch",
+                address_secondary: null,
+                city: "West Caroline",
+                state: "MD",
+                zip: "30965"
+              },
+              dob: "05/21/2006",
+              ssn: "XXXXX9958",
+              last_name: "Quitzon",
+              first_name: "Eulalia",
+              title: "CEO",
+              phone: "7329325953",
+              email: "terence80@yahoo.com",
+              primary: false,
+              percent_ownership: 80
+            }
+          ],
+          bank_account: {
+            identifier: "cb5c8e50-2d75-11ea-a4b7-117af1bedc9d",
+            address: {
+              address: "8970 Earline Passage Apt. 278",
+              address_secondary: null,
+              city: "O'Haratown",
+              state: "NJ",
+              zip: "35579"
+            },
+            first_name: "Destiney",
+            last_name: "Lynn",
+            routing_number: "XXXXX9534",
+            account_number: "XXXXX6363",
+            type: "checking"
+          },
+          account_status: {
+            name: "Profile Account Incomplete",
+            code: "100"
+          }
+        },
+        location: {
+          geo_coords: {
+            identifier: "cb5fd200-2d75-11ea-a07f-3167fed09f17",
+            lat: "30.589307",
+            lng: "166.606886",
+            radius: "50"
+          },
+          beacon: {
+            identifier: "cb5fd200-2d75-11ea-a07f-3167fed09f17",
+            major: "cb350580-2d75-11ea-a3b0-11f065c5b34c",
+            minor: null
+          }
+        },
+        pos_account: {
+          identifier: "cb6b4280-2d75-11ea-9f82-0b6b439ca4fc",
+          type: "square",
+          takes_tips: true,
+          allows_open_tickets: false,
+          status: {
+            name: "Connection Pending",
+            code: "100"
+          }
+        }
+      }
+    };
+  }
+
   private getLogout(req: HttpRequest<any>) {
     return {
       data: {
@@ -217,11 +371,10 @@ export class MockInterceptor implements HttpInterceptor {
   }
 
   private postLogin(req: HttpRequest<any>) {
-    console.log(req.body);
     return {
       data: {
         token:
-          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3RcL2FwaVwvYnVzaW5lc3NcL2F1dGhcL2xvZ2luIiwiaWF0IjoxNTc2OTYzNjE5LCJleHAiOjE1NzczOTU2MTksIm5iZiI6MTU3Njk2MzYxOSwianRpIjoid29uQ08zdTVGSFI4QmgzYyIsInN1YiI6MSwicHJ2IjoiZDU2MmQ5Y2E2MTg0OTYxMzI3YzlkZWE0YjlmMGJlMWUzY2ZiN2IyZCJ9.bIDkn8VlGNcR93VKXjSW1_mnOj2BTCYBXrdjnp5g2QY"
+          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3RcL2FwaVwvYnVzaW5lc3NcL2F1dGhcL2xvZ2luIiwiaWF0IjoxNTc4MDAwMDI0LCJleHAiOjE1NzgwMDM2MjQsIm5iZiI6MTU3ODAwMDAyNCwianRpIjoiZ2lwQ3IwWFlkdlBGSFc1MyIsInN1YiI6MSwicHJ2IjoiZDU2MmQ5Y2E2MTg0OTYxMzI3YzlkZWE0YjlmMGJlMWUzY2ZiN2IyZCJ9.T0iAqgipp1_2QmgG976H1l4gN0PpDPelzv5Nj0dKpTc"
       },
       errors: {
         email: [null],
@@ -237,14 +390,10 @@ export class MockInterceptor implements HttpInterceptor {
           "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3RcL2FwaVwvYnVzaW5lc3NcL2F1dGhcL2xvZ2luIiwiaWF0IjoxNTc2OTYzNjE5LCJleHAiOjE1NzczOTU2MTksIm5iZiI6MTU3Njk2MzYxOSwianRpIjoid29uQ08zdTVGSFI4QmgzYyIsInN1YiI6MSwicHJ2IjoiZDU2MmQ5Y2E2MTg0OTYxMzI3YzlkZWE0YjlmMGJlMWUzY2ZiN2IyZCJ9.bIDkn8VlGNcR93VKXjSW1_mnOj2BTCYBXrdjnp5g2QY"
       },
       errors: {
-        email: [
-          null
-        ],
-        password: [
-          null
-        ]
+        email: [null],
+        password: [null]
       }
-    }
+    };
   }
 
   private patchBusiness(req: HttpRequest<any>) {
@@ -2291,10 +2440,7 @@ export class MockInterceptor implements HttpInterceptor {
             last_name: "Stamm",
             photo: {
               name: "logo-1569266965lWUPu.png",
-              small_url: `assets/images/mock/avatar-${this.randomNum(
-                1,
-                6
-              )}.png`,
+              small_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`,
               large_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`
             }
           },
@@ -2692,6 +2838,669 @@ export class MockInterceptor implements HttpInterceptor {
         from: null,
         last_page: 1,
         path: urls.business.transactions,
+        per_page: 10,
+        to: null,
+        total: 0
+      }
+    };
+  }
+
+  private getRefundOne(req: HttpRequest<any>) {
+    return {
+      data: [
+        {
+          refund: {
+            total: "596",
+            status: "refund pending",
+            created_at: "2020-01-06 21:00:45",
+          },
+          transaction: {
+            identifier: "9b65e4a0-30c7-11ea-97b7-ad2e4900e1fc",
+            employee_id: null,
+            tax: "749",
+            tip: "2578",
+            net_sales: "9993",
+            total: "13320",
+            partial_payment: "0",
+            locked: "1",
+            bill_created_at: "2020-01-06 21:00:45",
+            updated_at: "2020-01-06 21:00:45",
+            status: "open",
+            purchased_items: [],
+            refunds: [
+              {
+                total: "596",
+                status: "refund pending",
+                created_at: "2020-01-06 21:00:45"
+              }
+            ]
+          },
+          customer: {
+            identifier: "9b5fec10-30c7-11ea-b2b3-b1a4c1504388",
+            email: "lucinda27@example.org",
+            first_name: "Marcelina",
+            last_name: "Lebsack",
+            photo: {
+              name: "logo-1578344445lwQMs.png",
+             small_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`,
+              large_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`
+            }
+          },
+          employee: null
+        },
+        {
+          refund: {
+            total: "708",
+            status: "refund pending",
+            created_at: "2020-01-06 21:00:45",
+          },
+          transaction: {
+            identifier: "9b67d6c0-30c7-11ea-a0f6-3351b274e81f",
+            employee_id: null,
+            tax: "452",
+            tip: "324",
+            net_sales: "6032",
+            total: "6808",
+            partial_payment: "0",
+            locked: "1",
+            bill_created_at: "2020-01-06 21:00:45",
+            updated_at: "2020-01-06 21:00:45",
+            status: "open",
+            purchased_items: [],
+            refunds: [
+              {
+                total: "708",
+                status: "refund pending",
+                created_at: "2020-01-06 21:00:45"
+              }
+            ]
+          },
+          customer: {
+            identifier: "9b6763c0-30c7-11ea-8e1e-6bf0a64dd73c",
+            email: "amari70@example.org",
+            first_name: "Gwendolyn",
+            last_name: "Williamson",
+            photo: {
+              name: "logo-1578344445G228v.png",
+              small_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`,
+              large_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`
+            }
+          },
+          employee: null
+        },
+        {
+          refund: {
+            total: "560",
+            status: "refund pending",
+            created_at: "2020-01-06 21:00:45",
+          },
+          transaction: {
+            identifier: "9b688220-30c7-11ea-bc54-15980be03a17",
+            employee_id: null,
+            tax: "387",
+            tip: "1219",
+            net_sales: "5154",
+            total: "6760",
+            partial_payment: "0",
+            locked: "1",
+            bill_created_at: "2020-01-06 21:00:45",
+            updated_at: "2020-01-06 21:00:45",
+            status: "open",
+            purchased_items: [],
+            refunds: [
+              {
+                total: "560",
+                status: "refund pending",
+                created_at: "2020-01-06 21:00:45"
+              }
+            ]
+          },
+          customer: {
+            identifier: "9b6814e0-30c7-11ea-a30e-cd64a14fd30f",
+            email: "brennon.dach@example.com",
+            first_name: "Aurelia",
+            last_name: "Schulist",
+            photo: {
+              name: "logo-1578344445t8GCA.png",
+              small_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`,
+              large_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`
+            }
+          },
+          employee: null
+        },
+        {
+          refund: {
+            total: "971",
+            status: "refund pending",
+            created_at: "2020-01-06 21:00:45"
+          },
+          transaction: {
+            identifier: "9b693600-30c7-11ea-b10d-d7fc7466135e",
+            employee_id: null,
+            tax: "739",
+            tip: "0",
+            net_sales: "9856",
+            total: "10595",
+            partial_payment: "0",
+            locked: "1",
+            bill_created_at: "2020-01-06 21:00:45",
+            updated_at: "2020-01-06 21:00:45",
+            status: "open",
+            purchased_items: [],
+            refunds: [
+              {
+                total: "971",
+                status: "refund pending",
+                created_at: "2020-01-06 21:00:45"
+              }
+            ]
+          },
+          customer: {
+            identifier: "9b68c910-30c7-11ea-8aec-6939fe291856",
+            email: "lester.klein@example.org",
+            first_name: "Laurie",
+            last_name: "Jones",
+            photo: {
+              name: "logo-1578344445lrSYO.png",
+              small_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`,
+              large_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`
+            }
+          },
+          employee: null
+        },
+        {
+          refund: {
+            total: "667",
+            status: "refund pending",
+            created_at: "2020-01-06 21:00:45"
+          },
+          transaction: {
+            identifier: "9b69e580-30c7-11ea-9801-499e01feba68",
+            employee_id: null,
+            tax: "433",
+            tip: "0",
+            net_sales: "5774",
+            total: "6207",
+            partial_payment: "0",
+            locked: "1",
+            bill_created_at: "2020-01-06 21:00:45",
+            updated_at: "2020-01-06 21:00:45",
+            status: "open",
+            purchased_items: [],
+            refunds: [
+              {
+                total: "667",
+                status: "refund pending",
+                created_at: "2020-01-06 21:00:45",
+              }
+            ]
+          },
+          customer: {
+            identifier: "9b697780-30c7-11ea-88c0-8f57209ce27b",
+            email: "vrunolfsson@example.net",
+            first_name: "Antonette",
+            last_name: "Beier",
+            photo: {
+              name: "logo-1578344445u7tSr.png",
+              small_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`,
+              large_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`
+            }
+          },
+          employee: null
+        },
+        {
+          refund: {
+            total: "516",
+            status: "refund pending",
+            created_at: "2020-01-06 21:00:45"
+          },
+          transaction: {
+            identifier: "9b6a9210-30c7-11ea-a8cc-ff6e17282384",
+            employee_id: null,
+            tax: "309",
+            tip: "752",
+            net_sales: "4115",
+            total: "5176",
+            partial_payment: "0",
+            locked: "1",
+            bill_created_at: "2020-01-06 21:00:45",
+            updated_at: "2020-01-06 21:00:45",
+            status: "open",
+            purchased_items: [],
+            refunds: [
+              {
+                total: "516",
+                status: "refund pending",
+                created_at: "2020-01-06 21:00:45"
+              }
+            ]
+          },
+          customer: {
+            identifier: "9b6a2120-30c7-11ea-884c-1727cd2c8e20",
+            email: "daniel.asa@example.net",
+            first_name: "Gladys",
+            last_name: "Roberts",
+            photo: {
+              name: "logo-1578344445jmtfN.png",
+              small_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`,
+              large_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`
+            }
+          },
+          employee: null
+        },
+        {
+          refund: {
+            total: "799",
+            status: "refund pending",
+            created_at: "2020-01-06 21:00:45"
+          },
+          transaction: {
+            identifier: "9b6b3b10-30c7-11ea-a896-1dca05ecf5a5",
+            employee_id: null,
+            tax: "301",
+            tip: "1035",
+            net_sales: "4011",
+            total: "5347",
+            partial_payment: "0",
+            locked: "1",
+            bill_created_at: "2020-01-06 21:00:45",
+            updated_at: "2020-01-06 21:00:45",
+            status: "open",
+            purchased_items: [],
+            refunds: [
+              {
+                total: "799",
+                status: "refund pending",
+                created_at: "2020-01-06 21:00:45"
+              }
+            ]
+          },
+          customer: {
+            identifier: "9b6acdb0-30c7-11ea-86cf-6b93360d3f60",
+            email: "winfield.bayer@example.com",
+            first_name: "Rose",
+            last_name: "Senger",
+            photo: {
+              name: "logo-1578344445ir5KB.png",
+              small_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`,
+              large_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`
+            }
+          },
+          employee: null
+        },
+        {
+          refund: {
+            total: "628",
+            status: "refund pending",
+            created_at: "2020-01-06 21:00:45"
+          },
+          transaction: {
+            identifier: "9b6bdf60-30c7-11ea-817b-7bc0130169d9",
+            employee_id: null,
+            tax: "434",
+            tip: "0",
+            net_sales: "5784",
+            total: "6218",
+            partial_payment: "0",
+            locked: "1",
+            bill_created_at: "2020-01-06 21:00:45",
+            updated_at: "2020-01-06 21:00:45",
+            status: "open",
+            purchased_items: [],
+            refunds: [
+              {
+                total: "628",
+                status: "refund pending",
+                created_at: "2020-01-06 21:00:45"
+              }
+            ]
+          },
+          customer: {
+            identifier: "9b6b7600-30c7-11ea-a42e-f179623312fe",
+            email: "tpadberg@example.com",
+            first_name: "Jefferey",
+            last_name: "Beer",
+            photo: {
+              name: "logo-1578344445JpeL2.png",
+              small_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`,
+              large_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`
+            }
+          },
+          employee: null
+        },
+        {
+          refund: {
+            total: "600",
+            status: "refund pending",
+            created_at: "2020-01-06 21:00:45"
+          },
+          transaction: {
+            identifier: "9b6c8e90-30c7-11ea-a749-83d423d3ea15",
+            employee_id: null,
+            tax: "310",
+            tip: "533",
+            net_sales: "4135",
+            total: "4978",
+            partial_payment: "0",
+            locked: "1",
+            bill_created_at: "2020-01-06 21:00:45",
+            updated_at: "2020-01-06 21:00:45",
+            status: "open",
+            purchased_items: [],
+            refunds: [
+              {
+                total: "600",
+                status: "refund pending",
+                created_at: "2020-01-06 21:00:45"
+              }
+            ]
+          },
+          customer: {
+            identifier: "9b6c1f60-30c7-11ea-bd6b-936a7ffc4c6e",
+            email: "blair.wiegand@example.org",
+            first_name: "Wilburn",
+            last_name: "Eichmann",
+            photo: {
+              name: "logo-1578344445stD9M.png",
+              small_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`,
+              large_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`
+            }
+          },
+          employee: null
+        },
+        {
+          refund: {
+            total: "863",
+            status: "refund pending",
+            created_at: "2020-01-06 21:00:45"
+          },
+          transaction: {
+            identifier: "9b6d3510-30c7-11ea-8d01-f7e025ddcd85",
+            employee_id: null,
+            tax: "475",
+            tip: "1294",
+            net_sales: "6337",
+            total: "8106",
+            partial_payment: "0",
+            locked: "1",
+            bill_created_at: "2020-01-06 21:00:45",
+            updated_at: "2020-01-06 21:00:45",
+            status: "open",
+            purchased_items: [],
+            refunds: [
+              {
+                total: "863",
+                status: "refund pending",
+                created_at: "2020-01-06 21:00:45"
+              }
+            ]
+          },
+          customer: {
+            identifier: "9b6ccc00-30c7-11ea-9f6c-f599457e3fcf",
+            email: "klocko.garret@example.net",
+            first_name: "Allen",
+            last_name: "Schowalter",
+            photo: {
+              name: "logo-1578344445lpqDY.png",
+              small_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`,
+              large_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`
+            }
+          },
+          employee: null
+        }
+      ],
+      links: {
+        first: `${urls.business.refunds}?recent=true&page=1`,
+        last: `${urls.business.refunds}?recent=true&page=2`,
+        prev: null,
+        next: `${urls.business.refunds}?recent=true&page=2`
+      },
+      meta: {
+        current_page: 1,
+        from: 1,
+        last_page: 2,
+        path: urls.business.refunds,
+        per_page: 10,
+        to: 10,
+        total: 12,
+      }
+    }
+  }
+
+  private getRefundTwo(req: HttpRequest<any>) {
+    return {
+      data: [
+        {
+          refund: {
+            total: "841",
+            status: "refund pending",
+            created_at: "2020-01-06 21:16:09"
+          },
+          transaction: {
+            identifier: "c26cb8a0-30c9-11ea-848d-e565a3ac1a75",
+            employee_id: null,
+            tax: "672",
+            tip: "0",
+            net_sales: "8961",
+            total: "9633",
+            partial_payment: "0",
+            locked: "1",
+            bill_created_at: "2020-01-06 21:16:09",
+            updated_at: "2020-01-06 21:16:09",
+            status: "open",
+            purchased_items: [],
+            refunds: [
+              {
+                total: "841",
+                status: "refund pending",
+                created_at: "2020-01-06 21:16:09"
+              }
+            ]
+          },
+          customer: {
+            identifier: "c24bbc00-30c9-11ea-a1db-fd9c26f56bbb",
+            email: "orlando.ortiz@example.net",
+            first_name: "Rogers",
+            last_name: "Bruen",
+            photo: {
+              name: "logo-1578345369OeAoV.png",
+              small_url: `assets/images/mock/avatar-${this.randomNum(
+                1,
+                6
+              )}.png`,
+              large_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`
+            }
+          },
+          employee: null
+        },
+        {
+          refund: {
+            total: "930",
+            status: "refund pending",
+            created_at: "2020-01-06 21:16:09"
+          },
+          transaction: {
+            identifier: "c272e780-30c9-11ea-9305-59cf13b66a8d",
+            employee_id: null,
+            tax: "531",
+            tip: "1902",
+            net_sales: "7075",
+            total: "9508",
+            partial_payment: "0",
+            locked: "1",
+            bill_created_at: "2020-01-06 21:16:09",
+            updated_at: "2020-01-06 21:16:09",
+            status: "open",
+            purchased_items: [],
+            refunds: [
+              {
+                total: "930",
+                status: "refund pending",
+                created_at: "2020-01-06 21:16:09"
+              }
+            ]
+          },
+          customer: {
+            identifier: "c2724690-30c9-11ea-93e6-9fa7a9605b30",
+            email: "mante.ellie@example.net",
+            first_name: "Chris",
+            last_name: "Marquardt",
+            photo: {
+              name: "logo-15783453699E4qH.png",
+              small_url: `assets/images/mock/avatar-${this.randomNum(
+                1,
+                6
+              )}.png`,
+              large_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`
+            }
+          },
+          employee: null
+        }
+      ],
+      links: {
+        first: `${urls.business.refunds}?recent=true&page=1`,
+        last: `${urls.business.refunds}?recent=true&page=2`,
+        prev:`${urls.business.refunds}?recent=true&page=1`,
+        next: null
+      },
+      meta: {
+        current_page: 2,
+        from: 11,
+        last_page: 2,
+        path: urls.business.refunds,
+        per_page: 10,
+        to: 12,
+        total: 12
+      }
+    };
+  }
+
+  private getRefundSuccess(req: HttpRequest<any>) {
+    return {
+      data: [
+        {
+          refund: {
+            identifier: "9d665140-3185-11ea-9b48-8da3a8ef4d47",
+            total: "820",
+            status: "refund pending",
+            created_at: "2020-01-07 19:40:52"
+          },
+          transaction: {
+            identifier: "9d64d7c0-3185-11ea-b994-61bb1163f97a",
+            employee_id: null,
+            tax: "650",
+            tip: "652",
+            net_sales: "8668",
+            total: "9970",
+            partial_payment: "0",
+            locked: "1",
+            bill_created_at: "2020-01-07 19:40:52",
+            updated_at: "2020-01-07 19:40:52",
+            status: "open",
+            purchased_items: [],
+            refunds: [
+              {
+                identifier: "9d665140-3185-11ea-9b48-8da3a8ef4d47",
+                total: "820",
+                status: "refund pending",
+                created_at: "2020-01-07 19:40:52"
+              }
+            ]
+          },
+          customer: {
+            identifier: "9d5ec050-3185-11ea-8838-fdca0ad73e3f",
+            email: "schulist.annabel@example.com",
+            first_name: "Edwardo",
+            last_name: "Bednar",
+            photo: {
+              name: "logo-1578426052yhqci.png",
+              small_url: `assets/images/mock/avatar-${this.randomNum(
+                1,
+                6
+              )}.png`,
+              large_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`
+            }
+          },
+          employee: null
+        },
+        {
+          refund: {
+            identifier: "9d665140-3185-11ea-9b48-8da3a8ef4d47",
+            total: "820",
+            status: "refund pending",
+            created_at: "2020-01-07 19:40:52"
+          },
+          transaction: {
+            identifier: "9d64d7c0-3185-11ea-b994-61bb1163f97a",
+            employee_id: null,
+            tax: "650",
+            tip: "652",
+            net_sales: "8668",
+            total: "9970",
+            partial_payment: "0",
+            locked: "1",
+            bill_created_at: "2020-01-07 19:40:52",
+            updated_at: "2020-01-07 19:40:52",
+            status: "open",
+            purchased_items: [],
+            refunds: [
+              {
+                identifier: "9d665140-3185-11ea-9b48-8da3a8ef4d47",
+                total: "820",
+                status: "refund pending",
+                created_at: "2020-01-07 19:40:52"
+              }
+            ]
+          },
+          customer: {
+            identifier: "9d5ec050-3185-11ea-8838-fdca0ad73e3f",
+            email: "schulist.annabel@example.com",
+            first_name: "Edwardo",
+            last_name: "Bednar",
+            photo: {
+              name: "logo-1578426052yhqci.png",
+              small_url: `assets/images/mock/avatar-${this.randomNum(
+                1,
+                6
+              )}.png`,
+              large_url: `assets/images/mock/avatar-${this.randomNum(1, 6)}.png`
+            }
+          },
+          employee: null
+        }
+      ],
+      links: {
+        first: `${urls.business.refunds}?id=9d665140-3185-11ea-9b48-8da3a8ef4d47&page=1`,
+        last: `${urls.business.refunds}?id=9d665140-3185-11ea-9b48-8da3a8ef4d47&page=1`,
+        prev: null,
+        next: null
+      },
+      meta: {
+        current_page: 1,
+        from: 1,
+        last_page: 1,
+        path: `${urls.business.refunds}`,
+        per_page: 10,
+        to: 1,
+        total: 1
+      }
+    };
+  }
+
+  private getRefundFail(req: HttpRequest<any>) {
+    return {
+      data: [],
+      links: {
+        first: `${urls.business.refunds}?id=9d665140-3185-11ea-9b48-8da3a8ef4d47&page=1`,
+        last: `${urls.business.refunds}?id=9d665140-3185-11ea-9b48-8da3a8ef4d47&page=1`,
+        prev: null,
+        next: null
+      },
+      meta: {
+        current_page: 1,
+        from: null,
+        last_page: 1,
+        path: `${urls.business.refunds}`,
         per_page: 10,
         to: null,
         total: 0

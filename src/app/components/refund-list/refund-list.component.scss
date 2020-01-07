@@ -1,0 +1,44 @@
+@import '../../styles/themes';
+
+@include nb-install-component() {
+  nb-card {
+    &.scroll {
+      max-height: 30rem;
+    }
+  }
+
+  .ml-2 {
+    margin-left: 2rem;
+  }
+
+  .float-r {
+    float: right;
+  }
+
+  .icon {
+    font-size: 1.75rem;
+  }
+
+  .text-link {
+    color: nb-theme(link-text-color);
+    cursor: pointer;
+  }
+
+  .pointer {
+    cursor: pointer;
+  }
+
+  .caption {
+    float: right;
+  }
+
+  .contact {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &:first-child {
+      border-top: none;
+    }
+  }
+}

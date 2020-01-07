@@ -12,7 +12,7 @@
             placeholder="Transaction ID"
             formControlName="transactionId"
             [dropSpecialCharacters]="false"
-            mask="A{8}-A{4}-A{4}-A{4}-A{12}"
+            mask="AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA"
           />
           <button
             [disabled]="transactionIdForm.invalid || loading"
@@ -38,7 +38,7 @@
         <assigned-transaction [transaction]="transaction"></assigned-transaction>
       </nb-card-body>
       <nb-card-body class="center-text" *ngIf="transaction == undefined">
-        Unable to find a transaction matching that id!
+        Unable to find a transaction matching that ID!
       </nb-card-body>
     </nb-card>
   </nb-card-back>

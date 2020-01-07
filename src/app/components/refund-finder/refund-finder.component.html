@@ -1,0 +1,55 @@
+<nb-flip-card [showToggleButton]="false" [flipped]="flipped">
+  <nb-card-front>
+    <nb-card accent="primary">
+      <nb-card-header>
+        <ng-container *ngIf="searchByRefundId">
+          <span class="float-r">
+            <button (click)="toggleIdForm()" nbButton status="info" size="small">Search by Transaction ID</button>
+          </span>
+          <h5 class="title">Refund ID</h5>
+        </ng-container>
+        <ng-container *ngIf="!searchByRefundId">
+          <span class="float-r">
+            <button (click)="toggleIdForm()" nbButton status="info" size="small">Search by Refund ID</button>
+          </span>
+          <h5>Transaction ID</h5>
+        </ng-container>
+      </nb-card-header>
+      <nb-card-body>
+        <form *ngIf="searchByRefundId" class="form-inline" [formGroup]="refundIdForm" (ngSubmit)="doSearchRefundId()">
+          <input type="text" nbInput fullWidth shape="round" placeholder="Refund ID" formControlName="refundId"
+            mask="AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA" [dropSpecialCharacters]="false" />
+          <button [nbSpinner]="loading" [disabled]="refundIdForm.invalid || loading" type="submit" nbButton status="primary">
+            Search
+          </button>
+        </form>
+
+        <form *ngIf="!searchByRefundId" class="form-inline" [formGroup]="transactionIdForm" (ngSubmit)="doSearchTransactionId()">
+          <input type="text" nbInput fullWidth shape="round" placeholder="Transaction ID" formControlName="transactionId"
+            mask="AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA" [dropSpecialCharacters]="false">
+          <button [nbSpinner]="loading" [disabled]="transactionIdForm.invalid || loading" type="submit" nbButton status="primary">
+            Search
+          </button>
+        </form>
+      </nb-card-body>
+    </nb-card>
+  </nb-card-front>
+
+  <nb-card-back>
+    <nb-card [accent]="refund != undefined ? 'success' : 'danger'">
+      <nb-card-header>
+        <span class="title">Search for Refund</span>
+        <span class="chevron fs-2" (click)="flip()"><nb-icon icon="chevron-right-outline"></nb-icon> </span>
+      </nb-card-header>
+
+      <nb-card-body *ngIf="refund != undefined">
+        <assigned-transaction [transaction]="transaction"></assigned-transaction>
+      </nb-card-body>
+
+      <nb-card-body *ngIf="refund == undefined" class="center-text">
+        Unable to find refund matching that ID!
+      </nb-card-body>
+    </nb-card>
+  </nb-card-back>
+
+</nb-flip-card>

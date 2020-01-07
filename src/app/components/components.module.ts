@@ -19,6 +19,8 @@ import { CalendarDialogComponent } from '../dialogs/calendar-dialog/calendar-dia
 import { CustomerFinderComponent } from './customer-finder/customer-finder.component';
 import { ActiveCustomersComponent } from './active-customers/active-customers.component';
 import { RecentCustomersComponent } from './recent-customers/recent-customers.component';
+import { RefundListComponent } from './refund-list/refund-list.component';
+import { RefundFinderComponent } from './refund-finder/refund-finder.component';
 
 
 
@@ -35,6 +37,8 @@ import { RecentCustomersComponent } from './recent-customers/recent-customers.co
     CustomerFinderComponent,
     ActiveCustomersComponent,
     RecentCustomersComponent,
+    RefundListComponent,
+    RefundFinderComponent,
   ],
   imports: [
     CommonModule,
@@ -68,6 +72,8 @@ import { RecentCustomersComponent } from './recent-customers/recent-customers.co
     CustomerFinderComponent,
     ActiveCustomersComponent,
     RecentCustomersComponent,
+    RefundListComponent,
+    RefundFinderComponent
   ]
 })
 export class ComponentsModule {}

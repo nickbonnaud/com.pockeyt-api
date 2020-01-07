@@ -230,7 +230,7 @@ export class OnBoardComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   postOwners(): Observable<Owner[]> {
-    let responses = [];
+    let responses: Observable<Owner>[] = [];
 
     this.owners.forEach((owner: Owner) => {
       responses.push(

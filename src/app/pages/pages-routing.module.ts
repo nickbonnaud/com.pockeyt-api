@@ -13,6 +13,7 @@ import { BankComponent } from './bank/bank.component';
 import { GeoFenceComponent } from './geo-fence/geo-fence.component';
 import { PosComponent } from './pos/pos.component';
 import { DashboardAccountComponent } from './dashboard-account/dashboard-account.component';
+import { RefundCenterComponent } from './refund-center/refund-center.component';
 
 
 const routes: Routes = [{
@@ -30,6 +31,10 @@ const routes: Routes = [{
     {
       path: 'sales',
       component: SalesCenterComponent
+    },
+    {
+      path: 'refunds',
+      component: RefundCenterComponent
     },
     {
       path: 'customers',

@@ -1,28 +1,44 @@
 import { Injectable } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, NavigationStart } from '@angular/router';
+import { Subject } from 'rxjs';
+
+interface NavUrls {
+  prev: string;
+  nextOrCurrent: string;
+}
 
 @Injectable({
   providedIn: "root"
 })
 export class RouteFinderService {
-  private previousUrl: string;
-  private currentUrl: string;
+  urlChanging$: Subject<NavUrls> = new Subject<NavUrls>();
+  private urlHistory: NavUrls = {
+    prev: "",
+    nextOrCurrent: ""
+  };
 
   constructor(private router: Router) {
-    this.currentUrl = this.router.url;
+    this.urlHistory.nextOrCurrent = this.router.url;
     router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        this.previousUrl = this.currentUrl;
-        this.currentUrl = event.url;
+      if (event instanceof NavigationStart) {
+        const urls: NavUrls = {
+          prev: this.urlHistory.nextOrCurrent,
+          nextOrCurrent: event.url
+        }
+
+        this.urlChanging$.next(urls);
+      } else if (event instanceof NavigationEnd) {
+        this.urlHistory.prev = this.urlHistory.nextOrCurrent;
+        this.urlHistory.nextOrCurrent = event.url;
       }
     });
   }
 
   public getPreviousUrl(): string {
-    return this.previousUrl;
+    return this.urlHistory.prev;
   }
 
   public getCurrentUrl(): string {
-    return this.currentUrl;
+    return this.urlHistory.nextOrCurrent;
   }
 }

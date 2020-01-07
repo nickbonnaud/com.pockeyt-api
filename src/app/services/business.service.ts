@@ -24,7 +24,7 @@ export class BusinessService {
 
   constructor(private mockData: MockInterceptor, private bodyMutator: BodyInterceptor) {
     if (!environment.production) {
-      this.createTestBusiness();
+      // this.createTestBusiness();
     }
    }
 
@@ -66,7 +66,7 @@ export class BusinessService {
     }
 
     this.updateAccountStatus(accountStatus);
-   }
+  }
 
   updateBusiness(business: Business): void {
     this.business$.next(business);
