@@ -12,20 +12,20 @@ import { BusinessService } from 'src/app/services/business.service';
 
 
 @Component({
-  selector: "register",
-  styleUrls: ["./register.component.scss"],
-  templateUrl: "./register.component.html",
+  selector: "login",
+  templateUrl: "./login.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RegisterComponent {
+export class LoginComponent {
   redirectDelay: number = 0;
   showMessages: any = {};
   strategy: string = "";
 
-  submitted = false;
   errors: string[] = [];
   messages: string[] = [];
   user: any = {};
+  submitted: boolean = false;
+  rememberMe = false;
 
   constructor(
     protected service: NbAuthService,
@@ -34,28 +34,30 @@ export class RegisterComponent {
     protected router: Router,
     private businessService: BusinessService
   ) {
-    this.redirectDelay = this.getConfigValue("forms.register.redirectDelay");
-    this.showMessages = this.getConfigValue("forms.register.showMessages");
-    this.strategy = this.getConfigValue("forms.register.strategy");
+    this.redirectDelay = this.getConfigValue("forms.login.redirectDelay");
+    this.showMessages = this.getConfigValue("forms.login.showMessages");
+    this.strategy = this.getConfigValue("forms.login.strategy");
+    this.rememberMe = this.getConfigValue("forms.login.rememberMe");
   }
 
-  register(): void {
-    this.errors = this.messages = [];
+  login(): void {
+    this.errors = [];
+    this.messages = [];
     this.submitted = true;
 
     this.service
-      .register(this.strategy, this.user)
+      .authenticate(this.strategy, this.user)
       .subscribe((result: NbAuthResult) => {
         this.submitted = false;
+
         if (result.isSuccess()) {
           this.messages = result.getMessages();
         } else {
           this.errors = result.getErrors();
         }
 
-        const redirect = result.getRedirect();
+        const redirect = this.getRedirect(result);
         if (redirect) {
-          this.getBusiness(result.getResponse());
           setTimeout(() => {
             return this.router.navigateByUrl(redirect);
           }, this.redirectDelay);
@@ -68,8 +70,18 @@ export class RegisterComponent {
     return getDeepFromObject(this.options, key, null);
   }
 
-  getBusiness(response: HttpResponse<any>): void {
+  getRedirect(result: NbAuthResult): string {
+    const business: Business = this.getBusiness(result.getResponse());
+    const redirect: string = result.getRedirect();
+    if (redirect && business.accounts.accountStatus.code < 120) {
+      return '/dashboard/onboard';
+    }
+    return redirect;
+  }
+
+  getBusiness(response: HttpResponse<any>): Business {
     const business: Business = response.body.business;
     this.businessService.updateBusiness(business);
+    return business;
   }
 }

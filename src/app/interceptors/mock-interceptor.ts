@@ -373,8 +373,24 @@ export class MockInterceptor implements HttpInterceptor {
   private postLogin(req: HttpRequest<any>) {
     return {
       data: {
-        token:
-          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3RcL2FwaVwvYnVzaW5lc3NcL2F1dGhcL2xvZ2luIiwiaWF0IjoxNTc4MDAwMDI0LCJleHAiOjE1NzgwMDM2MjQsIm5iZiI6MTU3ODAwMDAyNCwianRpIjoiZ2lwQ3IwWFlkdlBGSFc1MyIsInN1YiI6MSwicHJ2IjoiZDU2MmQ5Y2E2MTg0OTYxMzI3YzlkZWE0YjlmMGJlMWUzY2ZiN2IyZCJ9.T0iAqgipp1_2QmgG976H1l4gN0PpDPelzv5Nj0dKpTc"
+        token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3RcL2FwaVwvYnVzaW5lc3NcL2F1dGhcL2xvZ2luIiwiaWF0IjoxNTc4NTIwMjc4LCJleHAiOjE1Nzg1MjM4NzgsIm5iZiI6MTU3ODUyMDI3OCwianRpIjoidnRwZlhLWDVxS05IOGp5NCIsInN1YiI6MSwicHJ2IjoiZDU2MmQ5Y2E2MTg0OTYxMzI3YzlkZWE0YjlmMGJlMWUzY2ZiN2IyZCJ9.2UYNlkUUeu4yiys6MFgIrBA8gCUNJP1198eRRAeqn7E",
+        business: {
+          identifier: "c4617e10-325b-11ea-bd2f-b172e15f4107",
+          email: "porter53@example.net",
+          profile: null,
+          photos: null,
+          accounts: {
+            business_account: null,
+            owner_accounts: [],
+            bank_account: null,
+            account_status: {
+              name: "Profile Account Incomplete",
+              code: "100"
+            }
+          },
+          location: null,
+          pos_account: null,
+        }
       },
       errors: {
         email: [null],
@@ -387,7 +403,24 @@ export class MockInterceptor implements HttpInterceptor {
     return {
       data: {
         token:
-          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3RcL2FwaVwvYnVzaW5lc3NcL2F1dGhcL2xvZ2luIiwiaWF0IjoxNTc2OTYzNjE5LCJleHAiOjE1NzczOTU2MTksIm5iZiI6MTU3Njk2MzYxOSwianRpIjoid29uQ08zdTVGSFI4QmgzYyIsInN1YiI6MSwicHJ2IjoiZDU2MmQ5Y2E2MTg0OTYxMzI3YzlkZWE0YjlmMGJlMWUzY2ZiN2IyZCJ9.bIDkn8VlGNcR93VKXjSW1_mnOj2BTCYBXrdjnp5g2QY"
+          "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3RcL2FwaVwvYnVzaW5lc3NcL2F1dGhcL2xvZ2luIiwiaWF0IjoxNTc4NTIwMjc4LCJleHAiOjE1Nzg1MjM4NzgsIm5iZiI6MTU3ODUyMDI3OCwianRpIjoidnRwZlhLWDVxS05IOGp5NCIsInN1YiI6MSwicHJ2IjoiZDU2MmQ5Y2E2MTg0OTYxMzI3YzlkZWE0YjlmMGJlMWUzY2ZiN2IyZCJ9.2UYNlkUUeu4yiys6MFgIrBA8gCUNJP1198eRRAeqn7E",
+        business: {
+          identifier: "c4617e10-325b-11ea-bd2f-b172e15f4107",
+          email: "porter53@example.net",
+          profile: null,
+          photos: null,
+          accounts: {
+            business_account: null,
+            owner_accounts: [],
+            bank_account: null,
+            account_status: {
+              name: "Profile Account Incomplete",
+              code: "100"
+            }
+          },
+          location: null,
+          pos_account: null
+        }
       },
       errors: {
         email: [null],

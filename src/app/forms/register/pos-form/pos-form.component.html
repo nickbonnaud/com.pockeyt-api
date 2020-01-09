@@ -3,7 +3,7 @@
   <div class="row">
     <div class="col-sm-4">
       <div class="form-group">
-        <nb-select (click)="markTypeAsDirty()" [status]="typeControl.dirty ? (typeControl.invalid ? 'danger' : 'success') : ''" fullWidth shape="round" id="type" placeholder="Current POS system" formControlName="type">
+        <nb-select (click)="markTypeAsDirty()" [status]="typeControl.dirty ? (typeControl.invalid ? 'danger' : 'success') : 'basic'" fullWidth shape="round" id="type" placeholder="Current POS system" formControlName="type">
           <nb-option *ngFor="let posType of posOptions" [value]="posType.value">{{ posType.name }}</nb-option>
         </nb-select>
         <ng-container *ngIf="typeControl.invalid && typeControl.dirty">
@@ -15,7 +15,7 @@
 
     <div class="col-sm-4">
       <div class="form-group">
-        <nb-select (click)="markTakesTipsAsDirty()" [status]="tipsControl.dirty ? (tipsControl.invalid ? 'danger' : 'success') : ''" fullWidth shape="round" id="takesTips" placeholder="Are tips enabled on your POS system?" formControlName="takesTips">
+        <nb-select (click)="markTakesTipsAsDirty()" [status]="tipsControl.dirty ? (tipsControl.invalid ? 'danger' : 'success') : 'basic'" fullWidth shape="round" id="takesTips" placeholder="Are tips enabled on your POS system?" formControlName="takesTips">
           <nb-option *ngFor="let tipOption of boolOptions" [value]="tipOption.value">{{ tipOption.name }}</nb-option>
         </nb-select>
         <ng-container *ngIf="tipsControl.invalid && tipsControl.dirty">
@@ -28,7 +28,7 @@
     <div class="col-sm-4">
       <div class="form-group">
         <nb-select (click)="markOpenTicketsAsDirty()"
-          [status]="openTicketsControl.dirty ? (openTicketsControl.invalid ? 'danger' : 'success') : ''" fullWidth shape="round"
+          [status]="openTicketsControl.dirty ? (openTicketsControl.invalid ? 'danger' : 'success') : 'basic'" fullWidth shape="round"
           id="allowsOpenTickets" placeholder="Are open tickets/tabs enabled on your POS system?" formControlName="allowsOpenTickets">
           <nb-option *ngFor="let ticketOption of boolOptions" [value]="ticketOption.value">{{ ticketOption.name }}</nb-option>
         </nb-select>

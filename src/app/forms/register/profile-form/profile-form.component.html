@@ -3,7 +3,7 @@
   <div class="row">
     <div class="col-sm-6">
       <div class="form-group">
-        <input google-place (placeSelected)="setPlace($event)" [status]="nameControl.touched ? (nameControl.invalid  ? 'danger' : 'success') : ''" nbInput fullWidth shape="round" id="name" type="text" placeholder="Business Name" formControlName="name">
+        <input google-place (placeSelected)="setPlace($event)" [status]="nameControl.touched ? (nameControl.invalid  ? 'danger' : 'success') : 'basic'" nbInput fullWidth shape="round" id="name" type="text" placeholder="Business Name" formControlName="name">
         <nb-icon *ngIf="placeSet" (click)="unsetPlace()"  class="delete" status="danger" icon="close-circle"></nb-icon>
         <ng-container *ngIf="nameControl.invalid && nameControl.touched">
           <p class="caption status-danger" *ngIf="!!nameControl.errors?.required">Business Name is required!</p>
@@ -14,7 +14,7 @@
 
     <div class="col-sm-6">
       <div class="form-group">
-        <input [status]="websiteControl.touched ? (websiteControl.invalid  ? 'danger' : 'success') : ''" nbInput fullWidth shape="round" id="website" type="url" placeholder="Business Website" formControlName="website">
+        <input [status]="websiteControl.touched ? (websiteControl.invalid  ? 'danger' : 'success') : 'basic'" nbInput fullWidth shape="round" id="website" type="url" placeholder="Business Website" formControlName="website">
         <ng-container *ngIf="websiteControl.invalid && websiteControl.touched">
           <p class="caption status-danger" *ngIf="!!websiteControl.errors?.required">Website URL is required!</p>
           <p class="caption status-danger" *ngIf="!!websiteControl.errors?.pattern">Not a valid URL!</p>
@@ -26,7 +26,7 @@
   <div class="row">
     <div class="col-sm-12">
       <div class="form-group">
-        <textarea [status]="descriptionControl.touched ? (descriptionControl.invalid  ? 'danger' : 'success') : ''" rows="5" nbInput fullWidth shape="round" id="description" placeholder="Business Description" class="form-control"
+        <textarea [status]="descriptionControl.touched ? (descriptionControl.invalid  ? 'danger' : 'success') : 'basic'" rows="5" nbInput fullWidth shape="round" id="description" placeholder="Business Description" class="form-control"
           formControlName="description"></textarea>
         <ng-container *ngIf="descriptionControl.invalid && descriptionControl.touched">
           <p class="caption status-danger" *ngIf="!!descriptionControl.errors?.required">Business Description is required!</p>

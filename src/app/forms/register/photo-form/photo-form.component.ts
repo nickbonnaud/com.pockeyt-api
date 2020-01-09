@@ -39,8 +39,10 @@ export class PhotoFormComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroyed$))
       .subscribe((business: Business) => {
         let photos = business.photos;
-        photos.banner.largeUrl != undefined ? this.bannerPreviewUrl = photos.banner.largeUrl : null;
+        if (photos) {
+          photos.banner.largeUrl != undefined ? this.bannerPreviewUrl = photos.banner.largeUrl : null;
         photos.logo.largeUrl != undefined ? this.logoPreviewUrl = photos.logo.largeUrl : null;
+        }
       });
   }
 
@@ -85,8 +87,9 @@ export class PhotoFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  next() {
+  next(fileInput: any) {
     this.bannerActive = true;
+    this.bannerControl.untouched ? fileInput.click() : null;
   }
 
   prev() {

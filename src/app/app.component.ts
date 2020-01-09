@@ -17,41 +17,8 @@ interface NavUrls {
   template: "<router-outlet></router-outlet>"
 })
 export class AppComponent {
-  hasFetchedBusiness: boolean = false;
   title: string = "dashboard-business";
 
-  constructor (
-    private routeFinderService: RouteFinderService,
-    private api: ApiService,
-    private businessService: BusinessService
-  ) {
-    this.checkFetchBusinessData();
-  }
+  constructor () {}
 
-  checkFetchBusinessData(): void {
-    if (!this.hasFetchedBusiness) {
-      let destroyed$: Subject<boolean> = new Subject<boolean>();
-      this.routeFinderService.urlChanging$
-        .pipe(takeUntil(destroyed$))
-        .subscribe((changingUrl: NavUrls) => {
-          if (changingUrl.prev == "/auth/login" && changingUrl.nextOrCurrent == '/dashboard/home') {
-            destroyed$.next(true);
-            destroyed$.unsubscribe();
-            this.fetchBusiness();
-          }
-        });
-    }
-  }
-
-  fetchBusiness(): void {
-    let destroyed$: Subject<boolean> = new Subject<boolean>();
-    this.api.get(urls.business.me)
-      .pipe(takeUntil(destroyed$))
-      .subscribe((business: Business) => {
-        destroyed$.next(true);
-        destroyed$.unsubscribe();
-        this.hasFetchedBusiness = true;
-        this.businessService.updateBusiness(business);
-      });
-  }
 }

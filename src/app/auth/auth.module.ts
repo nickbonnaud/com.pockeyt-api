@@ -7,11 +7,12 @@ import { NbAlertModule, NbInputModule, NbButtonModule, NbCheckboxModule } from '
 import { AuthRoutingModule } from './auth-routing.module';
 import { RegisterComponent } from './register/register.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { LoginComponent } from './login/login.component';
 
 
 
 @NgModule({
-  declarations: [RegisterComponent, ResetPasswordComponent],
+  declarations: [RegisterComponent, ResetPasswordComponent, LoginComponent],
   imports: [
     CommonModule,
     FormsModule,

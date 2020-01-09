@@ -1,41 +1,38 @@
 <nb-card>
   <nb-card-body>
-    <nb-stepper #stepper>
+    <nb-stepper #stepper [disableStepNavigation]="true">
 
-      <nb-step [stepControl]="profileForm" label="Profile">
+      <nb-step [hidden]="hiddenProfile" *ngIf="100 >= initialProgress" [stepControl]="profileForm" label="Profile">
         <form [formGroup]="profileForm" class="step-container">
           <h4 class="lorem">
             Alright, lets get started! First lets get some basic information about your business.
           </h4>
           <profile-form [parentFormGroup]="profileForm"></profile-form>
-          <button disabled nbButton nbStepperNext>prev</button>
-          <button [disabled]="profileForm.invalid" (click)="goToPhotos()" nbButton nbStepperNext>next</button>
+          <button size="large" [nbSpinner]="loading" [disabled]="profileForm.invalid" (click)="storeProfile()" nbButton>next</button>
         </form>
       </nb-step>
 
-      <nb-step [stepControl]="photosForm" label="Logo and Banner">
+      <nb-step [hidden]="hiddenPhotos" *ngIf="101 >= initialProgress" [stepControl]="photosForm" label="Logo and Banner">
         <form [formGroup]="photosForm" class="step-container">
           <h4 class="lorem">
             Alright! Let's get your Logo and Banner so customers know who you are!
           </h4>
           <photo-form [parentFormGroup]="photosForm" [editMode]="false"></photo-form>
-          <button nbButton nbStepperPrevious (click)="goToProfile()">prev</button>
-          <button [disabled]="photosForm.invalid" nbButton nbStepperNext (click)="goToBusiness()">next</button>
+          <button size="large" [nbSpinner]="loading" [disabled]="photosForm.invalid" nbButton (click)="storePhotos()">next</button>
         </form>
       </nb-step>
 
-      <nb-step [stepControl]="businessForm" label="Business Info">
+      <nb-step [hidden]="hiddenBusinessAccount" *ngIf="102 >= initialProgress" [stepControl]="businessForm" label="Business Info">
         <form *ngIf="currentStep === 'business'" [formGroup]="businessForm" class="step-container">
           <h4 class="lorem">
             Great, we are on our way! Next, lets get some information about your business so you can get paid!
           </h4>
           <business-form [parentFormGroup]="businessForm"></business-form>
-          <button nbButton nbStepperPrevious (click)="goToPhotos()">prev</button>
-          <button [disabled]="businessForm.invalid" nbButton nbStepperNext (click)="goToOwner()">next</button>
+          <button size="large" [nbSpinner]="loading" [disabled]="businessForm.invalid" nbButton (click)="storeBusinessAccount()">next</button>
         </form>
       </nb-step>
 
-      <nb-step label="Owner Info">
+      <nb-step [hidden]="hiddenOwner" *ngIf="103 >= initialProgress" label="Owner Info">
         <form [formGroup]="ownerForm" class="step-container">
           <h4 class="lorem">
             Looking good! We are almost done! Help us out with some info about the ownership of your business.
@@ -44,41 +41,37 @@
             Please add every person that has a 25% stake or higher in your business.
           </p>
           <owner-form (ownersChanged)="changeOwners($event)" [parentFormGroup]="ownerForm"></owner-form>
-          <button nbButton nbStepperPrevious (click)="goToBusiness()">prev</button>
-          <button [disabled]="owners.length === 0" nbButton nbStepperNext (click)="goToBank()">next</button>
+          <button size="large" [nbSpinner]="loading" [disabled]="owners.length === 0" nbButton (click)="storeOwners()">next</button>
         </form>
       </nb-step>
 
-      <nb-step [stepControl]="bankForm" label="Banking Info">
+      <nb-step [hidden]="hiddenBank" *ngIf="104 >= initialProgress" [stepControl]="bankForm" label="Banking Info">
         <form [formGroup]="bankForm" class="step-container">
           <h4 class="lorem">
             Almost done! Now all we need is the banking information for your business, that way we know where to deposit your transactions!
           </h4>
           <bank-form [parentFormGroup]="bankForm"></bank-form>
-          <button nbButton nbStepperPrevious (click)="goToOwner()">prev</button>
-          <button [disabled]="bankForm.invalid" nbButton nbStepperNext (click)="goToMap()">next</button>
+          <button size="large" [nbSpinner]="loading" [disabled]="bankForm.invalid" nbButton (click)="storeBank()">next</button>
         </form>
       </nb-step>
 
-      <nb-step [stepControl]="mapForm" label="Geo Fence">
+      <nb-step [hidden]="hiddenGeoData" *ngIf="105 >= initialProgress" [stepControl]="mapForm" label="Geo Fence">
         <form *ngIf="currentStep === 'map'" [formGroup]="mapForm" class="step-container">
           <h4 class="lorem">
             Great! Now let's set up your Geo Fence! Adjust the size of the circle so it just fits around your business's location.
           </h4>
           <map-form [parentFormGroup]="mapForm"></map-form>
-          <button nbButton nbStepperPrevious (click)="goToBank()">prev</button>
-          <button [disabled]="mapForm.invalid" nbButton nbStepperNext (click)="goToPos()">next</button>
+          <button size="large" [nbSpinner]="loading" [disabled]="mapForm.invalid" nbButton (click)="storeGeoData()">next</button>
         </form>
       </nb-step>
 
-      <nb-step [stepControl]="posForm" label="POS Info">
+      <nb-step [hidden]="hiddenPos" *ngIf="106 >= initialProgress" [stepControl]="posForm" label="POS Info">
         <form [formGroup]="posForm" class="step-container">
           <h4 class="lorem">
             Last step, we promise! We just need some info about your current Payment System.
           </h4>
           <pos-form [parentFormGroup]="posForm"></pos-form>
-          <button nbButton nbStepperPrevious (click)="goToMap()">prev</button>
-          <button [disabled]="posForm.invalid" nbButton nbStepperNext (click)="finishOnboard()">Finish</button>
+          <button size="large" [nbSpinner]="loading" [disabled]="posForm.invalid" nbButton (click)="storePosData()">Finish</button>
         </form>
       </nb-step>
 

@@ -3,7 +3,7 @@
   <div class="row">
     <div class="col-sm-12">
       <div class="form-group">
-        <input [status]="businessNameControl.touched ? (businessNameControl.invalid ? 'danger' : 'success') : ''" nbInput fullWidth shape="round" id="businessName" type="text" placeholder="Official Business Name i.e Acme llc." formControlName="businessName">
+        <input [status]="businessNameControl.touched ? (businessNameControl.invalid ? 'danger' : 'success') : 'basic'" nbInput fullWidth shape="round" id="businessName" type="text" placeholder="Official Business Name i.e Acme llc." formControlName="businessName">
         <ng-container *ngIf="businessNameControl.invalid && businessNameControl.touched">
           <p class="caption status-danger" *ngIf="!!businessNameControl.errors?.required">Official Business name is required!</p>
           <p class="caption status-danger" *ngIf="!!businessNameControl.errors?.minlength">Official Business Name must be at least 2 letters!</p>
@@ -15,7 +15,7 @@
   <div class="row">
     <div class="col-sm-6">
       <div class="form-group">
-        <input [status]="addressControl.touched ? (addressControl.invalid ? 'danger' : 'success') : ''" nbInput fullWidth shape="round" id="address" type="text" placeholder="Business Address" formControlName="address">
+        <input [status]="addressControl.touched ? (addressControl.invalid ? 'danger' : 'success') : 'basic'" nbInput fullWidth shape="round" id="address" type="text" placeholder="Business Address" formControlName="address">
         <ng-container *ngIf="addressControl.invalid && addressControl.touched">
           <p class="caption status-danger" *ngIf="!!addressControl.errors?.required">Business Address is required!</p>
         </ng-container>
@@ -32,7 +32,7 @@
   <div class="row">
     <div class="col-sm-6">
       <div class="form-group">
-        <input [status]="cityControl.touched ? (cityControl.invalid ? 'danger' : 'success') : ''" nbInput fullWidth shape="round" id="city" type="text" placeholder="City" formControlName="city">
+        <input [status]="cityControl.touched ? (cityControl.invalid ? 'danger' : 'success') : 'basic'" nbInput fullWidth shape="round" id="city" type="text" placeholder="City" formControlName="city">
         <ng-container *ngIf="cityControl.invalid && cityControl.touched">
           <p class="caption status-danger" *ngIf="!!cityControl.errors?.required">City is required!</p>
         </ng-container>
@@ -41,7 +41,7 @@
 
     <div class="col-sm-3">
       <div class="form-group">
-        <nb-select (click)="markStateAsDirty()" [status]="stateControl.dirty ? (stateControl.invalid ? 'danger' : 'success') : ''" fullWidth shape="round" id="state" placeholder="State" class="select-margin" formControlName="state">
+        <nb-select (click)="markStateAsDirty()" [status]="stateControl.dirty ? (stateControl.invalid ? 'danger' : 'success') : 'basic'" fullWidth shape="round" id="state" placeholder="State" class="select-margin" formControlName="state">
           <nb-option *ngFor="let state of states" [value]="state">{{ state }}</nb-option>
         </nb-select>
         <ng-container *ngIf="stateControl.invalid && stateControl.dirty">
@@ -53,7 +53,7 @@
 
     <div class="col-sm-3">
       <div class="form-group">
-        <input mask="00000" [status]="zipControl.touched ? (zipControl.invalid ? 'danger' : 'success') : ''" nbInput fullWidth shape="round" id="zip" type="tel" placeholder="Zip/Postal Code" formControlName="zip">
+        <input mask="00000" [status]="zipControl.touched ? (zipControl.invalid ? 'danger' : 'success') : 'basic'" nbInput fullWidth shape="round" id="zip" type="tel" placeholder="Zip/Postal Code" formControlName="zip">
         <ng-container *ngIf="zipControl.invalid && zipControl.touched">
           <p class="caption status-danger" *ngIf="!!zipControl.errors?.required">Zip is required!</p>
           <p class="caption status-danger" *ngIf="!!zipControl.errors?.pattern">Zip can only be numbers!</p>
@@ -66,7 +66,7 @@
   <div class="row">
     <div class="col-sm-6">
       <div class="form-group">
-        <nb-select (click)="markBusinessTypeAsDirty()" [status]="entityTypeControl.dirty ? (entityTypeControl.invalid ? 'danger' : 'success') : ''" fullWidth shape="round" id="entityType" placeholder="Business Type" formControlName="entityType" class="select-margin">
+        <nb-select (click)="markBusinessTypeAsDirty()" [status]="entityTypeControl.dirty ? (entityTypeControl.invalid ? 'danger' : 'success') : 'basic'" fullWidth shape="round" id="entityType" placeholder="Business Type" formControlName="entityType" class="select-margin">
           <nb-option *ngFor="let type of entityTypes" [value]="type.value">{{ type.title }}</nb-option>
         </nb-select>
         <ng-container *ngIf="entityTypeControl.invalid && entityTypeControl.dirty">
@@ -78,7 +78,7 @@
 
     <div class="col-sm-6">
       <div class="form-group">
-        <input [status]="einControl.touched ? (einControl.invalid ? 'danger' : 'success') : ''" mask="00-0000000" nbInput fullWidth shape="round" id="ein" type="tel" placeholder="EIN (Employee ID Number)" formControlName="ein">
+        <input [status]="einControl.touched ? (einControl.invalid ? 'danger' : 'success') : 'basic'" mask="00-0000000" nbInput fullWidth shape="round" id="ein" type="tel" placeholder="EIN (Employee ID Number)" formControlName="ein">
         <ng-container *ngIf="einControl.invalid && einControl.touched">
           <p class="caption status-danger" *ngIf="!!einControl.errors?.pattern">EIN can only have numbers and a dash!</p>
           <p class="caption status-danger" *ngIf="!!einControl.errors?.lengthMatch">EIN must be 9 numbers long!</p>

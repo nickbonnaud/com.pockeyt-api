@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { NbAuthComponent, NbLoginComponent, NbRequestPasswordComponent } from '@nebular/auth';
-import { RegisterComponent } from './register/register.component';
+import { NbAuthComponent, NbRequestPasswordComponent } from '@nebular/auth';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 
 
 export const routes: Routes = [
@@ -12,7 +13,7 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        component: NbLoginComponent
+        component: LoginComponent
       },
       {
         path: 'register',
@@ -20,7 +21,7 @@ export const routes: Routes = [
       },
       {
         path: 'login',
-        component: NbLoginComponent
+        component: LoginComponent
       },
       {
         path: 'request-password',

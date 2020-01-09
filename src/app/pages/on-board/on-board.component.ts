@@ -1,24 +1,31 @@
-import { PosAccount } from './../../models/business/pos-account';
-import { Location } from './../../models/business/location';
-import { Bank } from './../../models/business/bank';
-import { BusinessAccount } from './../../models/business/business-account';
-import { Photos } from './../../models/business/photos';
-import { BusinessService } from './../../services/business.service';
-import { Profile } from './../../models/business/profile';
-import { ApiService } from './../../services/api.service';
-import { FormControlProviderService } from './../../forms/services/form-control-provider.service';
-import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { Owner } from 'src/app/models/business/owner';
-import { urls } from 'src/app/urls/main';
-import { Subject, Observable, forkJoin } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { Business } from 'src/app/models/business/business';
-import { environment } from 'src/environments/environment';
-import { Router } from '@angular/router';
-import { NbAuthService, NbAuthJWTToken } from '@nebular/auth';
-import { RouteFinderService } from 'src/app/services/route-finder.service';
-import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
+import { PosAccount } from "./../../models/business/pos-account";
+import { Location } from "./../../models/business/location";
+import { Bank } from "./../../models/business/bank";
+import { BusinessAccount } from "./../../models/business/business-account";
+import { Photos } from "./../../models/business/photos";
+import { BusinessService } from "./../../services/business.service";
+import { Profile } from "./../../models/business/profile";
+import { ApiService } from "./../../services/api.service";
+import { FormControlProviderService } from "./../../forms/services/form-control-provider.service";
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  AfterViewInit,
+  ViewChild
+} from "@angular/core";
+import { FormGroup } from "@angular/forms";
+import { Owner } from "src/app/models/business/owner";
+import { urls } from "src/app/urls/main";
+import { Subject, Observable, forkJoin } from "rxjs";
+import { takeUntil } from "rxjs/operators";
+import { Business } from "src/app/models/business/business";
+import { environment } from "src/environments/environment";
+import { Router } from "@angular/router";
+import { NbAuthService, NbAuthJWTToken } from "@nebular/auth";
+import { RouteFinderService } from "src/app/services/route-finder.service";
+import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
+import { NbStepperComponent } from "@nebular/theme";
 
 @Component({
   selector: "app-on-board",
@@ -27,9 +34,11 @@ import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 })
 export class OnBoardComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild("oauthAlert", { static: false }) private oauthAlert: SwalComponent;
+  @ViewChild("stepper", { static: false }) private stepper: NbStepperComponent;
+
   private destroyed$: Subject<boolean> = new Subject<boolean>();
 
-  loading: boolean = true;
+  loading: boolean = false;
 
   profileForm: FormGroup;
   businessForm: FormGroup;
@@ -41,6 +50,17 @@ export class OnBoardComponent implements OnInit, OnDestroy, AfterViewInit {
 
   owners: Owner[] = [];
   currentStep: string;
+
+  hiddenProfile: boolean = false;
+  hiddenPhotos: boolean = false;
+  hiddenBusinessAccount: boolean = false;
+  hiddenOwner: boolean = false;
+  hiddenBank: boolean = false;
+  hiddenGeoData: boolean = false;
+  hiddenPos: boolean = false;
+
+  business: Business;
+  initialProgress: number;
 
   constructor(
     private fcProvider: FormControlProviderService,
@@ -60,7 +80,7 @@ export class OnBoardComponent implements OnInit, OnDestroy, AfterViewInit {
     this.mapForm = this.fcProvider.registerMapControls();
     this.posForm = this.fcProvider.registerPosTypeControls();
 
-    this.currentStep = "profile";
+    this.checkOnboardProgress();
   }
 
   ngAfterViewInit(): void {
@@ -79,39 +99,209 @@ export class OnBoardComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  checkOnboardProgress(): void {
+    this.business = this.businessService.business$.getValue();
+    this.initialProgress = +this.business.accounts.accountStatus.code;
+    switch (this.initialProgress) {
+      case 100:
+        this.currentStep = "profile";
+        break;
+      case 101:
+        this.currentStep = "photos";
+        break;
+      case 102:
+        this.currentStep = "business";
+        break;
+      case 103:
+        this.currentStep = "owner";
+        break;
+      case 104:
+        this.currentStep = "bank";
+        break;
+      case 105:
+        this.currentStep = "map";
+        break;
+      case 106:
+        this.currentStep = "pos";
+        break;
+      default:
+        this.currentStep = "profile";
+        break;
+    }
+  }
+
+  storeProfile(): void {
+    this.loading = true;
+    let profileData: Profile = this.profileForm.value;
+    profileData.name = this.profileForm.get("name").value;
+    this.api
+      .post<Profile>(urls.business.profile_store_get, profileData)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((profile: Profile) => {
+        this.business.profile = profile;
+        this.loading = false;
+        this.goToPhotos();
+      });
+  }
+
   goToPhotos(): void {
     this.currentStep = "photos";
+    this.hiddenProfile = true;
+    this.business.accounts.accountStatus.code = 101;
+    this.goForward();
+  }
+
+  storePhotos(): void {
+    this.loading = true;
+    const logoData: any = {
+      photo: this.photosForm.get("logo").value,
+      isLogo: true
+    };
+
+    const bannerData: any = {
+      photo: this.photosForm.get("banner").value,
+      isLogo: false
+    };
+
+    let profile: Profile = this.businessService.business$.value.profile;
+    forkJoin([
+      this.postPhoto(logoData, profile.identifier),
+      this.postPhoto(bannerData, profile.identifier)
+    ])
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((logoBannerPhotos: [Photos, Photos]) => {
+        let photos: Photos = new Photos();
+        photos.logo = logoBannerPhotos[0].logo;
+        photos.banner = logoBannerPhotos[1].banner;
+        this.business.photos = photos;
+        this.loading = false;
+        this.goToBusiness();
+      });
+  }
+
+  postPhoto(data: any, profileId: string): Observable<Photos> {
+    return this.api.post<Photos>(urls.business.photos_store, data);
   }
 
   goToBusiness() {
     this.currentStep = "business";
+    this.hiddenPhotos = true;
+    this.business.accounts.accountStatus.code = 102;
+    this.goForward();
+  }
+
+  storeBusinessAccount(): void {
+    this.loading = true;
+    this.api
+      .post<BusinessAccount>(
+        urls.business.account_store_patch,
+        this.businessForm.value
+      )
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((businessAccount: BusinessAccount) => {
+        let business: Business = this.businessService.business$.getValue();
+        if (
+          business.location.lat == undefined ||
+          business.location.lng == undefined
+        ) {
+          this.geoCodeAddress();
+        }
+        this.business.accounts.businessAccount = businessAccount;
+        this.loading = false;
+        this.goToOwner();
+      });
   }
 
   goToOwner(): void {
-    let business: Business = this.businessService.business$.getValue();
-    if (
-      business.location.lat == undefined ||
-      business.location.lng == undefined
-    ) {
-      this.geoCodeAddress();
-    }
     this.currentStep = "owner";
+    this.hiddenBusinessAccount = true;
+    this.business.accounts.accountStatus.code = 103;
+    this.goForward();
   }
 
-  goToProfile(): void {
-    this.currentStep = "profile";
+  storeOwners(): void {
+    this.loading = true;
+    let responses: Observable<Owner>[] = [];
+
+    this.owners.forEach((owner: Owner) => {
+      responses.push(
+        this.api.post<Owner>(urls.business.owner_store_patch, owner)
+      );
+    });
+    forkJoin(responses)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((owners: Owner[]) => {
+        this.business.accounts.ownerAccounts = owners;
+        this.loading = false;
+        this.goToBank();
+      });
   }
 
   goToBank(): void {
     this.currentStep = "bank";
+    this.hiddenOwner = true;
+    this.business.accounts.accountStatus.code = 104;
+    this.goForward();
+  }
+
+  storeBank(): void {
+    this.loading = true;
+    this.api
+      .post<Bank>(urls.business.bank_store_patch, this.bankForm.value)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((bank: Bank) => {
+        this.business.accounts.bankAccount = bank;
+        this.loading = false;
+        this.goToMap();
+      });
   }
 
   goToMap(): void {
     this.currentStep = "map";
+    this.hiddenBank = true;
+    this.business.accounts.accountStatus.code = 105;
+    this.goForward();
+  }
+
+  storeGeoData(): void {
+    this.loading = true;
+    this.api
+      .post<Location>(urls.business.location, this.mapForm.value)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((location: Location) => {
+        this.business.location = location;
+        this.loading = false;
+        this.goToPos();
+      });
   }
 
   goToPos(): void {
     this.currentStep = "pos";
+    this.hiddenGeoData = true;
+    this.business.accounts.accountStatus.code = 106;
+    this.goForward();
+  }
+
+  storePosData(): void {
+    this.loading = true;
+    this.api
+      .post<PosAccount>(urls.business.pos_store_patch_get, this.posForm.value)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((posAccount: PosAccount) => {
+        this.business.posAccount = posAccount;
+        this.loading = false;
+        this.finish();
+      });
+  }
+
+  finish(): void {
+    this.business.accounts.accountStatus.code = 120;
+    this.businessService.updateBusiness(this.business);
+    this.redirectToOauth();
+  }
+
+  goForward(): void {
+    this.stepper.next();
   }
 
   changeOwners(owners: Owner[]): void {
@@ -148,43 +338,6 @@ export class OnBoardComponent implements OnInit, OnDestroy, AfterViewInit {
       });
   }
 
-  finishOnboard(): void {
-    this.loading = true;
-    forkJoin([
-      this.storeProfile(),
-      this.storeBusinessData(),
-      this.storeGeoData(),
-      this.storePosData()
-    ])
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe(
-        (
-          data: [
-            Profile,
-            [BusinessAccount, Owner[], Bank],
-            Location,
-            PosAccount
-          ]
-        ) => {
-          this.businessService.updateProfile(data[0]);
-          this.businessService.updateAccounts(
-            data[1][0],
-            data[1][1],
-            data[1][2]
-          );
-          this.businessService.updateLocation(data[2]);
-          this.businessService.updatePosAccount(data[3]);
-          this.submitPhotos(data[0])
-            .pipe(takeUntil(this.destroyed$))
-            .subscribe((logoBannerPhotos: [Photos, Photos]) => {
-              this.loading = false;
-              this.updatePhotos(logoBannerPhotos);
-              this.redirectToOauth();
-            });
-        }
-      );
-  }
-
   redirectToOauth(): void {
     const posType: string = this.posForm.get("type").value;
     let url: string = urls.oauth[posType];
@@ -201,84 +354,6 @@ export class OnBoardComponent implements OnInit, OnDestroy, AfterViewInit {
         queryParams: { oauth: "success" }
       });
     }
-  }
-
-  storeBusinessData(): Observable<[BusinessAccount, Owner[], Bank]> {
-    return forkJoin([
-      this.postBusinessAccount(),
-      this.postOwners(),
-      this.postBank()
-    ]);
-  }
-
-  storePosData(): Observable<PosAccount> {
-    return this.api.post<PosAccount>(
-      urls.business.pos_store_patch_get,
-      this.posForm.value
-    );
-  }
-
-  storeGeoData(): Observable<Location> {
-    return this.api.post<Location>(urls.business.location, this.mapForm.value);
-  }
-
-  postBank(): Observable<Bank> {
-    return this.api.post<Bank>(
-      urls.business.bank_store_patch,
-      this.bankForm.value
-    );
-  }
-
-  postOwners(): Observable<Owner[]> {
-    let responses: Observable<Owner>[] = [];
-
-    this.owners.forEach((owner: Owner) => {
-      responses.push(
-        this.api.post<Owner>(urls.business.owner_store_patch, owner)
-      );
-    });
-    return forkJoin(responses);
-  }
-
-  postBusinessAccount(): Observable<BusinessAccount> {
-    return this.api.post<BusinessAccount>(
-      urls.business.account_store_patch,
-      this.businessForm.value
-    );
-  }
-
-  storeProfile(): Observable<Profile> {
-    let profileData: Profile = this.profileForm.value;
-    profileData.name = this.profileForm.get("name").value;
-    return this.api.post<Profile>(urls.business.profile_store_get, profileData);
-  }
-
-  submitPhotos(profile: Profile): Observable<[Photos, Photos]> {
-    const logoData: any = {
-      photo: this.photosForm.get("logo").value,
-      isLogo: true
-    };
-
-    const bannerData: any = {
-      photo: this.photosForm.get("banner").value,
-      isLogo: false
-    };
-
-    return forkJoin([
-      this.postPhoto(logoData, profile.identifier),
-      this.postPhoto(bannerData, profile.identifier)
-    ]);
-  }
-
-  postPhoto(data: any, profileId: string): Observable<Photos> {
-    return this.api.post<Photos>(urls.business.photos_store, data, profileId);
-  }
-
-  updatePhotos(logoBannerPhotos: Photos[]) {
-    let photos: Photos = new Photos();
-    photos.logo = logoBannerPhotos[0].logo;
-    photos.banner = logoBannerPhotos[1].banner;
-    this.businessService.updatePhotos(photos);
   }
 
   ngOnDestroy(): void {

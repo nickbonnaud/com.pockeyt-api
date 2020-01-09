@@ -20,7 +20,7 @@
     <label class="label" for="input-email">Email address:</label>
     <input nbInput [(ngModel)]="user.email" #email="ngModel" id="input-email" name="email" pattern=".+@.+..+"
       placeholder="Email address" fullWidth fieldSize="large"
-      [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : ''"
+      [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : 'basic'"
       [required]="getConfigValue('forms.validation.email.required')"
       [attr.aria-invalid]="email.invalid && email.touched ? true : null">
     <ng-container *ngIf="email.invalid && email.touched">
@@ -37,7 +37,7 @@
     <label class="label" for="input-password">Password:</label>
     <input nbInput [(ngModel)]="user.password" #password="ngModel" type="password" id="input-password" name="password"
       placeholder="Password" fullWidth fieldSize="large"
-      [status]="password.dirty ? (password.invalid  ? 'danger' : 'success') : ''"
+      [status]="password.dirty ? (password.invalid  ? 'danger' : 'success') : 'basic'"
       [required]="getConfigValue('forms.validation.password.required')"
       [minlength]="getConfigValue('forms.validation.password.minLength')"
       [pattern]="getConfigValue('forms.validation.password.regexp')"
@@ -61,7 +61,7 @@
     <label class="label" for="input-re-password">Repeat password:</label>
     <input nbInput [(ngModel)]="user.passwordConfirmation" #passwordConfirmation="ngModel" type="password" id="input-re-password"
       name="passwordConfirmation" placeholder="Confirm Password" fullWidth fieldSize="large"
-      [status]="passwordConfirmation.dirty ? (passwordConfirmation.invalid || password.value != passwordConfirmation.value  ? 'danger' : 'success') : ''"
+      [status]="passwordConfirmation.dirty ? (passwordConfirmation.invalid || password.value != passwordConfirmation.value  ? 'danger' : 'success') : 'basic'"
       [required]="getConfigValue('forms.validation.password.required')"
       [attr.aria-invalid]="passwordConfirmation.invalid && passwordConfirmation.touched ? true : null">
     <ng-container *ngIf="(passwordConfirmation.invalid && passwordConfirmation.touched) || (passwordConfirmation.touched && password.value != passwordConfirmation.value)">
