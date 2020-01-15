@@ -862,7 +862,7 @@ export class MockInterceptor implements HttpInterceptor {
   getPos(req: HttpRequest<any> = null) {
     return {
       identifier: "1f1beda0-da45-11e9-bb04-99c1aceb43be",
-      type: "vend",
+      type: "other",
       takes_tips: true,
       allows_open_tickets: false,
       status: {

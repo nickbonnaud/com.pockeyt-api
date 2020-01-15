@@ -14,7 +14,7 @@
 
     <div class="col-sm-6">
       <div class="form-group">
-        <input [status]="websiteControl.touched ? (websiteControl.invalid  ? 'danger' : 'success') : 'basic'" nbInput fullWidth shape="round" id="website" type="url" placeholder="Business Website" formControlName="website">
+        <input (focus)="focusWebsiteInput()" [value]="websiteControl.value | www: websiteFormFocused" [status]="websiteControl.touched ? (websiteControl.invalid  ? 'danger' : 'success') : 'basic'" nbInput fullWidth shape="round" id="website" type="url" placeholder="Business Website" formControlName="website">
         <ng-container *ngIf="websiteControl.invalid && websiteControl.touched">
           <p class="caption status-danger" *ngIf="!!websiteControl.errors?.required">Website URL is required!</p>
           <p class="caption status-danger" *ngIf="!!websiteControl.errors?.pattern">Not a valid URL!</p>

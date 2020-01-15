@@ -40,9 +40,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
     this.businessService.business$
       .pipe(takeUntil(this.destroyed$))
       .subscribe((business: Business) => {
-        let profile = business.profile;
-        delete profile["identifier"];
-        this.setProfileForm(profile);
+        this.setProfileForm(business.profile);
         this.profileForm.disable();
       });
   }

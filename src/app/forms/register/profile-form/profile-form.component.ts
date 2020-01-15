@@ -22,6 +22,7 @@ export class ProfileFormComponent implements OnInit, OnDestroy {
   googleIdControl: AbstractControl;
 
   placeSet: boolean = false;
+  websiteFormFocused: boolean = false;
   business: Business;
 
   constructor(private ref: ChangeDetectorRef, private businessService: BusinessService) {}
@@ -64,6 +65,7 @@ export class ProfileFormComponent implements OnInit, OnDestroy {
 
   clearForm(): void {
     this.placeSet = false;
+    this.websiteFormFocused = false;
     this.parentFormGroup.reset();
     this.nameControl.enable();
   }
@@ -80,6 +82,12 @@ export class ProfileFormComponent implements OnInit, OnDestroy {
 
   updateBusinessService(business: Business): void {
     this.businessService.updateBusiness(business);
+  }
+
+  focusWebsiteInput(): void {
+    if (!this.websiteFormFocused) {
+      this.websiteFormFocused = true;
+    }
   }
 
   ngOnDestroy(): void {

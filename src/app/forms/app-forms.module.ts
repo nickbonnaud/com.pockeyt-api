@@ -20,6 +20,7 @@ import { EditOwnerComponent } from './update/edit-owner/edit-owner.component';
 import { EditBankFormComponent } from './update/edit-bank-form/edit-bank-form.component';
 import { EditPosFormComponent } from './update/edit-pos-form/edit-pos-form.component';
 import { EditDashboardAccountFormComponent } from './update/edit-dashboard-account-form/edit-dashboard-account-form.component';
+import { WwwPipe } from './pipes/www.pipe';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { EditDashboardAccountFormComponent } from './update/edit-dashboard-accou
     EditOwnerComponent,
     EditBankFormComponent,
     EditPosFormComponent,
-    EditDashboardAccountFormComponent
+    EditDashboardAccountFormComponent,
+    WwwPipe
   ],
   entryComponents: [ConfirmOrCancelDialogComponent, OwnerListDialogComponent],
   imports: [

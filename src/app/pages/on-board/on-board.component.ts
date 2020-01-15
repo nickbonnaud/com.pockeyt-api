@@ -25,8 +25,10 @@ import { Router } from "@angular/router";
 import { NbAuthService, NbAuthJWTToken } from "@nebular/auth";
 import { RouteFinderService } from "src/app/services/route-finder.service";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
-import { NbStepperComponent } from "@nebular/theme";
+import { NbStepperComponent, NbDialogService, NbDialogRef } from "@nebular/theme";
 import { FileUploaderService } from 'src/app/services/file-uploader.service';
+import { ConfirmOrCancelDialogComponent } from 'src/app/dialogs/confirm-or-cancel-dialog/confirm-or-cancel-dialog.component';
+import { WarningDialogComponent } from 'src/app/dialogs/warning-dialog/warning-dialog.component';
 
 @Component({
   selector: "app-on-board",
@@ -70,7 +72,8 @@ export class OnBoardComponent implements OnInit, OnDestroy, AfterViewInit {
     private businessService: BusinessService,
     private router: Router,
     private authService: NbAuthService,
-    private routeFinderService: RouteFinderService
+    private routeFinderService: RouteFinderService,
+    private dialogService: NbDialogService
   ) {}
 
   ngOnInit() {
@@ -133,29 +136,52 @@ export class OnBoardComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   storeProfile(): void {
-    this.loading = true;
     const business: Business = this.businessService.business$.getValue();
     if (business.location.lat != undefined && business.location.lng != undefined) {
-        forkJoin([
-        this.postProfile(),
-        this.postLocation(business)
-      ])
-        .pipe(takeUntil(this.destroyed$))
-        .subscribe((data: [Profile, Location]) => {
-          this.business.profile = data[0];
-          this.business.location = data[1];
-          this.loading = false;
-          this.goToPhotos();
-        });
+      this.uploadProfileData(business);
     } else {
-      this.postProfile()
-        .pipe(takeUntil(this.destroyed$))
-        .subscribe((profile: Profile) => {
-          this.business.profile = profile;
-          this.loading = false;
-          this.goToPhotos();
+      this.requestLocation()
+        .onClose.pipe(takeUntil(this.destroyed$))
+        .subscribe(allow => {
+          if (allow) {
+            this.getCurrentPosition(business);
+          }
         });
     }
+  }
+
+  getCurrentPosition(business: Business): void {
+    window.navigator.geolocation.getCurrentPosition(position => {
+      business.location.lat = position.coords.latitude + "";
+      business.location.lng = position.coords.longitude + "";
+      business.location.radius = 50;
+      this.businessService.updateLocation(business.location);
+      this.uploadProfileData(business);
+    });
+  }
+
+  requestLocation(): NbDialogRef<ConfirmOrCancelDialogComponent> {
+    return this.dialogService
+        .open(ConfirmOrCancelDialogComponent, {
+          closeOnBackdropClick: false,
+          context: {
+            title: `Allow ${environment.app_name} access to your location?`,
+            body: `${environment.app_name} requires the latitude and longitude of your business.
+            Don't worry you can adjust this in the Geo Fence step.`
+          }
+        })
+  }
+
+  uploadProfileData(business: Business): void {
+    this.loading = true;
+    forkJoin([this.postProfile(), this.postLocation(business)])
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((data: [Profile, Location]) => {
+        this.business.profile = data[0];
+        this.business.location = data[1];
+        this.loading = false;
+        this.goToPhotos();
+      });
   }
 
   postProfile(): Observable<Profile> {
@@ -164,7 +190,7 @@ export class OnBoardComponent implements OnInit, OnDestroy, AfterViewInit {
     return this.api.post<Profile>(urls.business.profile_store_get, profileData);
   }
 
-  postLocation(business): Observable<Location> {
+  postLocation(business: Business): Observable<Location> {
     const body: any = {
       lat: business.location.lat,
       lng: business.location.lng,
@@ -248,21 +274,34 @@ export class OnBoardComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   storeOwners(): void {
-    this.loading = true;
-    let responses: Observable<Owner>[] = [];
-
-    this.owners.forEach((owner: Owner) => {
-      responses.push(
-        this.api.post<Owner>(urls.business.owner_store_patch, owner)
-      );
+    const index: number = this.owners.findIndex((owner: Owner) => {
+      return owner.primary;
     });
-    forkJoin(responses)
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe((owners: Owner[]) => {
-        this.business.accounts.ownerAccounts = owners;
-        this.loading = false;
-        this.goToBank();
+    if (index >= 0) {
+      this.loading = true;
+      let responses: Observable<Owner>[] = [];
+
+      this.owners.forEach((owner: Owner) => {
+        responses.push(
+          this.api.post<Owner>(urls.business.owner_store_patch, owner)
+        );
       });
+      forkJoin(responses)
+        .pipe(takeUntil(this.destroyed$))
+        .subscribe((owners: Owner[]) => {
+          this.business.accounts.ownerAccounts = owners;
+          this.loading = false;
+          this.goToBank();
+        });
+    } else {
+      this.dialogService.open(WarningDialogComponent, {
+        closeOnBackdropClick: false,
+        context: {
+          title: `A Primary Owner must be selected.`,
+          body: `Please assign a Primary Owner. All businesses must have 1 Primary Owner.`
+        }
+      });
+    }
   }
 
   goToBank(): void {

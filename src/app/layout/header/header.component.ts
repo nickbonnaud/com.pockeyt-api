@@ -127,8 +127,9 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         .get<any>(urls.auth.logout)
         .pipe(takeUntil(this.destroy$))
         .subscribe((res: any) => {
-          if (res.token.value == null) {
+          if (res.token == null) {
             this.loadingLogout = false;
+            this.authService.logout("email");
             this.router.navigateByUrl("/auth/login");
           }
         });
@@ -222,8 +223,6 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     this.destroy$.complete();
 
     this.paginator.removePageData(this.BASE_URL_MESSAGES);
-    this.businessService.updateBusiness(undefined);
-    this.authService.logout('email');
   }
 
   toggleSidebar(): boolean {

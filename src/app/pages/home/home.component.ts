@@ -9,6 +9,7 @@ import { takeUntil, filter } from 'rxjs/operators';
 import { Subject } from 'rxjs/internal/Subject';
 import { Observable } from 'rxjs/internal/Observable';
 import { BusinessService } from 'src/app/services/business.service';
+import { RouteFinderService } from 'src/app/services/route-finder.service';
 
 @Component({
   selector: 'app-home',
@@ -25,7 +26,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private api: ApiService,
-    private businessService: BusinessService
+    private businessService: BusinessService,
+    private routeFinder: RouteFinderService
   ) {}
 
   ngOnInit(): void {
@@ -51,27 +53,19 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
         filter((params: Params) => params.oauth)
       )
       .subscribe((params: Params) => {
-        this.getPosAccount()
-          .pipe(takeUntil(this.destroyed$))
-          .subscribe((posAccount: PosAccount) => {
-            this.showOauthAlert(posAccount, params);
-            this.removeQueryParams();
-            this.businessService.updatePosAccount(posAccount);
-          });
+        this.showOauthAlert(params);
+        this.removeQueryParams();
       });
   }
 
-  showOauthAlert(posAccount: PosAccount, params: Params): void {
-    if (params.oauth === 'success') {
-      if (posAccount.status.code === 100 && this.business.posAccount.status.code !== 100) {
-        const title = 'Success! Onboarding Complete!';
-        this.showSuccessAlert(title);
-      }
+  showOauthAlert(params: Params): void {
+    console.log(this.routeFinder.getPreviousUrl());
+    if (params.oauth === 'success' && this.routeFinder.getPreviousUrl() == '/dashboard/onboard') {
+      const title = "Success! Onboarding Complete!";
+      this.showSuccessAlert(title);
     } else if (params.oauth === 'fail') {
-      if (posAccount.status.code == 500) {
-        const title = 'Oops! Something went wrong connecting your XXXX account!';
-        this.showFailAlert(title);
-      }
+      const title = `Oops! Something went wrong connecting your ${this.business.posAccount.type} account!`;
+      this.showFailAlert(title);
     }
   }
 
@@ -83,7 +77,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
     this.oauthAlert.update({
       text: title,
       type: 'success',
-      timer: 4 * 1000,
+      timer: 5 * 1000,
       showConfirmButton: false
     });
     this.oauthAlert.fire();

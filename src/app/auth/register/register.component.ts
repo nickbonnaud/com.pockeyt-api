@@ -51,6 +51,7 @@ export class RegisterComponent {
           this.messages = result.getMessages();
         } else {
           this.errors = result.getErrors();
+          this.setErrors(result);
         }
 
         const redirect = result.getRedirect();
@@ -66,6 +67,11 @@ export class RegisterComponent {
 
   getConfigValue(key: string): any {
     return getDeepFromObject(this.options, key, null);
+  }
+
+  setErrors(result: NbAuthResult): void {
+    this.errors.push(result.getResponse().error.errors.email);
+    this.errors.push(result.getResponse().error.errors.password);
   }
 
   getBusiness(response: HttpResponse<any>): void {
