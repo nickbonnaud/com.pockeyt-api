@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
+  production: true,
   app_name: 'Heist',
   google_api_key: 'AIzaSyCRh9F7rjZFYmAgVbn8_89m0L_Cyj-QC10',
   base_url: 'http://pockeyt.local',

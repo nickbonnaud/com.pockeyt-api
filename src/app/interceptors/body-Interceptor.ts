@@ -11,7 +11,8 @@ import { mapKeys, snakeCase, camelCase } from 'lodash';
 })
 export class BodyInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (req.body != undefined) {
+    const isFormData: boolean = req.body instanceof FormData;
+    if (req.body != undefined && !isFormData) {
       const snakeCaseObject = mapKeys(req.body, (v, k) => snakeCase(k));
       req = req.clone({ body: snakeCaseObject });
     }

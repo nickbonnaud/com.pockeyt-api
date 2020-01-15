@@ -80,7 +80,7 @@
     </nb-checkbox>
   </div>
 
-  <button nbButton fullWidth status="primary" size="large" [disabled]="submitted || (!form.valid || password.value != passwordConfirmation.value)"
+  <button [nbSpinner]="submitted" nbButton fullWidth status="primary" size="large" [disabled]="submitted || (!form.valid || password.value != passwordConfirmation.value)"
     [class.btn-pulse]="submitted">
     Register
   </button>

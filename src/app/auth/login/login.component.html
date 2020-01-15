@@ -61,7 +61,7 @@
     <nb-checkbox name="rememberMe" [(ngModel)]="user.rememberMe" *ngIf="rememberMe">Remember me</nb-checkbox>
   </div>
 
-  <button nbButton fullWidth status="primary" size="large" [disabled]="submitted || !form.valid"
+  <button [nbSpinner]="submitted" nbButton fullWidth status="primary" size="large" [disabled]="submitted || !form.valid"
     [class.btn-pulse]="submitted">
     Log In
   </button>

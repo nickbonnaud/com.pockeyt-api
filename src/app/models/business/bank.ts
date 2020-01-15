@@ -6,5 +6,5 @@ export class Bank {
   address: Address;
   routingNumber: string;
   accountNumber: string;
-  type: string;
+  accountType: string;
 }

@@ -97,7 +97,7 @@
 
     <div class="col-sm-4">
       <div class="form-group">
-        <nb-select (click)="markTypeAsDirty()" [status]="typeControl.dirty ? (typeControl.invalid ? 'danger' : 'success') : 'basic'" fullWidth shape="round" id="type" placeholder="Account Type" class="select-margin" formControlName="type">
+        <nb-select (click)="markTypeAsDirty()" [status]="typeControl.dirty ? (typeControl.invalid ? 'danger' : 'success') : 'basic'" fullWidth shape="round" id="accountType" placeholder="Account Type" class="select-margin" formControlName="accountType">
           <nb-option *ngFor="let type of typeOptions" [value]="type.value">{{ type.title }}</nb-option>
         </nb-select>
         <ng-container *ngIf="typeControl.invalid && typeControl.dirty">

@@ -39,7 +39,7 @@ export class EditBankFormComponent implements OnInit {
     this.zipControl = this.parentFormGroup.get("zip");
     this.routingNumberControl = this.parentFormGroup.get("routingNumber");
     this.accountNumberControl = this.parentFormGroup.get("accountNumber");
-    this.typeControl = this.parentFormGroup.get("type");
+    this.typeControl = this.parentFormGroup.get("accountType");
   }
 
   markTypeAsDirty(): void {

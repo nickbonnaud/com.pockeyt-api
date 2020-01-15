@@ -67,7 +67,7 @@ export class BusinessService {
 
     let accountStatus: Status = {
       name: "Account Active",
-      code: 101
+      code: 100
     };
 
     this.updateAccountStatus(accountStatus);

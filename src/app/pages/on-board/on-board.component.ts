@@ -26,6 +26,7 @@ import { NbAuthService, NbAuthJWTToken } from "@nebular/auth";
 import { RouteFinderService } from "src/app/services/route-finder.service";
 import { SwalComponent } from "@sweetalert2/ngx-sweetalert2";
 import { NbStepperComponent } from "@nebular/theme";
+import { FileUploaderService } from 'src/app/services/file-uploader.service';
 
 @Component({
   selector: "app-on-board",
@@ -65,6 +66,7 @@ export class OnBoardComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     private fcProvider: FormControlProviderService,
     private api: ApiService,
+    private fileUploader: FileUploaderService,
     private businessService: BusinessService,
     private router: Router,
     private authService: NbAuthService,
@@ -132,16 +134,43 @@ export class OnBoardComponent implements OnInit, OnDestroy, AfterViewInit {
 
   storeProfile(): void {
     this.loading = true;
+    const business: Business = this.businessService.business$.getValue();
+    if (business.location.lat != undefined && business.location.lng != undefined) {
+        forkJoin([
+        this.postProfile(),
+        this.postLocation(business)
+      ])
+        .pipe(takeUntil(this.destroyed$))
+        .subscribe((data: [Profile, Location]) => {
+          this.business.profile = data[0];
+          this.business.location = data[1];
+          this.loading = false;
+          this.goToPhotos();
+        });
+    } else {
+      this.postProfile()
+        .pipe(takeUntil(this.destroyed$))
+        .subscribe((profile: Profile) => {
+          this.business.profile = profile;
+          this.loading = false;
+          this.goToPhotos();
+        });
+    }
+  }
+
+  postProfile(): Observable<Profile> {
     let profileData: Profile = this.profileForm.value;
     profileData.name = this.profileForm.get("name").value;
-    this.api
-      .post<Profile>(urls.business.profile_store_get, profileData)
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe((profile: Profile) => {
-        this.business.profile = profile;
-        this.loading = false;
-        this.goToPhotos();
-      });
+    return this.api.post<Profile>(urls.business.profile_store_get, profileData);
+  }
+
+  postLocation(business): Observable<Location> {
+    const body: any = {
+      lat: business.location.lat,
+      lng: business.location.lng,
+      radius: 50
+    };
+    return this.api.post<Location>(urls.business.location, body);
   }
 
   goToPhotos(): void {
@@ -153,15 +182,14 @@ export class OnBoardComponent implements OnInit, OnDestroy, AfterViewInit {
 
   storePhotos(): void {
     this.loading = true;
-    const logoData: any = {
-      photo: this.photosForm.get("logo").value,
-      isLogo: true
-    };
+    let logoData: FormData = new FormData();
+    logoData.append("photo", this.photosForm.get("logo").value);
+    logoData.append("is_logo", 'true');
 
-    const bannerData: any = {
-      photo: this.photosForm.get("banner").value,
-      isLogo: false
-    };
+
+    let bannerData: FormData = new FormData();
+    bannerData.append("photo", this.photosForm.get("banner").value);
+    bannerData.append("is_logo", "false");
 
     let profile: Profile = this.businessService.business$.value.profile;
     forkJoin([
@@ -180,7 +208,7 @@ export class OnBoardComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   postPhoto(data: any, profileId: string): Observable<Photos> {
-    return this.api.post<Photos>(urls.business.photos_store, data);
+    return this.fileUploader.post<Photos>(urls.business.photos_store, data, profileId);
   }
 
   goToBusiness() {
@@ -266,7 +294,11 @@ export class OnBoardComponent implements OnInit, OnDestroy, AfterViewInit {
   storeGeoData(): void {
     this.loading = true;
     this.api
-      .post<Location>(urls.business.location, this.mapForm.value)
+      .patch<Location>(
+        urls.business.location,
+        this.mapForm.value,
+        this.business.location.identifier
+      )
       .pipe(takeUntil(this.destroyed$))
       .subscribe((location: Location) => {
         this.business.location = location;

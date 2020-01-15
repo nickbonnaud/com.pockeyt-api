@@ -2,7 +2,7 @@
   <ng-container *ngIf="!editMode">
     <ng-container *ngIf="!bannerActive">
       <ng-container *ngIf="logoControl.invalid">
-        <p class="pad-top">Your logo should be a square image no smaller than 400 x 400 pixels.</p>
+        <p class="pad-top">Your logo should be a square image no smaller than 150 x 150 pixels.</p>
 
         <div class="row">
           <div class="col-sm-12">
@@ -36,7 +36,7 @@
           <div class="col-sm-12">
             <div class="form-group">
               <div class="logo-container">
-                <img class="logo" [src]="logoPreviewUrl">
+                <img class="logo preview-logo" [src]="logoPreviewUrl">
               </div>
             </div>
           </div>
@@ -62,7 +62,7 @@
 
     <ng-container *ngIf="bannerActive">
       <ng-container *ngIf="bannerControl.invalid">
-        <p class="pad-top">Your banner should be a rectangular image no smaller than 1000 x 720 pixels.</p>
+        <p class="pad-top">Your banner should be a rectangular image no smaller than 320 x 100 pixels.</p>
 
         <div class="row">
           <div class="col-sm-3"></div>
@@ -100,7 +100,7 @@
           <div class="col-sm-6">
             <div class="form-group">
               <div class="banner-container">
-                <img [src]="bannerPreviewUrl">
+                <img class="preview-banner" [src]="bannerPreviewUrl">
               </div>
             </div>
           </div>
@@ -147,7 +147,7 @@
           <div class="col-sm-12">
             <div class="form-group">
               <div class="logo-container">
-                <img class="logo" [src]="logoPreviewUrl">
+                <img class="logo preview-logo" [src]="logoPreviewUrl">
               </div>
             </div>
           </div>
@@ -178,7 +178,7 @@
           <div class="col-sm-6">
             <div class="form-group">
               <div class="banner-container">
-                <img [src]="bannerPreviewUrl">
+                <img class="preview-banner" [src]="bannerPreviewUrl">
               </div>
             </div>
           </div>

@@ -126,7 +126,7 @@
       <div class="form-group">
         <nb-select (click)="markTypeAsDirty()"
           [status]="typeControl.dirty ? (typeControl.invalid ? 'danger' : 'success') : ''" fullWidth shape="round"
-          id="type" placeholder="Account Type" class="select-margin" formControlName="type">
+          id="accountType" placeholder="Account Type" class="select-margin" formControlName="accountType">
           <nb-option *ngFor="let type of typeOptions" [value]="type.value">{{ type.title }}</nb-option>
         </nb-select>
         <ng-container *ngIf="typeControl.invalid && typeControl.dirty">

@@ -347,7 +347,7 @@ export class FormControlProviderService {
           Validators.maxLength(17)
         ])
       ],
-      type: [
+      accountType: [
         "",
         Validators.compose([
           Validators.required,
@@ -411,7 +411,7 @@ export class FormControlProviderService {
           Validators.maxLength(17)
         ])
       ],
-      type: [
+      accountType: [
         "",
         Validators.compose([
           Validators.required,

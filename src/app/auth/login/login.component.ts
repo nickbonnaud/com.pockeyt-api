@@ -54,7 +54,7 @@ export class LoginComponent {
           this.messages = result.getMessages();
         } else {
           this.errors = result.getErrors();
-        }
+;        }
 
         const redirect = this.getRedirect(result);
         if (redirect) {
@@ -71,10 +71,12 @@ export class LoginComponent {
   }
 
   getRedirect(result: NbAuthResult): string {
-    const business: Business = this.getBusiness(result.getResponse());
     const redirect: string = result.getRedirect();
-    if (redirect && business.accounts.accountStatus.code < 120) {
-      return '/dashboard/onboard';
+    if (result.isSuccess()) {
+      const business: Business = this.getBusiness(result.getResponse());
+      if (redirect && business.accounts.accountStatus.code < 120) {
+        return '/dashboard/onboard';
+      }
     }
     return redirect;
   }

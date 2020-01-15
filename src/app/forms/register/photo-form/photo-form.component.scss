@@ -6,7 +6,6 @@
   }
 
   .logo-container {
-    display: inline-flex;
     background-color: #ffffff;
     border-radius: 50%;
   }
@@ -24,6 +23,16 @@
     color: nb-theme(color-primary-default);
     font-size: 10rem;
     padding: 20px;
+  }
+
+  .preview-logo {
+    max-width:30%;
+    height: auto;
+  }
+
+  .preview-banner {
+    max-width:60%;
+    height: auto;
   }
 
   .pad-top {

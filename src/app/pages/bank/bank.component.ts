@@ -33,10 +33,10 @@ export class BankComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.BASE_URL = urls.business.bank_store_patch;
     this.bankForm = this.fcProvider.UpdateBankControls();
-    this.fetchProfile();
+    this.fetchBank();
   }
 
-  fetchProfile(): void {
+  fetchBank(): void {
     this.setBankForm(this.businessService.business$.value.accounts.bankAccount);
     this.bankForm.disable();
   }

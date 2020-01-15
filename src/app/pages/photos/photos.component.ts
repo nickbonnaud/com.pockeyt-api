@@ -4,11 +4,11 @@ import { Photos } from 'src/app/models/business/photos';
 import { FormControlProviderService } from 'src/app/forms/services/form-control-provider.service';
 import { Subject } from 'rxjs/internal/Subject';
 import { takeUntil } from 'rxjs/operators';
-import { ApiService } from 'src/app/services/api.service';
 import { urls } from 'src/app/urls/main';
 import { BusinessService } from 'src/app/services/business.service';
 import { Business } from 'src/app/models/business/business';
 import { Profile } from 'src/app/models/business/profile';
+import { FileUploaderService } from 'src/app/services/file-uploader.service';
 
 @Component({
   selector: "photos",
@@ -27,8 +27,8 @@ export class PhotosComponent implements OnInit, OnDestroy {
 
   constructor (
     private fcProvider: FormControlProviderService,
-    private api: ApiService,
-    private businessService: BusinessService
+    private businessService: BusinessService,
+    private fileUploader: FileUploaderService
   ) {}
 
   ngOnInit() {
@@ -62,15 +62,19 @@ export class PhotosComponent implements OnInit, OnDestroy {
     }
   }
 
-  postPhoto(photoData: any, isLogo: boolean): void {
+  postPhoto(photo: any, isLogo: boolean): void {
     if (!this.loading) {
       this.loading = true;
-      const photoFile: any = {
-        photo: photoData,
-        isLogo: isLogo
-      }
-      this.api
-        .post<Photos>(this.BASE_URL, photoFile, this.profile.identifier)
+
+      let photoData: FormData = new FormData();
+      photoData.append("photo", photo);
+      photoData.append("is_logo", isLogo + "");
+
+      this.fileUploader.post<Photos>(
+        this.BASE_URL,
+        photoData,
+        this.profile.identifier
+      )
         .pipe(takeUntil(this.destroyed$))
         .subscribe((photos: Photos) => {
           this.businessService.updatePhotos(photos);

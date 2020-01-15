@@ -49,26 +49,34 @@ export class PhotoFormComponent implements OnInit, OnDestroy {
   onImageInput(event: any) {
     if (event.target.files && event.target.files.length > 0) {
       const file: File = event.target.files[0];
-      const reader: FileReader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        if (this.bannerActive) {
-          this.bannerPreviewUrl = reader.result;
-          this.addBanner(file);
-        } else {
-          this.logoPreviewUrl = reader.result;
-          this.addLogo(file);
-        }
+
+      if (this.bannerActive) {
+        this.addBanner(file);
+      } else {
+        this.addLogo(file);
       }
+      this.previewImage(file);
     }
   }
 
+  previewImage(file: File): void {
+    const reader: FileReader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      if (this.bannerActive) {
+        this.bannerPreviewUrl = reader.result;
+      } else {
+        this.logoPreviewUrl = reader.result;
+      }
+    };
+  }
+
   addLogo(file: File): void {
-    this.logoControl.patchValue(file);
+    this.logoControl.setValue(file);
   }
 
   addBanner(file: File): void {
-    this.bannerControl.patchValue(file);
+    this.bannerControl.setValue(file);
   }
 
   watchLogo(): void {
@@ -89,7 +97,7 @@ export class PhotoFormComponent implements OnInit, OnDestroy {
 
   next(fileInput: any) {
     this.bannerActive = true;
-    this.bannerControl.untouched ? fileInput.click() : null;
+    this.bannerControl.untouched && !this.editMode ? fileInput.click() : null;
   }
 
   prev() {
