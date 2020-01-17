@@ -9,6 +9,7 @@ import { FormGroup, AbstractControl, Validators } from '@angular/forms';
 export class EditDashboardAccountFormComponent implements OnInit {
   @Input() parentFormGroup: FormGroup;
   @Input() formLocked: boolean;
+  @Input() editEmail: boolean
 
   locked: boolean = true;
 

@@ -53,13 +53,17 @@ export class BusinessDataComponent implements OnInit, OnDestroy {
   }
 
   toggleLock(): void {
+    this.setLock();
+    if (this.formLocked) {
+      this.setBusinessForm(this.business)
+    }
+  }
+
+  setLock(): void {
     this.formLocked = !this.formLocked;
     this.businessForm.disabled
       ? this.businessForm.enable()
       : this.businessForm.disable();
-    if (this.formLocked) {
-      this.setBusinessForm(this.business)
-    }
   }
 
   submit(): void {
@@ -76,7 +80,7 @@ export class BusinessDataComponent implements OnInit, OnDestroy {
 
           this.businessService.updateAccounts(business.accounts.businessAccount, business.accounts.ownerAccounts, business.accounts.bankAccount);
           this.setBusinessForm(business);
-          this.toggleLock();
+          this.setLock();
           this.loading = false;
         })
     }

@@ -2,7 +2,7 @@
 
   <div class="row">
     <div class="col-sm-6">
-      <input [status]="firstNameControl.touched ? (firstNameControl.invalid ? 'danger' : 'success') : ''" nbInput
+      <input [status]="firstNameControl.touched ? (firstNameControl.invalid ? 'danger' : 'success') : 'basic'" nbInput
         fullWidth shape="round" id="firstName" type="text" placeholder="Account holder first name"
         formControlName="firstName">
       <ng-container *ngIf="firstNameControl.invalid && firstNameControl.touched">
@@ -14,7 +14,7 @@
 
     <div class="col-sm-6">
       <div class="form-group">
-        <input [status]="lastNameControl.touched ? (lastNameControl.invalid ? 'danger' : 'success') : ''" nbInput
+        <input [status]="lastNameControl.touched ? (lastNameControl.invalid ? 'danger' : 'success') : 'basic'" nbInput
           fullWidth shape="round" id="lastName" type="text" placeholder="Account holder last name"
           formControlName="lastName">
         <ng-container *ngIf="lastNameControl.invalid && lastNameControl.touched">
@@ -29,7 +29,7 @@
   <div class="row">
     <div class="col-sm-6">
       <div class="form-group">
-        <input [status]="addressControl.touched ? (addressControl.invalid ? 'danger' : 'success') : ''" nbInput
+        <input [status]="addressControl.touched ? (addressControl.invalid ? 'danger' : 'success') : 'basic'" nbInput
           fullWidth shape="round" id="address" type="text" placeholder="Account holder address"
           formControlName="address">
         <ng-container *ngIf="addressControl.invalid && addressControl.touched">
@@ -49,7 +49,7 @@
   <div class="row">
     <div class="col-sm-6">
       <div class="form-group">
-        <input [status]="cityControl.touched ? (cityControl.invalid ? 'danger' : 'success') : ''" nbInput fullWidth
+        <input [status]="cityControl.touched ? (cityControl.invalid ? 'danger' : 'success') : 'basic'" nbInput fullWidth
           shape="round" id="city" type="text" placeholder="City" formControlName="city">
         <ng-container *ngIf="cityControl.invalid && cityControl.touched">
           <p class="caption status-danger" *ngIf="cityControl.hasError('required')">City is required!</p>
@@ -60,7 +60,7 @@
     <div class="col-sm-3">
       <div class="form-group">
         <nb-select (click)="markStateAsDirty()"
-          [status]="stateControl.dirty ? (stateControl.invalid ? 'danger' : 'success') : ''" fullWidth shape="round"
+          [status]="stateControl.dirty ? (stateControl.invalid ? 'danger' : 'success') : 'basic'" fullWidth shape="round"
           id="state" placeholder="State" class="select-margin" formControlName="state">
           <nb-option *ngFor="let state of states" [value]="state">{{ state }}</nb-option>
         </nb-select>
@@ -74,7 +74,7 @@
 
     <div class="col-sm-3">
       <div class="form-group">
-        <input mask="00000" [status]="zipControl.touched ? (zipControl.invalid ? 'danger' : 'success') : ''" nbInput
+        <input mask="00000" [status]="zipControl.touched ? (zipControl.invalid ? 'danger' : 'success') : 'basic'" nbInput
           fullWidth shape="round" id="zip" type="tel" placeholder="Zip/Postal Code" formControlName="zip">
         <ng-container *ngIf="zipControl.invalid && zipControl.touched">
           <p class="caption status-danger" *ngIf="zipControl.hasError('required')">Zip is required!</p>
@@ -89,7 +89,7 @@
     <div class="col-sm-4">
       <div class="form-group">
         <input mask="AAAAA0000"
-          [status]="routingNumberControl.touched ? (routingNumberControl.invalid ? 'danger' : 'success') : ''" nbInput
+          [status]="routingNumberControl.touched ? (routingNumberControl.invalid ? 'danger' : 'success') : 'basic'" nbInput
           fullWidth shape="round" id="routingNumber" type="tel" placeholder="Routing Number"
           formControlName="routingNumber">
         <ng-container *ngIf="routingNumberControl.invalid && routingNumberControl.touched">
@@ -106,7 +106,7 @@
     <div class="col-sm-4">
       <div class="form-group">
         <input mask="A{6}9{11}"
-          [status]="accountNumberControl.touched ? (accountNumberControl.invalid ? 'danger' : 'success') : ''" nbInput
+          [status]="accountNumberControl.touched ? (accountNumberControl.invalid ? 'danger' : 'success') : 'basic'" nbInput
           fullWidth shape="round" id="accountNumber" type="tel" placeholder="Account Number"
           formControlName="accountNumber">
         <ng-container *ngIf="accountNumberControl.invalid && accountNumberControl.touched">
@@ -125,7 +125,7 @@
     <div class="col-sm-4">
       <div class="form-group">
         <nb-select (click)="markTypeAsDirty()"
-          [status]="typeControl.dirty ? (typeControl.invalid ? 'danger' : 'success') : ''" fullWidth shape="round"
+          [status]="typeControl.dirty ? (typeControl.invalid ? 'danger' : 'success') : 'basic'" fullWidth shape="round"
           id="accountType" placeholder="Account Type" class="select-margin" formControlName="accountType">
           <nb-option *ngFor="let type of typeOptions" [value]="type.value">{{ type.title }}</nb-option>
         </nb-select>

@@ -43,8 +43,9 @@ export class BankComponent implements OnInit, OnDestroy {
 
   setBankForm(bank: Bank): void {
     this.bank = bank;
+    let bankAccount = bank;
 
-    let bankAccount = Object.assign({}, bank);
+    bankAccount = Object.assign({}, bank);
     delete bankAccount["identifier"];
 
     let bankAddress = bank.address;
@@ -66,7 +67,7 @@ export class BankComponent implements OnInit, OnDestroy {
     if (!this.loading) {
       this.loading = true;
       this.api
-        .patch<Bank>(this.BASE_URL, this.bankForm.value, this.bank.identifer)
+        .patch<Bank>(this.BASE_URL, this.bankForm.value, this.bank.identifier)
         .pipe(takeUntil(this.destroyed$))
         .subscribe((bank: Bank) => {
           let business: Business = this.businessService.business$.value;

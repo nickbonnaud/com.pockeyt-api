@@ -41,7 +41,7 @@
           </ng-container>
           <ng-container *ngIf="selectedOwner.identifier == undefined">
             <button nbButton (click)="cancelNew()">Cancel</button>
-            <button [nbSpinner]="loading" class="float-r" nbButton [disabled]="ownerForm.invalid" (click)="submitNew()">Submit</button>
+            <button [nbSpinner]="loading" class="float-r" nbButton [disabled]="ownerForm.invalid" (click)="submit()">Submit</button>
           </ng-container>
         </form>
       </nb-card-body>

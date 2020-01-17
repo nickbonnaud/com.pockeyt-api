@@ -1,10 +1,13 @@
 <nb-card>
   <nb-card-header>
+    <span *ngIf="!formLocked" class="float-r">
+      <button (click)="toggleEdit()" nbButton status="info" size="small">{{ editEmail ? 'Change Password' : 'Change Email' }}</button>
+    </span>
     Dashboard Account Settings
   </nb-card-header>
   <nb-card-body>
     <form [formGroup]="accountForm" label="Dashboard Account">
-      <edit-dashboard-account-form [parentFormGroup]="accountForm" [formLocked]="formLocked"></edit-dashboard-account-form>
+      <edit-dashboard-account-form [parentFormGroup]="accountForm" [formLocked]="formLocked" [editEmail]="editEmail"></edit-dashboard-account-form>
       <button [nbSpinner]="loadingPassCheck" nbButton [disabled]="accountForm.get('password').invalid" (click)="toggleLock()">{{ formLocked ? 'Unlock' : 'Cancel'  }}</button>
       <button [nbSpinner]="loading" nbButton (click)="submit()" class="float-r" [disabled]="accountForm.invalid || formLocked">submit</button>
     </form>

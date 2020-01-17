@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-sm-12">
           <div class="form-group">
-            <input [status]="passwordControl.touched ? (passwordControl.invalid  ? 'danger' : 'success') : ''" nbInput
+            <input [status]="passwordControl.touched ? (passwordControl.invalid  ? 'danger' : 'success') : 'basic'" nbInput
               fullWidth shape="round" id="password" type="password" placeholder="Current Password"
               formControlName="password">
             <ng-container *ngIf="passwordControl.invalid && passwordControl.touched">
@@ -21,10 +21,10 @@
   </ng-container>
 
   <ng-container *ngIf="!formLocked">
-    <div class="row">
+    <div *ngIf="editEmail" class="row">
       <div class="col-sm-12">
         <div class="form-group">
-          <input [status]="emailControl.touched ? (emailControl.invalid || parentFormGroup.errors?.requiredIf  ? 'danger' : 'success') : ''" nbInput fullWidth
+          <input [status]="emailControl.touched ? (emailControl.invalid || parentFormGroup.errors?.requiredIf  ? 'danger' : 'success') : 'basic'" nbInput fullWidth
             shape="round" id="email" type="email" placeholder="Login Email" formControlName="email">
           <ng-container *ngIf="(emailControl.invalid || parentFormGroup.errors?.requiredIf) && emailControl.touched">
             <p class="caption status-danger" *ngIf="!!emailControl.errors?.email">Email must be a valid email address</p>
@@ -34,10 +34,10 @@
       </div>
     </div>
 
-    <div class="row">
+    <div *ngIf="!editEmail" class="row">
       <div class="col-sm-6">
         <div class="form-group">
-          <input [status]="newPasswordControl.touched ? (newPasswordControl.invalid  ? 'danger' : 'success') : ''" nbInput
+          <input [status]="newPasswordControl.touched ? (newPasswordControl.invalid  ? 'danger' : 'success') : 'basic'" nbInput
             fullWidth shape="round" id="newPassword" type="password" placeholder="New Password"
             formControlName="newPassword">
           <ng-container *ngIf="newPasswordControl.invalid && newPasswordControl.touched">
@@ -53,7 +53,7 @@
 
       <div class="col-sm-6">
         <div class="form-group">
-          <input [status]="newPasswordMatchControl.touched ? (parentFormGroup.invalid  ? 'danger' : 'success') : ''"
+          <input [status]="newPasswordMatchControl.touched ? (parentFormGroup.invalid  ? 'danger' : 'success') : 'basic'"
             nbInput fullWidth shape="round" id="newPasswordMatch" type="password" placeholder="Confirm new Password"
             formControlName="newPasswordMatch">
           <ng-container *ngIf="parentFormGroup.invalid && newPasswordMatchControl.touched">

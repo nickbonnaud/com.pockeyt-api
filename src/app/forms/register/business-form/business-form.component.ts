@@ -46,14 +46,12 @@ export class BusinessFormComponent implements OnInit, OnDestroy {
     this.einControl = this.parentFormGroup.get('ein');
 
     this.watchEntityType();
-    this.watchBusiness();
+    this.fetchBusiness();
   }
 
-  watchBusiness(): void {
-    this.businessService.business$.pipe(takeUntil(this.destroyed$)).subscribe((business: Business) => {
-      this.setFormValues(business)
-      this.markFormValues();
-    });
+  fetchBusiness(): void {
+    this.setFormValues(this.businessService.business$.getValue())
+    this.markFormValues();
   }
 
   setFormValues(business: Business): void {
@@ -92,12 +90,14 @@ export class BusinessFormComponent implements OnInit, OnDestroy {
 
   watchEntityType(): void {
     this.entityTypeControl.valueChanges.pipe(takeUntil(this.destroyed$)).subscribe(entityType => {
-      if (entityType === 'soleProprietorship') {
-        this.disableEin();
-        this.removeEinValidators();
-      } else {
-        this.einControl.enable();
-        this.addEinValidators();
+      if (this.parentFormGroup.enabled) {
+        if (entityType === "soleProprietorship") {
+          this.disableEin();
+          this.removeEinValidators();
+        } else {
+          this.einControl.enable();
+          this.addEinValidators();
+        }
       }
     });
   }

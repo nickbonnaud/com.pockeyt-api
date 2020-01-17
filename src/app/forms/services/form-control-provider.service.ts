@@ -282,14 +282,7 @@ export class FormControlProviderService {
           primaryOwnerValidator(owners)
         ])
       ],
-      percentOwnership: [
-        "",
-        Validators.compose([
-          Validators.required,
-          numberValidator,
-          percentOwnValidator(owners)
-        ])
-      ]
+      percentOwnership: [""]
     });
   }
 

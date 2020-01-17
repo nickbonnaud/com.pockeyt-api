@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
+import { FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { FormControlProviderService } from 'src/app/forms/services/form-control-provider.service';
 import { Owner } from 'src/app/models/business/owner';
 import { BusinessService } from 'src/app/services/business.service';
@@ -12,13 +12,14 @@ import { ApiService } from 'src/app/services/api.service';
 import { Observable, Subscription, forkJoin } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { WarningDialogComponent } from 'src/app/dialogs/warning-dialog/warning-dialog.component';
+import { numberValidator } from 'src/app/forms/validators/number-validator';
 
 @Component({
   selector: "app-owners",
   templateUrl: "./owners.component.html",
   styleUrls: ["./owners.component.scss"]
 })
-export class OwnersComponent implements OnInit, OnDestroy {
+export class OwnersComponent implements OnInit, AfterViewInit, OnDestroy {
   private destroyed$: Subject<boolean> = new Subject<boolean>();
 
   ownerForm: FormGroup;
@@ -47,6 +48,31 @@ export class OwnersComponent implements OnInit, OnDestroy {
     this.watchPrimary();
   }
 
+  ngAfterViewInit(): void {
+    this.setPercentOwnValidator();
+  }
+
+  setPercentOwnValidator(): void {
+    let percentOwn = this.ownerForm.get("percentOwnership");
+    percentOwn.setValidators([Validators.required, numberValidator, this.percentOwn.bind(this)]);
+    percentOwn.updateValueAndValidity({onlySelf:true});
+
+  }
+
+  percentOwn(): { [key: string]: any } | null {
+    let total = 0;
+    this.owners.forEach(owner => {
+      if (owner.identifier != this.selectedOwner.identifier) {
+        const percentOwn: number = typeof owner.percentOwnership === 'string' ? parseInt(owner.percentOwnership) : owner.percentOwnership;
+        total = total + percentOwn;
+      }
+    });
+    if (total + parseInt(this.ownerForm.get("percentOwnership").value) > 100) {
+      return { percentOwn: true };
+    }
+    return null;
+  }
+
   fetchOwners(): void {
     this.owners = this.businessService.business$.value.accounts.ownerAccounts;
   }
@@ -62,14 +88,16 @@ export class OwnersComponent implements OnInit, OnDestroy {
     this.ownerForm
       .get("primary")
       .valueChanges.pipe(takeUntil(this.destroyed$))
-      .subscribe((isPrimary: boolean) => {
-        if (isPrimary) {
-          this.markPrimaryAsTouched();
-          this.showChangePrimaryWarning();
-        } else {
-          this.showAssignPrimaryWarning();
-        }
-      });
+      .subscribe((isPrimary: boolean) => this.checkPrimary(isPrimary));
+  }
+
+  checkPrimary(isPrimary: boolean): void {
+    if (isPrimary) {
+      this.markPrimaryAsTouched();
+      this.showChangePrimaryWarning();
+    } else {
+      this.showAssignPrimaryWarning();
+    }
   }
 
   markPrimaryAsTouched(): void {
@@ -103,15 +131,17 @@ export class OwnersComponent implements OnInit, OnDestroy {
       return owner.primary;
     });
     if (
-      prevPrimaryOwner != undefined &&
+      prevPrimaryOwner != undefined && this.selectedOwner != undefined &&
       this.selectedOwner.identifier != prevPrimaryOwner.identifier
     ) {
+      const newPrimaryFirst = this.selectedOwner.firstName == undefined ? (this.ownerForm.get('firstName').value == undefined ? 'new' : this.ownerForm.get('firstName').value) : this.selectedOwner.firstName;
+      const newPrimaryLast = this.selectedOwner.lastName == undefined ? (this.ownerForm.get('lastName').value == undefined ? 'owner' : this.ownerForm.get('lastName').value) : this.selectedOwner.lastName;
       this.dialogService
         .open(ConfirmOrCancelDialogComponent, {
           closeOnBackdropClick: false,
           context: {
             title: "Primary Owner already assigned!",
-            body: `Change the Primary Owner from ${prevPrimaryOwner.firstName} ${prevPrimaryOwner.lastName} to ${this.selectedOwner.firstName} ${this.selectedOwner.lastName}?`
+            body: `Change the Primary Owner from ${prevPrimaryOwner.firstName} ${prevPrimaryOwner.lastName} to ${newPrimaryFirst} ${newPrimaryLast}?`
           }
         })
         .onClose.pipe(takeUntil(this.destroyed$))
@@ -139,38 +169,41 @@ export class OwnersComponent implements OnInit, OnDestroy {
   submit(): void {
     if (!this.loading && !this.loadingDelete) {
       this.loading = true;
-      if (this.ownersToUpdate.length > 0) {
-        let ownersObservable: Observable<Owner>[] = [];
+      let ownersObservable: Observable<Owner>[] = [];
 
+      if (this.selectedOwner.identifier != undefined) {
         ownersObservable.push(
-          this.send(this.ownerForm.value, this.selectedOwner.identifier)
+          this.sendPatch(this.ownerForm.value, this.selectedOwner.identifier)
         );
-        this.ownersToUpdate.forEach((owner: Owner) => {
-          ownersObservable.push(
-            this.send(this.formatOwnersData(owner), owner.identifier)
-          );
-        });
-        forkJoin(ownersObservable)
-          .pipe(takeUntil(this.destroyed$))
-          .subscribe((owners: Owner[]) => {
-            console.log(owners);
-            owners.forEach((owner: Owner) => {
-              this.setNewOwnerValue(owner);
-            });
-            this.endSubmit();
-          });
       } else {
-        this.send(this.ownerForm.value, this.selectedOwner.identifier)
-          .pipe(takeUntil(this.destroyed$))
-          .subscribe((owner: Owner) => {
-            this.setNewOwnerValue(owner);
-            this.endSubmit();
-          });
+        ownersObservable.push(this.sendPost(this.ownerForm.value));
       }
+      this.ownersToUpdate.forEach((owner: Owner) => {
+        ownersObservable.push(
+          this.sendPatch(this.formatOwnersData(owner), owner.identifier)
+        );
+      });
+      forkJoin(ownersObservable)
+        .pipe(takeUntil(this.destroyed$))
+        .subscribe((owners: Owner[]) => {
+          owners.forEach((owner: Owner) => {
+            this.setNewOwnerValue(owner);
+          });
+          this.endSubmit();
+        });
     }
   }
 
+  sendPatch(formData: any, id: string): Observable<Owner> {
+    return this.api.patch<Owner>(this.BASE_URL, formData, id);
+  }
+
+  sendPost(formData: any): Observable<Owner> {
+    return this.api.post<Owner>(this.BASE_URL, formData);
+  }
+
   endSubmit(): void {
+    this.selectedOwner = undefined;
     this.ownersToUpdate = [];
     this.toggleLock();
     this.loading = false;
@@ -197,10 +230,6 @@ export class OwnersComponent implements OnInit, OnDestroy {
 
     ownerData = Object.assign({}, ownerData, ownerAddress);
     return ownerData;
-  }
-
-  send(formData: any, id: string): Observable<Owner> {
-    return this.api.patch<Owner>(this.BASE_URL, formData, id);
   }
 
   trackByFn(index: number, owner: Owner): number {
@@ -262,28 +291,14 @@ export class OwnersComponent implements OnInit, OnDestroy {
   }
 
   addOwner(): void {
-    this.ownerForm.reset();
     this.selectedOwner = new Owner();
+    this.ownerForm.reset();
     this.toggleLock();
-    this.ownerForm.get('primary').setValue(false);
   }
 
   cancelNew(): void {
     this.toggleLock();
     this.selectedOwner = this.owners[0];
-  }
-
-  submitNew(): void {
-    if (!this.loading && !this.loadingDelete) {
-      this.loading = true;
-      this.api.post<Owner>(this.BASE_URL, this.ownerForm.value)
-        .pipe(takeUntil(this.destroyed$))
-        .subscribe((owner: Owner) => {
-          this.selectedOwner = owner;
-          this.owners.push(owner);
-          this.endSubmit();
-        });
-    }
   }
 
   ngOnDestroy(): void {

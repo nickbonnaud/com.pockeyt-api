@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
 import { FormGroup, AbstractControl } from '@angular/forms';
 import { Owner } from 'src/app/models/business/owner';
 import { STATE_OPTIONS } from 'src/assets/data/states-select';
@@ -54,18 +54,14 @@ export class EditOwnerComponent implements OnInit, OnChanges {
 
       ownerData = Object.assign({}, ownerData, ownerAddress);
       this.parentFormGroup.setValue(ownerData);
+    } else {
+      this.parentFormGroup.get('primary').setValue(false);
     }
   }
 
   markStateAsDirty(): void {
     if (!this.stateControl.dirty) {
       this.stateControl.markAsDirty();
-    }
-  }
-
-  markPrimaryAsDirty(): void {
-    if (!this.primaryControl.dirty) {
-      this.primaryControl.markAsDirty();
     }
   }
 

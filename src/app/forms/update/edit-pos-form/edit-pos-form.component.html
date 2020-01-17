@@ -4,7 +4,7 @@
     <div class="col-sm-4">
       <div class="form-group">
         <nb-select (click)="markTypeAsDirty()"
-          [status]="typeControl.dirty ? (typeControl.invalid ? 'danger' : 'success') : ''" fullWidth shape="round"
+          [status]="typeControl.dirty ? (typeControl.invalid ? 'danger' : 'success') : 'basic'" fullWidth shape="round"
           id="type" placeholder="Current POS system" formControlName="type">
           <nb-option *ngFor="let posType of posOptions" [value]="posType.value">{{ posType.name }}</nb-option>
         </nb-select>
@@ -19,7 +19,7 @@
 
     <div class="col-sm-4 checkbox">
       <div class="form-group">
-        <nb-checkbox [status]="tipsControl.dirty ? (tipsControl.invalid ? 'danger' : 'success') : ''" id="takesTips" formControlName="takesTips">Take Tips</nb-checkbox>
+        <nb-checkbox [status]="tipsControl.dirty ? (tipsControl.invalid ? 'danger' : 'success') : 'basic'" id="takesTips" formControlName="takesTips">Take Tips</nb-checkbox>
         <ng-container *ngIf="tipsControl.invalid && tipsControl.dirty">
           <p class="caption status-danger" *ngIf="!!tipsControl.errors?.required">Please select whether your system
             currently takes tips.</p>
@@ -30,7 +30,7 @@
 
     <div class="col-sm-4 checkbox">
       <div class="form-group">
-        <nb-checkbox [status]="openTicketsControl.dirty ? (openTicketsControl.invalid ? 'danger' : 'success') : ''" id="allowsOpenTickets" formControlName="allowsOpenTickets">Allow Tabs/Tickets?</nb-checkbox>
+        <nb-checkbox [status]="openTicketsControl.dirty ? (openTicketsControl.invalid ? 'danger' : 'success') : 'basic'" id="allowsOpenTickets" formControlName="allowsOpenTickets">Allow Tabs/Tickets?</nb-checkbox>
         <ng-container *ngIf="openTicketsControl.invalid && openTicketsControl.dirty">
           <p class="caption status-danger" *ngIf="!!openTicketsControl.errors?.required">Please select whether your
             system

@@ -10,7 +10,6 @@ import { Observable } from 'rxjs';
 import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 import { SweetAlertType } from 'sweetalert2';
 import { patterns } from 'src/app/forms/validators/patterns';
-import { NbTokenService } from '@nebular/auth';
 
 @Component({
   selector: "app-dashboard-account",
@@ -28,12 +27,12 @@ export class DashboardAccountComponent implements OnInit, OnDestroy {
   loading: boolean = false;
   loadingPassCheck: boolean = false;
   correctCurrentPassword: boolean = false;
+  editEmail: boolean = true;
 
   constructor(
     private api: ApiService,
     private businessService: BusinessService,
-    private tokenService: NbTokenService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
   ) {}
 
   ngOnInit() {
@@ -136,28 +135,35 @@ export class DashboardAccountComponent implements OnInit, OnDestroy {
   submit(): void {
     if (!this.loading) {
       this.loading = true;
-      const formData: any = {
-        email: this.accountForm.get("email").value,
-        oldPassword: this.accountForm.get("password").value,
-        password: this.accountForm.get("newPassword").value
-      };
       this.api
         .patch<any>(
           urls.business.business_update,
-          formData,
+          this.formatBody(),
           this.business.identifier
         )
         .pipe(takeUntil(this.destroyed$))
-        .subscribe((loginData: any) => {
-          this.business.email = loginData.email;
-          this.business.token = loginData.token.value;
+        .subscribe((response: any) => {
+          if (this.editEmail) {
+            this.business.email = response.email;
+          }
           this.businessService.updateBusiness(this.business);
-          this.tokenService.set(loginData.token.value);
+
           this.loading = false;
           this.lockForm();
-          this.showAlert("Successfully updated login", "success");
+          this.showAlert(`Successfully updated ${this.editEmail ? 'email' : 'password'}!`, "success");
         });
     }
+  }
+
+  formatBody(): any {
+    if (this.editEmail) {
+      return { email: this.accountForm.get("email").value };
+    }
+    return {
+      oldPassword: this.accountForm.get("password").value,
+      password: this.accountForm.get("newPassword").value,
+      passwordConfirmation: this.accountForm.get("newPasswordMatch").value
+    };
   }
 
   showAlert(title: string, type: SweetAlertType): void {
@@ -168,6 +174,10 @@ export class DashboardAccountComponent implements OnInit, OnDestroy {
       showConfirmButton: false
     });
     this.alert.fire();
+  }
+
+  toggleEdit(): void {
+    this.editEmail = !this.editEmail;
   }
 
   ngOnDestroy(): void {

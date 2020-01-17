@@ -1,6 +1,6 @@
 import { Address } from './address';
 export class Bank {
-  identifer: string;
+  identifier: string;
   firstName: string;
   lastName: string;
   address: Address;

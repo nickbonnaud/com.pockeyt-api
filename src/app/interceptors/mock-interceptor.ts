@@ -729,7 +729,7 @@ export class MockInterceptor implements HttpInterceptor {
           state: "WA",
           zip: "53366"
         },
-        entity_type: "soleProprietorship"
+        entity_type: "llc",
       }
     };
   }
@@ -787,25 +787,6 @@ export class MockInterceptor implements HttpInterceptor {
   getOwner(req: HttpRequest<any> = null) {
     return {
       data: [
-        {
-          identifier: "df8de560-1073-11ea-80a1-93b22131cec1",
-          address: {
-            address: "93469 Breitenberg Gardens Suite 047",
-            address_secondary: null,
-            city: "Flossieshire",
-            state: "VT",
-            zip: "86069"
-          },
-          dob: "03/30/1977",
-          ssn: "XXXXX3426",
-          last_name: "Romaguera",
-          first_name: "Camryn",
-          title: "CEO",
-          phone: "9507856208",
-          email: "mable74@hills.info",
-          primary: false,
-          percent_ownership: 25
-        },
         {
           identifier: "e0463b50-1073-11ea-886b-a9ffe5da05b2",
           address: {
