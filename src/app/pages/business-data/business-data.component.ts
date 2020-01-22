@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, AbstractControl } from '@angular/forms';
 import { FormControlProviderService } from 'src/app/forms/services/form-control-provider.service';
 import { BusinessAccount } from 'src/app/models/business/business-account';
 import { ApiService } from 'src/app/services/api.service';
@@ -34,11 +34,11 @@ export class BusinessDataComponent implements OnInit, OnDestroy {
     this.BASE_URL = urls.business.account_store_patch;
     this.businessForm = this.fcProvider.registerBusinessControls();
     this.fetchBusinessAccount();
+    this.businessForm.disable();
   }
 
   fetchBusinessAccount(): void {
-    this.setBusinessForm(this.businessService.business$.value);
-    this.businessForm.disable();
+    this.business = this.businessService.business$.value;
   }
 
   setBusinessForm(business: Business): void {
@@ -61,8 +61,10 @@ export class BusinessDataComponent implements OnInit, OnDestroy {
 
   setLock(): void {
     this.formLocked = !this.formLocked;
+    let einControl: AbstractControl = this.businessForm.get("ein");
+    let typeControl: AbstractControl = this.businessForm.get("entityType");
     this.businessForm.disabled
-      ? this.businessForm.enable()
+      ? (this.businessForm.enable(), typeControl.value == "soleProprietorship" ? einControl.disable() : null)
       : this.businessForm.disable();
   }
 

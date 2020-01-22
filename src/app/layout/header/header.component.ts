@@ -14,6 +14,7 @@ import { MessageListComponent } from 'src/app/pop-overs/message-list/message-lis
 import { PaginatorService } from 'src/app/services/paginator.service';
 import { Router, NavigationEnd } from '@angular/router';
 import { NbAuthService } from '@nebular/auth';
+import { StorageService } from 'src/app/services/storage.service';
 
 
 @Component({
@@ -61,6 +62,7 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
     private paginator: PaginatorService,
     private router: Router,
     private authService: NbAuthService,
+    private storageService: StorageService
   ) {
     this.watchRoutes();
   }
@@ -133,12 +135,17 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
         )
         .subscribe((res: any) => {
           if (res.token == null) {
-            this.loadingLogout = false;
-            this.authService.logout("email");
-            this.router.navigateByUrl("/auth/login");
+            this.endLogout();
           }
+          this.loadingLogout = false;
         });
     }
+  }
+
+  endLogout(): void {
+    this.authService.logout("email");
+    this.storageService.destroy();
+    this.router.navigateByUrl("/auth/login");
   }
 
 

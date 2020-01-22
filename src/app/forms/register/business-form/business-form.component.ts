@@ -2,7 +2,7 @@ import { BusinessService } from './../../../services/business.service';
 import { Business } from 'src/app/models/business/business';
 import { takeUntil } from 'rxjs/operators';
 import { FormGroup, AbstractControl, Validators } from '@angular/forms';
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { ENTITY_TYPE_OPTIONS } from 'src/assets/data/entity-types-select';
 import { STATE_OPTIONS } from 'src/assets/data/states-select';
 import { Subject } from 'rxjs/internal/Subject';
@@ -33,7 +33,7 @@ export class BusinessFormComponent implements OnInit, OnDestroy {
 
   business: Business;
 
-  constructor(private businessService: BusinessService) {}
+  constructor(private businessService: BusinessService, private cd: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.businessNameControl = this.parentFormGroup.get('businessName');
@@ -50,7 +50,7 @@ export class BusinessFormComponent implements OnInit, OnDestroy {
   }
 
   fetchBusiness(): void {
-    this.setFormValues(this.businessService.business$.getValue())
+    this.setFormValues(this.businessService.business$.getValue());
     this.markFormValues();
   }
 
@@ -60,6 +60,8 @@ export class BusinessFormComponent implements OnInit, OnDestroy {
     this.cityControl.patchValue(business.accounts.businessAccount.address.city);
     this.stateControl.patchValue(business.accounts.businessAccount.address.state);
     this.zipControl.patchValue(business.accounts.businessAccount.address.zip);
+    this.entityTypeControl.patchValue(business.accounts.businessAccount.entityType);
+    this.einControl.patchValue(business.accounts.businessAccount.ein);
   }
 
   markFormValues(): void {

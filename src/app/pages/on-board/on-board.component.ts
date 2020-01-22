@@ -29,6 +29,7 @@ import { NbStepperComponent, NbDialogService, NbDialogRef } from "@nebular/theme
 import { FileUploaderService } from 'src/app/services/file-uploader.service';
 import { ConfirmOrCancelDialogComponent } from 'src/app/dialogs/confirm-or-cancel-dialog/confirm-or-cancel-dialog.component';
 import { WarningDialogComponent } from 'src/app/dialogs/warning-dialog/warning-dialog.component';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: "app-on-board",
@@ -74,7 +75,8 @@ export class OnBoardComponent implements OnInit, OnDestroy, AfterViewInit {
     private router: Router,
     private authService: NbAuthService,
     private routeFinderService: RouteFinderService,
-    private dialogService: NbDialogService
+    private dialogService: NbDialogService,
+    private storageService: StorageService
   ) {}
 
   ngOnInit() {
@@ -408,6 +410,7 @@ export class OnBoardComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   goForward(): void {
+    this.storageService.set(this.business);
     this.stepper.next();
   }
 

@@ -15,6 +15,7 @@ import { environment } from "src/environments/environment";
 import { MockInterceptor } from "../interceptors/mock-interceptor";
 import { BodyInterceptor } from "../interceptors/body-Interceptor";
 import { Status } from "../models/other-data/status";
+import { StorageService } from './storage.service';
 
 @Injectable({
   providedIn: "root"
@@ -26,7 +27,8 @@ export class BusinessService {
 
   constructor(
     private mockData: MockInterceptor,
-    private bodyMutator: BodyInterceptor
+    private bodyMutator: BodyInterceptor,
+    private storageService: StorageService
   ) {
     if (!environment.production) {
       this.createTestBusiness();
@@ -85,6 +87,11 @@ export class BusinessService {
     }
     business.photos.logo = business.photos.logo == undefined ? new Photo() : business.photos.logo;
     business.photos.banner = business.photos.banner == undefined ? new Photo() : business.photos.banner;
+    this.update(business);
+  }
+
+  private update(business: Business): void {
+    this.storageService.set(business);
     this.business$.next(business);
   }
 

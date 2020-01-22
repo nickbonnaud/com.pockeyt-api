@@ -5,9 +5,9 @@
 export const environment = {
   production: true,
   app_name: 'Heist',
-  google_api_key: 'AIzaSyCRh9F7rjZFYmAgVbn8_89m0L_Cyj-QC10',
+  google_api_key: '',
   base_url: 'http://pockeyt.local',
-  square_client_id: 'sq0idp-AmOBjmq2xjRB1vRIjqHOuA'
+  square_client_id: ''
 };
 
 /*
