@@ -3,7 +3,7 @@ import { Business } from './../../models/business/business';
 import { environment } from 'src/environments/environment';
 import { Component, OnInit, OnDestroy, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { NbSidebarService, NbMediaBreakpointsService, NbThemeService, NbMenuService, NbPopoverDirective } from '@nebular/theme';
-import { map, takeUntil, filter } from 'rxjs/operators';
+import { map, takeUntil, filter, tap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { BusinessService } from 'src/app/services/business.service';
 import { ApiService } from 'src/app/services/api.service';
@@ -125,7 +125,12 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
       this.loadingLogout = true;
       this.api
         .get<any>(urls.auth.logout)
-        .pipe(takeUntil(this.destroy$))
+        .pipe(
+          tap(_ => {},
+            err => this.loadingLogout = false
+          ),
+          takeUntil(this.destroy$)
+        )
         .subscribe((res: any) => {
           if (res.token == null) {
             this.loadingLogout = false;
@@ -142,7 +147,12 @@ export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit {
       this.loadingMessages = true;
       this.api
         .get<Message[]>(url)
-        .pipe(takeUntil(this.destroy$))
+        .pipe(
+          tap(_ => {},
+            err => this.loadingMessages = false
+          ),
+          takeUntil(this.destroy$)
+        )
         .subscribe((messages: Message[]) => {
           this.messages.push(...messages);
           this.setMessageBadge();

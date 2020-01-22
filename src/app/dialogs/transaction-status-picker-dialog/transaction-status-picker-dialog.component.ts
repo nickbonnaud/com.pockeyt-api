@@ -1,4 +1,4 @@
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
 import { ApiService } from './../../services/api.service';
 import { urls } from './../../urls/main';
 import { Subject } from 'rxjs/internal/Subject';
@@ -38,7 +38,12 @@ export class TransactionStatusPickerDialogComponent implements OnInit, OnDestroy
       this.loading = true;
       this.api
         .get<Status[]>(url)
-        .pipe(takeUntil(this.destroyed$))
+        .pipe(
+          tap(_ => {},
+            err => this.loading = false
+          ),
+          takeUntil(this.destroyed$)
+        )
         .subscribe((statuses: Status[]) => {
           this.statuses.push(...statuses);
           this.loading = false;

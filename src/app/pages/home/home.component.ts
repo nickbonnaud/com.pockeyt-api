@@ -1,13 +1,9 @@
 import { Business } from './../../models/business/business';
-import { urls } from 'src/app/urls/main';
-import { ApiService } from './../../services/api.service';
-import { PosAccount } from './../../models/business/pos-account';
 import { Component, ViewChild, AfterViewInit, OnDestroy, OnInit } from '@angular/core';
 import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { takeUntil, filter } from 'rxjs/operators';
 import { Subject } from 'rxjs/internal/Subject';
-import { Observable } from 'rxjs/internal/Observable';
 import { BusinessService } from 'src/app/services/business.service';
 import { RouteFinderService } from 'src/app/services/route-finder.service';
 
@@ -25,7 +21,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private api: ApiService,
     private businessService: BusinessService,
     private routeFinder: RouteFinderService
   ) {}
@@ -59,7 +54,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
   }
 
   showOauthAlert(params: Params): void {
-    console.log(this.routeFinder.getPreviousUrl());
     if (params.oauth === 'success' && this.routeFinder.getPreviousUrl() == '/dashboard/onboard') {
       const title = "Success! Onboarding Complete!";
       this.showSuccessAlert(title);
@@ -67,10 +61,6 @@ export class HomeComponent implements AfterViewInit, OnDestroy, OnInit {
       const title = `Oops! Something went wrong connecting your ${this.business.posAccount.type} account!`;
       this.showFailAlert(title);
     }
-  }
-
-  getPosAccount(): Observable<PosAccount> {
-    return this.api.get<PosAccount>(urls.business.pos_store_patch_get);
   }
 
   showSuccessAlert(title: string): void {

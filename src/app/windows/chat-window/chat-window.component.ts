@@ -6,7 +6,7 @@ import { environment } from 'src/environments/environment';
 import { urls } from 'src/app/urls/main';
 import { ApiService } from 'src/app/services/api.service';
 import { Reply } from 'src/app/models/other-data/reply';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
 import { Subject } from 'rxjs/internal/Subject';
 
 @Component({
@@ -46,13 +46,16 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
       this.loading = true;
       this.api
         .post<Reply>(this.BASE_URL, replyData)
-        .pipe(takeUntil(this.destroyed$))
+        .pipe(
+          tap(_ => {},
+            err => this.loading = false
+          ),
+          takeUntil(this.destroyed$)
+        )
         .subscribe((reply: Reply) => {
-          console.log('boom');
           this.message.replies.unshift(reply);
           this.message$.next(this.message);
           this.loading = false;
-          console.log(reply);
         });
     }
   }

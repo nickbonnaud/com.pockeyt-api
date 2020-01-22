@@ -4,8 +4,10 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './auth-interceptor';
 import { PaginateInterceptor } from './paginate-interceptor';
 import { DelayInterceptor } from './delay-interceptor';
+import { ErrorInterceptor } from './error-interceptor';
 
 export const HttpInterceptorProviders = [
+  { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   { provide: HTTP_INTERCEPTORS, useClass: BodyInterceptor, multi: true },
   { provide: HTTP_INTERCEPTORS, useClass: PaginateInterceptor, multi: true },

@@ -6,7 +6,7 @@ import { Subject } from 'rxjs/internal/Subject';
 import { ApiService } from 'src/app/services/api.service';
 import { PaginatorService } from 'src/app/services/paginator.service';
 import { urls } from 'src/app/urls/main';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
 import { NbDialogService } from '@nebular/theme';
 import { TransactionDialogComponent } from 'src/app/dialogs/transaction-dialog/transaction-dialog.component';
 
@@ -102,7 +102,12 @@ export class CustomerFinderComponent implements OnInit, OnDestroy {
       this.loading = true;
       this.api
         .get<AssignedTransaction[]>(url)
-        .pipe(takeUntil(this.destroyed$))
+        .pipe(
+          tap(_ => {},
+            err => this.loading = false
+          ),
+          takeUntil(this.destroyed$)
+        )
         .subscribe((transactions: AssignedTransaction[]) => {
           this.transactions.push(...transactions);
           this.loading = false;

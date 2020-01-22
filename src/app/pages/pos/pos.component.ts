@@ -6,7 +6,7 @@ import { BusinessService } from 'src/app/services/business.service';
 import { urls } from 'src/app/urls/main';
 import { PosAccount } from 'src/app/models/business/pos-account';
 import { Subject } from 'rxjs/internal/Subject';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
 
 @Component({
   selector: "app-pos",
@@ -62,7 +62,12 @@ export class PosComponent implements OnInit, OnDestroy {
       this.loading = true;
       this.api
         .patch<PosAccount>(this.BASE_URL, this.posForm.value, this.posAccount.identifier)
-        .pipe(takeUntil(this.destroyed$))
+        .pipe(
+          tap(_ => {},
+            err => this.loading = false
+          ),
+          takeUntil(this.destroyed$)
+        )
         .subscribe((posAccount: PosAccount) => {
           this.businessService.updatePosAccount(posAccount);
           this.setPosForm(posAccount);

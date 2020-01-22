@@ -6,7 +6,7 @@ import { Location } from 'src/app/models/business/location';
 import { BusinessService } from 'src/app/services/business.service';
 import { ApiService } from 'src/app/services/api.service';
 import { Subject } from 'rxjs/internal/Subject';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
 
 @Component({
   selector: "app-geo-fence",
@@ -53,7 +53,12 @@ export class GeoFenceComponent implements OnInit, OnDestroy {
       this.loading = true;
       this.api
         .patch<Location>(this.BASE_URL, this.mapForm.value, this.location.identifier)
-        .pipe(takeUntil(this.destroyed$))
+        .pipe(
+          tap(_ => {},
+            err => this.loading = false
+          ),
+          takeUntil(this.destroyed$)
+        )
         .subscribe((location: Location) => {
           this.businessService.updateLocation(location);
           this.setMapForm(location);

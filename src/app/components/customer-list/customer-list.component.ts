@@ -4,7 +4,7 @@ import { urls } from './../../urls/main';
 import { ActiveCustomer } from './../../models/customer/active-customer';
 import { ApiService } from './../../services/api.service';
 import { Component, OnInit, OnDestroy, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { PaginatorService } from 'src/app/services/paginator.service';
 
@@ -58,7 +58,12 @@ export class CustomerListComponent implements OnInit, OnDestroy, OnChanges {
       this.changeLoading();
       this.api
         .get<ActiveCustomer[]>(url)
-        .pipe(takeUntil(this.destroyed$))
+        .pipe(
+          tap(_ => {},
+            err => this.changeLoading()
+          ),
+          takeUntil(this.destroyed$)
+        )
         .subscribe((customers: ActiveCustomer[]) => {
           this.customers.push(...customers);
           this.changeLoading();

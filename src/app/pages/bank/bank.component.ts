@@ -6,7 +6,7 @@ import { ApiService } from 'src/app/services/api.service';
 import { FormControlProviderService } from 'src/app/forms/services/form-control-provider.service';
 import { BusinessService } from 'src/app/services/business.service';
 import { Subject } from 'rxjs/internal/Subject';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
 import { Business } from 'src/app/models/business/business';
 
 @Component({
@@ -68,7 +68,12 @@ export class BankComponent implements OnInit, OnDestroy {
       this.loading = true;
       this.api
         .patch<Bank>(this.BASE_URL, this.bankForm.value, this.bank.identifier)
-        .pipe(takeUntil(this.destroyed$))
+        .pipe(
+          tap(_ => {},
+            err => this.loading = false
+          ),
+          takeUntil(this.destroyed$)
+        )
         .subscribe((bank: Bank) => {
           let business: Business = this.businessService.business$.value;
           this.businessService.updateAccounts(business.accounts.businessAccount, business.accounts.ownerAccounts, bank);

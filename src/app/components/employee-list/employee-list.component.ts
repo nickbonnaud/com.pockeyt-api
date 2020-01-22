@@ -4,7 +4,7 @@ import { ApiService } from './../../services/api.service';
 import { Subject } from 'rxjs/internal/Subject';
 import { NbCalendarRange, NbDateService, NbDialogService } from '@nebular/theme';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
 import { CalendarDialogComponent } from 'src/app/dialogs/calendar-dialog/calendar-dialog.component';
 
 interface Employee {
@@ -128,7 +128,12 @@ export class EmployeeListComponent implements OnInit, OnDestroy {
     }
     this.api
       .get<Employee[]>(url)
-      .pipe(takeUntil(this.destroyed$))
+      .pipe(
+        tap(_ => {},
+          err => this.loading = false
+        ),
+        takeUntil(this.destroyed$)
+      )
       .subscribe((employees: Employee[]) => {
         this.employees.push(...employees);
         this.loading = false;

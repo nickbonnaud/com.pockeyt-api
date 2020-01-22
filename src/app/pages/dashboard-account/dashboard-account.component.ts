@@ -5,7 +5,7 @@ import { Business } from 'src/app/models/business/business';
 import { ApiService } from 'src/app/services/api.service';
 import { BusinessService } from 'src/app/services/business.service';
 import { urls } from 'src/app/urls/main';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 import { SweetAlertType } from 'sweetalert2';
@@ -128,7 +128,12 @@ export class DashboardAccountComponent implements OnInit, OnDestroy {
       const formData = { password: this.accountForm.get("password").value };
       return this.api
         .post<any>(urls.auth.verify, formData)
-        .pipe(takeUntil(this.destroyed$));
+        .pipe(
+          tap(_ => {},
+            err => this.loadingPassCheck = false
+          ),
+          takeUntil(this.destroyed$)
+        );
     }
   }
 
@@ -141,7 +146,12 @@ export class DashboardAccountComponent implements OnInit, OnDestroy {
           this.formatBody(),
           this.business.identifier
         )
-        .pipe(takeUntil(this.destroyed$))
+        .pipe(
+          tap(_ => {},
+            err => this.loading = false
+          ),
+          takeUntil(this.destroyed$)
+        )
         .subscribe((response: any) => {
           if (this.editEmail) {
             this.business.email = response.email;

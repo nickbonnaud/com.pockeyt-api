@@ -1,5 +1,5 @@
 import { PaginatorService } from './../../services/paginator.service';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
 import { urls } from './../../urls/main';
 import { ApiService } from './../../services/api.service';
 import { NbDialogRef } from '@nebular/theme';
@@ -36,7 +36,12 @@ export class EmployeePickerDialogComponent implements OnInit, OnDestroy {
       this.loading = true;
       this.api
         .get<Employee[]>(url)
-        .pipe(takeUntil(this.destroyed$))
+        .pipe(
+          tap(_ => {},
+            err => this.loading = false
+          ),
+          takeUntil(this.destroyed$)
+        )
         .subscribe((employees: Employee[]) => {
           this.employees.push(...employees);
           this.loading = false;

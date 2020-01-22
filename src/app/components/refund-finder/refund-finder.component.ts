@@ -8,7 +8,7 @@ import { AssignedTransaction } from 'src/app/models/transaction/assigned-transac
 import { urls } from 'src/app/urls/main';
 import { ApiService } from 'src/app/services/api.service';
 import { Subject } from 'rxjs/internal/Subject';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
 
 interface RefundData {
   refund: Refund;
@@ -94,7 +94,12 @@ export class RefundFinderComponent implements OnInit, OnDestroy {
       this.loading = true;
       this.api
         .get<RefundData[]>(url)
-        .pipe(takeUntil(this.destroyed$))
+        .pipe(
+          tap(_ => {},
+            err => this.loading = false
+          ),
+          takeUntil(this.destroyed$)
+        )
         .subscribe((refunds: RefundData[]) => {
           if (refunds.length > 0) {
             this.refund = refunds[0];

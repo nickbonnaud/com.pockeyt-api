@@ -5,7 +5,7 @@ import { BusinessAccount } from 'src/app/models/business/business-account';
 import { ApiService } from 'src/app/services/api.service';
 import { urls } from 'src/app/urls/main';
 import { Subject } from 'rxjs/internal/Subject';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
 import { BusinessService } from 'src/app/services/business.service';
 import { Business } from 'src/app/models/business/business';
 
@@ -72,9 +72,13 @@ export class BusinessDataComponent implements OnInit, OnDestroy {
       const id: string = this.business.accounts.businessAccount.identifier;
       this.api
         .patch<BusinessAccount>(this.BASE_URL, this.businessForm.value, id)
-        .pipe(takeUntil(this.destroyed$))
+        .pipe(
+          tap(_ => {},
+            err => this.loading = false
+          ),
+          takeUntil(this.destroyed$)
+        )
         .subscribe((businessAccount: BusinessAccount) => {
-
           let business = this.business;
           business.accounts.businessAccount = businessAccount;
 

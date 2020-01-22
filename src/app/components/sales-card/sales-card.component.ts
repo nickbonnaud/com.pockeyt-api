@@ -2,7 +2,7 @@ import { NbCalendarRange } from '@nebular/theme';
 import { ApiService } from './../../services/api.service';
 import { Component, OnInit, Input, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 import { urls } from 'src/app/urls/main';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
 import { Subject } from 'rxjs/internal/Subject';
 
 interface CardStyle {
@@ -89,7 +89,12 @@ export class SalesCardComponent implements OnInit, OnDestroy, OnChanges {
     this.loading = true;
     this.api
       .get<any>(url)
-      .pipe(takeUntil(this.destroyed$))
+      .pipe(
+        tap(_ => {},
+          err => this.loading = false
+        ),
+        takeUntil(this.destroyed$)
+      )
       .subscribe(data => {
         this.salesData = data.salesData;
         this.loading = false;

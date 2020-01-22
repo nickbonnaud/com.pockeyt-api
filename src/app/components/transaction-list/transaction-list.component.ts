@@ -9,7 +9,7 @@ import { NbCalendarRange, NbDialogService } from '@nebular/theme';
 import { AssignedTransaction } from './../../models/transaction/assigned-transaction';
 import { urls } from 'src/app/urls/main';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
 import { Subject } from 'rxjs/internal/Subject';
 import { CalendarDialogComponent } from 'src/app/dialogs/calendar-dialog/calendar-dialog.component';
 
@@ -134,7 +134,12 @@ export class TransactionListComponent implements OnInit, OnDestroy {
       this.loading = true;
       this.api
         .get<AssignedTransaction[]>(url)
-        .pipe(takeUntil(this.destroyed$))
+        .pipe(
+          tap(_ => {},
+            err => this.loading = false
+          ),
+          takeUntil(this.destroyed$)
+        )
         .subscribe((transactions: AssignedTransaction[]) => {
           this.transactions.push(...transactions);
           this.loading = false;

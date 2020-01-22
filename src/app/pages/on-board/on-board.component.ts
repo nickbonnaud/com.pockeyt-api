@@ -18,7 +18,7 @@ import { FormGroup } from "@angular/forms";
 import { Owner } from "src/app/models/business/owner";
 import { urls } from "src/app/urls/main";
 import { Subject, Observable, forkJoin } from "rxjs";
-import { takeUntil } from "rxjs/operators";
+import { takeUntil, tap } from "rxjs/operators";
 import { Business } from "src/app/models/business/business";
 import { environment } from "src/environments/environment";
 import { Router } from "@angular/router";
@@ -42,6 +42,7 @@ export class OnBoardComponent implements OnInit, OnDestroy, AfterViewInit {
   private destroyed$: Subject<boolean> = new Subject<boolean>();
 
   loading: boolean = false;
+  loadingGeoAddress: boolean = false;
 
   profileForm: FormGroup;
   businessForm: FormGroup;
@@ -175,7 +176,12 @@ export class OnBoardComponent implements OnInit, OnDestroy, AfterViewInit {
   uploadProfileData(business: Business): void {
     this.loading = true;
     forkJoin([this.postProfile(), this.postLocation(business)])
-      .pipe(takeUntil(this.destroyed$))
+      .pipe(
+        tap(_ => {},
+          err => this.loading = false
+        ),
+        takeUntil(this.destroyed$)
+      )
       .subscribe((data: [Profile, Location]) => {
         this.business.profile = data[0];
         this.business.location = data[1];
@@ -222,7 +228,12 @@ export class OnBoardComponent implements OnInit, OnDestroy, AfterViewInit {
       this.postPhoto(logoData, profile.identifier),
       this.postPhoto(bannerData, profile.identifier)
     ])
-      .pipe(takeUntil(this.destroyed$))
+      .pipe(
+        tap(_ => {},
+          err => this.loading = false
+        ),
+        takeUntil(this.destroyed$)
+      )
       .subscribe((logoBannerPhotos: [Photos, Photos]) => {
         let photos: Photos = new Photos();
         photos.logo = logoBannerPhotos[0].logo;
@@ -251,7 +262,12 @@ export class OnBoardComponent implements OnInit, OnDestroy, AfterViewInit {
         urls.business.account_store_patch,
         this.businessForm.value
       )
-      .pipe(takeUntil(this.destroyed$))
+      .pipe(
+        tap(_ => {},
+          err => this.loading = false
+        ),
+        takeUntil(this.destroyed$)
+      )
       .subscribe((businessAccount: BusinessAccount) => {
         let business: Business = this.businessService.business$.getValue();
         if (
@@ -287,7 +303,12 @@ export class OnBoardComponent implements OnInit, OnDestroy, AfterViewInit {
         );
       });
       forkJoin(responses)
-        .pipe(takeUntil(this.destroyed$))
+        .pipe(
+          tap(_ => {},
+            err => this.loading = false
+          ),
+          takeUntil(this.destroyed$)
+        )
         .subscribe((owners: Owner[]) => {
           this.business.accounts.ownerAccounts = owners;
           this.loading = false;
@@ -315,7 +336,12 @@ export class OnBoardComponent implements OnInit, OnDestroy, AfterViewInit {
     this.loading = true;
     this.api
       .post<Bank>(urls.business.bank_store_patch, this.bankForm.value)
-      .pipe(takeUntil(this.destroyed$))
+      .pipe(
+        tap(_ => {},
+          err => this.loading = false
+        ),
+        takeUntil(this.destroyed$)
+      )
       .subscribe((bank: Bank) => {
         this.business.accounts.bankAccount = bank;
         this.loading = false;
@@ -338,7 +364,12 @@ export class OnBoardComponent implements OnInit, OnDestroy, AfterViewInit {
         this.mapForm.value,
         this.business.location.identifier
       )
-      .pipe(takeUntil(this.destroyed$))
+      .pipe(
+        tap(_ => {},
+          err => this.loading = false
+        ),
+        takeUntil(this.destroyed$)
+      )
       .subscribe((location: Location) => {
         this.business.location = location;
         this.loading = false;
@@ -357,7 +388,12 @@ export class OnBoardComponent implements OnInit, OnDestroy, AfterViewInit {
     this.loading = true;
     this.api
       .post<PosAccount>(urls.business.pos_store_patch_get, this.posForm.value)
-      .pipe(takeUntil(this.destroyed$))
+      .pipe(
+        tap(_ => {},
+          err => this.loading = false
+        ),
+        takeUntil(this.destroyed$)
+      )
       .subscribe((posAccount: PosAccount) => {
         this.business.posAccount = posAccount;
         this.loading = false;
@@ -380,33 +416,42 @@ export class OnBoardComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   geoCodeAddress() {
-    let address: string = this.businessForm.get("address").value;
-    let secondary: string =
-      this.businessForm.get("addressSecondary").value.length != 0
-        ? "," + this.businessForm.get("addressSecondary").value
-        : "";
-    let fullAddress: string = `${address}${secondary}`;
+    if (!this.loadingGeoAddress) {
+      this.loadingGeoAddress = true
+      let address: string = this.businessForm.get("address").value;
+      let secondary: string =
+        this.businessForm.get("addressSecondary").value.length != 0
+          ? "," + this.businessForm.get("addressSecondary").value
+          : "";
+      let fullAddress: string = `${address}${secondary}`;
 
-    let city: string = this.businessForm.get("city").value;
-    let state: string = this.businessForm.get("state").value;
+      let city: string = this.businessForm.get("city").value;
+      let state: string = this.businessForm.get("state").value;
 
-    let urlFormatAddress: string = `address=${fullAddress},${city},${state}`
-      .split(" ")
-      .join("+");
-    const geoCodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?${urlFormatAddress}&key=${environment.google_api_key}`;
-    this.api
-      .get(geoCodeUrl)
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe((place: any) => {
-        let location: Location = Object.assign(
-          this.businessService.business$.value.location,
-          {
-            lat: place.results[0].geometry.location.lat,
-            lng: place.results[0].geometry.location.lng
-          }
-        );
-        this.businessService.updateLocation(location);
-      });
+      let urlFormatAddress: string = `address=${fullAddress},${city},${state}`
+        .split(" ")
+        .join("+");
+      const geoCodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?${urlFormatAddress}&key=${environment.google_api_key}`;
+      this.api
+        .get(geoCodeUrl)
+        .pipe(
+          tap(_ => {},
+            err => this.loadingGeoAddress = false
+          ),
+          takeUntil(this.destroyed$)
+        )
+        .subscribe((place: any) => {
+          this.loadingGeoAddress = false;
+          let location: Location = Object.assign(
+            this.businessService.business$.value.location,
+            {
+              lat: place.results[0].geometry.location.lat,
+              lng: place.results[0].geometry.location.lng
+            }
+          );
+          this.businessService.updateLocation(location);
+        });
+    }
   }
 
   redirectToOauth(): void {

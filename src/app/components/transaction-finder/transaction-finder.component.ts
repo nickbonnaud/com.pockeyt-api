@@ -5,7 +5,7 @@ import { ApiService } from './../../services/api.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/internal/Subject';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'transaction-finder',
@@ -62,7 +62,12 @@ export class TransactionFinderComponent implements OnInit, OnDestroy {
     const url: string = `${this.BASE_URL}${this.transactionIdForm.get('transactionId').value}`;
     this.api
       .get<AssignedTransaction[]>(url)
-      .pipe(takeUntil(this.destroyed$))
+      .pipe(
+        tap(_ => {},
+          err => this.loading = false
+        ),
+        takeUntil(this.destroyed$)
+      )
       .subscribe((transaction: AssignedTransaction[]) => {
         if (transaction.length != 0) {
           this.transaction = transaction[0];

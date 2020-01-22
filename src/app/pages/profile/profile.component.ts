@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { ApiService } from 'src/app/services/api.service';
 import { urls } from 'src/app/urls/main';
 import { Profile } from 'src/app/models/business/profile';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
 import { Subject } from 'rxjs/internal/Subject';
 import { FormControlProviderService } from 'src/app/forms/services/form-control-provider.service';
 import { BusinessService } from 'src/app/services/business.service';
@@ -57,7 +57,12 @@ export class ProfileComponent implements OnInit, OnDestroy {
       this.loading = true;
       this.api
         .patch<Profile>(this.BASE_URL, this.profileForm.value, this.profile.identifier)
-        .pipe(takeUntil(this.destroyed$))
+        .pipe(
+          tap(_ => {},
+            err => this.loading = false
+          ),
+          takeUntil(this.destroyed$)
+        )
         .subscribe((profile: Profile) => {
           this.setProfileForm(profile);
           this.toggleLock();

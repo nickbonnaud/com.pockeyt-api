@@ -6,6 +6,7 @@ import { Message } from 'src/app/models/other-data/message';
 import { Subject } from 'rxjs/internal/Subject';
 import { takeUntil } from 'rxjs/internal/operators/takeUntil';
 import { NbWindowRef } from '@nebular/theme';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-new-message-window',
@@ -50,7 +51,12 @@ export class NewMessageWindowComponent implements OnInit, OnDestroy {
       formData["sentByBusiness"] = true;
       this.api
         .post<Message>(this.BASE_URL, formData)
-        .pipe(takeUntil(this.destroyed$))
+        .pipe(
+          tap(_ => {},
+            err => this.loading = false
+          ),
+          takeUntil(this.destroyed$)
+        )
         .subscribe((message: Message) => {
           this.message$.next(message);
           this.loading = false;

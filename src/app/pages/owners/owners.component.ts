@@ -4,7 +4,7 @@ import { FormControlProviderService } from 'src/app/forms/services/form-control-
 import { Owner } from 'src/app/models/business/owner';
 import { BusinessService } from 'src/app/services/business.service';
 import { Subject } from 'rxjs/internal/Subject';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
 import { NbDialogService } from '@nebular/theme';
 import { ConfirmOrCancelDialogComponent } from 'src/app/dialogs/confirm-or-cancel-dialog/confirm-or-cancel-dialog.component';
 import { urls } from 'src/app/urls/main';
@@ -184,7 +184,12 @@ export class OwnersComponent implements OnInit, AfterViewInit, OnDestroy {
         );
       });
       forkJoin(ownersObservable)
-        .pipe(takeUntil(this.destroyed$))
+        .pipe(
+          tap(_ => {},
+            err => (this.loading = false, this.loadingDelete = false)
+          ),
+          takeUntil(this.destroyed$)
+        )
         .subscribe((owners: Owner[]) => {
           owners.forEach((owner: Owner) => {
             this.setNewOwnerValue(owner);
@@ -272,11 +277,16 @@ export class OwnersComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   sendDelete(): void {
-    if (!this.loadingDelete && !this.loadingDelete) {
+    if (!this.loading && !this.loadingDelete) {
       this.loadingDelete = true;
       this.api
         .delete<any>(this.BASE_URL, [], this.selectedOwner.identifier)
-        .pipe(takeUntil(this.destroyed$))
+        .pipe(
+          tap(_ => {},
+            err => (this.loading = false, this.loadingDelete = false)
+          ),
+          takeUntil(this.destroyed$)
+        )
         .subscribe(response => {
           if (response.success) {
             let index: number = this.owners.findIndex((owner: Owner) => {
@@ -286,6 +296,7 @@ export class OwnersComponent implements OnInit, AfterViewInit, OnDestroy {
             this.endSubmit();
             this.selectedOwner = this.owners[0];
           }
+          this.loadingDelete = false;
         });
     }
   }
