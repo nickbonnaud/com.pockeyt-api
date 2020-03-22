@@ -3,5 +3,6 @@ export class Profile {
   name: string;
   website: string;
   description: string;
+  phone: string;
   googlePlaceId: string;
 }

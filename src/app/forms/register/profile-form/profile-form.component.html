@@ -24,7 +24,18 @@
   </div>
 
   <div class="row">
-    <div class="col-sm-12">
+    <div class="col-sm-6">
+      <div class="form-group">
+        <input [status]="phoneControl.touched ? (phoneControl.invalid ? 'danger' : 'success') : 'basic'" mask="(000) 000-0000" nbInput fullWidth shape="round" type="tel" id="phone" placeholder="Phone Number for Location" class="form-control" formControlName="phone">
+        <ng-container *ngIf="phoneControl.invalid && phoneControl.touched">
+          <p class="caption status-danger" *ngIf="!!phoneControl.errors?.required">Phone Number is required!</p>
+          <p class="caption status-danger" *ngIf="!!phoneControl.errors?.pattern">Phone Number can contain only numbers!</p>
+          <p class="caption status-danger" *ngIf="!!phoneControl.errors?.lengthMatch">Phone Number must have 10 digits!</p>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="col-sm-6">
       <div class="form-group">
         <textarea [status]="descriptionControl.touched ? (descriptionControl.invalid  ? 'danger' : 'success') : 'basic'" rows="5" nbInput fullWidth shape="round" id="description" placeholder="Business Description" class="form-control"
           formControlName="description"></textarea>

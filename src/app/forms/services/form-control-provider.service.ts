@@ -31,6 +31,14 @@ export class FormControlProviderService {
         "",
         Validators.compose([Validators.required, Validators.minLength(25)])
       ],
+      phone: [
+        "",
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(patterns.numbers_only),
+          lengthMatchValidator(10)
+        ])
+      ],
       website: [
         "",
         Validators.compose([

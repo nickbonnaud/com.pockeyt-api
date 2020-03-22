@@ -6,6 +6,7 @@ export class GooglePlace {
   placeId: string;
   lat: string;
   lng: string;
+  phone: string;
 
   constructor(googleResponse: any) {
     this.name = googleResponse.name;
@@ -14,6 +15,7 @@ export class GooglePlace {
     this.address = this.setAddress(googleResponse.address_components);
     this.lat = googleResponse.geometry.location.lat();
     this.lng = googleResponse.geometry.location.lng();
+    this.phone = googleResponse.formatted_phone_number;
   }
 
   setAddress(addressComponents: any[]) {
