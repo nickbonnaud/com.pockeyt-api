@@ -1,7 +1,7 @@
 <div [formGroup]="parentFormGroup">
 
   <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-12">
       <div class="form-group">
         <input google-place (placeSelected)="setPlace($event)" [status]="nameControl.touched ? (nameControl.invalid  ? 'danger' : 'success') : 'basic'" nbInput fullWidth shape="round" id="name" type="text" placeholder="Business Name" formControlName="name">
         <nb-icon *ngIf="placeSet" (click)="unsetPlace()"  class="delete" status="danger" icon="close-circle"></nb-icon>
@@ -11,19 +11,21 @@
         </ng-container>
       </div>
     </div>
+  </div>
 
+  <div class="row">
     <div class="col-sm-6">
       <div class="form-group">
-        <input (focus)="focusWebsiteInput()" [value]="websiteControl.value | www: websiteFormFocused" [status]="websiteControl.touched ? (websiteControl.invalid  ? 'danger' : 'success') : 'basic'" nbInput fullWidth shape="round" id="website" type="url" placeholder="Business Website" formControlName="website">
+        <input (focus)="focusWebsiteInput()" [value]="websiteControl.value | www: websiteFormFocused"
+          [status]="websiteControl.touched ? (websiteControl.invalid  ? 'danger' : 'success') : 'basic'" nbInput fullWidth
+          shape="round" id="website" type="url" placeholder="Business Website" formControlName="website">
         <ng-container *ngIf="websiteControl.invalid && websiteControl.touched">
           <p class="caption status-danger" *ngIf="!!websiteControl.errors?.required">Website URL is required!</p>
           <p class="caption status-danger" *ngIf="!!websiteControl.errors?.pattern">Not a valid URL!</p>
         </ng-container>
       </div>
     </div>
-  </div>
 
-  <div class="row">
     <div class="col-sm-6">
       <div class="form-group">
         <input [status]="phoneControl.touched ? (phoneControl.invalid ? 'danger' : 'success') : 'basic'" mask="(000) 000-0000" nbInput fullWidth shape="round" type="tel" id="phone" placeholder="Phone Number for Location" class="form-control" formControlName="phone">
@@ -34,18 +36,46 @@
         </ng-container>
       </div>
     </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-6">
+      <h6>Operating Hours</h6>
+      <h6 class="fs-1" *ngIf="business.profile.hours?.monday">{{ business.profile.hours?.monday }}<span class="clickable" (click)="openHoursDialog('Monday')"> Change</span></h6>
+      <h6 class="fs-1" *ngIf="business.profile.hours?.monday == null">Monday:<span class="clickable" (click)="openHoursDialog('Monday')"> Add Hours</span></h6>
+
+      <h6 class="fs-1" *ngIf="business.profile.hours?.tuesday">{{ business.profile.hours?.tuesday }}<span class="clickable" (click)="openHoursDialog('Tuesday')"> Change</span></h6>
+      <h6 class="fs-1" *ngIf="business.profile.hours?.tuesday == null">Tuesday:<span class="clickable" (click)="openHoursDialog('Tuesday')"> Add Hours</span></h6>
+
+      <h6 class="fs-1" *ngIf="business.profile.hours?.wednesday">{{ business.profile.hours?.wednesday }}<span class="clickable" (click)="openHoursDialog('Wednesday')"> Change</span></h6>
+      <h6 class="fs-1" *ngIf="business.profile.hours?.wednesday == null">Wednesday:<span class="clickable" (click)="openHoursDialog('Wednesday')"> Add Hours</span></h6>
+
+      <h6 class="fs-1" *ngIf="business.profile.hours?.thursday">{{ business.profile.hours?.thursday }}<span class="clickable" (click)="openHoursDialog('Thursday')"> Change</span></h6>
+      <h6 class="fs-1" *ngIf="business.profile.hours?.thursday == null">Thursday:<span class="clickable" (click)="openHoursDialog('Thursday')"> Add Hours</span></h6>
+
+      <h6 class="fs-1" *ngIf="business.profile.hours?.friday">{{ business.profile.hours?.friday }}<span class="clickable" (click)="openHoursDialog('Friday')"> Change</span></h6>
+      <h6 class="fs-1" *ngIf="business.profile.hours?.friday == null">Friday:<span class="clickable" (click)="openHoursDialog('Friday')"> Add Hours</span></h6>
+
+      <h6 class="fs-1" *ngIf="business.profile.hours?.saturday">{{ business.profile.hours?.saturday }}<span class="clickable" (click)="openHoursDialog('Saturday')"> Change</span></h6>
+      <h6 class="fs-1" *ngIf="business.profile.hours?.saturday == null">Saturday:<span class="clickable" (click)="openHoursDialog('Saturday')"> Add Hours</span></h6>
+
+      <h6 class="fs-1" *ngIf="business.profile.hours?.sunday">{{ business.profile.hours?.sunday }}<span class="clickable" (click)="openHoursDialog('Sunday')"> Change</span></h6>
+      <h6 class="fs-1" *ngIf="business.profile.hours?.sunday == null">Sunday:<span class="clickable" (click)="openHoursDialog('Sunday')"> Add Hours</span></h6>
+    </div>
 
     <div class="col-sm-6">
       <div class="form-group">
-        <textarea [status]="descriptionControl.touched ? (descriptionControl.invalid  ? 'danger' : 'success') : 'basic'" rows="5" nbInput fullWidth shape="round" id="description" placeholder="Business Description" class="form-control"
+        <textarea [status]="descriptionControl.touched ? (descriptionControl.invalid  ? 'danger' : 'success') : 'basic'"
+          rows="5" nbInput fullWidth shape="round" id="description" placeholder="Business Description" class="form-control"
           formControlName="description"></textarea>
         <ng-container *ngIf="descriptionControl.invalid && descriptionControl.touched">
-          <p class="caption status-danger" *ngIf="!!descriptionControl.errors?.required">Business Description is required!</p>
-          <p class="caption status-danger" *ngIf="!!descriptionControl.errors?.minlength">Description must be at least 25 characters!</p>
+          <p class="caption status-danger" *ngIf="!!descriptionControl.errors?.required">Business Description is required!
+          </p>
+          <p class="caption status-danger" *ngIf="!!descriptionControl.errors?.minlength">Description must be at least 25
+            characters!</p>
         </ng-container>
       </div>
     </div>
   </div>
-
 </div>
 

@@ -46,7 +46,8 @@ export class FormControlProviderService {
           Validators.pattern(patterns.website)
         ])
       ],
-      googlePlaceId: [""]
+      googlePlaceId: [""],
+      hours: [""]
     });
   }
 

@@ -21,6 +21,7 @@ import { EditBankFormComponent } from './update/edit-bank-form/edit-bank-form.co
 import { EditPosFormComponent } from './update/edit-pos-form/edit-pos-form.component';
 import { EditDashboardAccountFormComponent } from './update/edit-dashboard-account-form/edit-dashboard-account-form.component';
 import { WwwPipe } from './pipes/www.pipe';
+import { TimePickerDialogComponent } from '../dialogs/time-picker-dialog/time-picker-dialog.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,7 @@ import { WwwPipe } from './pipes/www.pipe';
     EditDashboardAccountFormComponent,
     WwwPipe
   ],
-  entryComponents: [ConfirmOrCancelDialogComponent, OwnerListDialogComponent],
+  entryComponents: [ConfirmOrCancelDialogComponent, OwnerListDialogComponent, TimePickerDialogComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,

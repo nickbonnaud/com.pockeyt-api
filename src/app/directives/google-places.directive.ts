@@ -38,6 +38,7 @@ export class GooglePlacesDirective implements OnInit {
     const autoComplete = new google.maps.places.Autocomplete(this.element);
     autoComplete.setTypes(['establishment']);
     google.maps.event.addListener(autoComplete, 'place_changed', () => {
+      console.log(autoComplete.getPlace());
       this.placeSelected.emit(new GooglePlace(autoComplete.getPlace()));
     })
   }

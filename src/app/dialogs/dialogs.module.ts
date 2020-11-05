@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ConfirmOrCancelDialogComponent } from './confirm-or-cancel-dialog/confirm-or-cancel-dialog.component';
-import { NbCardModule, NbButtonModule, NbRadioModule, NbUserModule, NbListModule, NbCalendarRangeModule } from '@nebular/theme';
+import { NbCardModule, NbButtonModule, NbRadioModule, NbUserModule, NbListModule, NbCalendarRangeModule, NbSelectModule } from '@nebular/theme';
 import { OwnerListDialogComponent } from './owner-list-dialog/owner-list-dialog.component';
 import { TransactionDialogComponent } from './transaction-dialog/transaction-dialog.component';
 import { InputPromptDialogComponent } from './input-prompt-dialog/input-prompt-dialog.component';
@@ -9,6 +9,8 @@ import { EmployeePickerDialogComponent } from './employee-picker-dialog/employee
 import { TransactionStatusPickerDialogComponent } from './transaction-status-picker-dialog/transaction-status-picker-dialog.component';
 import { CalendarDialogComponent } from './calendar-dialog/calendar-dialog.component';
 import { WarningDialogComponent } from './warning-dialog/warning-dialog.component';
+import { TimePickerDialogComponent } from './time-picker-dialog/time-picker-dialog.component';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -21,7 +23,8 @@ import { WarningDialogComponent } from './warning-dialog/warning-dialog.componen
     EmployeePickerDialogComponent,
     TransactionStatusPickerDialogComponent,
     CalendarDialogComponent,
-    WarningDialogComponent
+    WarningDialogComponent,
+    TimePickerDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -30,7 +33,9 @@ import { WarningDialogComponent } from './warning-dialog/warning-dialog.componen
     NbRadioModule,
     NbUserModule,
     NbListModule,
-    NbCalendarRangeModule
+    NbCalendarRangeModule,
+    FormsModule,
+    NbSelectModule
   ],
   exports: [
     ConfirmOrCancelDialogComponent,
@@ -39,7 +44,8 @@ import { WarningDialogComponent } from './warning-dialog/warning-dialog.componen
     InputPromptDialogComponent,
     EmployeePickerDialogComponent,
     TransactionStatusPickerDialogComponent,
-    WarningDialogComponent
+    WarningDialogComponent,
+    TimePickerDialogComponent,
   ]
 })
 export class DialogsModule { }

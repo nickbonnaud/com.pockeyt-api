@@ -1,3 +1,5 @@
+import { OpenHours } from './open-hours';
+
 export class Profile {
   identifier: string;
   name: string;
@@ -5,4 +7,5 @@ export class Profile {
   description: string;
   phone: string;
   googlePlaceId: string;
+  hours: OpenHours;
 }

@@ -1,0 +1,7 @@
+@import '../../styles/themes';
+
+@include nb-install-component() {
+  .float-r {
+    float: right
+  }
+}

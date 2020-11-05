@@ -1,0 +1,26 @@
+<nb-card>
+  <nb-card-header>{{ day }}</nb-card-header>
+  <nb-card-body>
+    <div>
+      Open: <nb-select placeholder="Time" [(ngModel)]="selectedStartTime" (ngModelChange)="openChanged($event)">
+        <nb-option *ngFor="let hour of operatingHours" [value]="hour.value">{{ hour.time }}</nb-option>
+      </nb-select>
+      <nb-select placeholder="pm" [(ngModel)]="selectedStartPeriod">
+        <nb-option *ngFor="let type of amPmSelect" [value]="type.value">{{ type.period }}</nb-option>
+      </nb-select>
+    </div>
+    <div>
+      Close: <nb-select placeholder="Time" [(ngModel)]="selectedEndTime" (ngModelChange)="closedChanged($event)">
+        <nb-option *ngFor="let hour of operatingHours" [value]="hour.value">{{ hour.time }}</nb-option>
+      </nb-select>
+      <nb-select placeholder="pm" [(ngModel)]="selectedEndPeriod">
+        <nb-option *ngFor="let type of amPmSelect" [value]="type.value">{{ type.period }}</nb-option>
+      </nb-select>
+    </div>
+  </nb-card-body>
+  <nb-card-footer>
+    <button class="cancel" nbButton status="danger" (click)="cancel()">Cancel</button>
+    <button class="float-r" nbButton status="success" [disabled]="selectedStartTime == undefined || selectedStartPeriod == undefined || selectedEndTime == undefined || selectedEndPeriod == undefined"
+      (click)="submit()">Submit</button>
+  </nb-card-footer>
+</nb-card>

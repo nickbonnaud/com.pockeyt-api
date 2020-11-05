@@ -1,9 +1,26 @@
-.caption {
-  margin-top: 0.5rem;
-}
+@import '../../../styles/themes';
 
-.delete {
-  position: absolute;
-  right: 1.5em;
-  top: .5em;
+@include nb-install-component() {
+  .caption {
+    margin-top: 0.5rem;
+  }
+
+  .delete {
+    position: absolute;
+    right: 1.5em;
+    top: .5em;
+  }
+
+  .clickable {
+    color: nb-theme(link-text-color);
+    cursor: pointer;
+  }
+
+  .fs-1 {
+    font-size: 1rem;
+  }
+
+  .text-c {
+    text-align: center;
+  }
 }

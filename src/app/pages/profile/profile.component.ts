@@ -54,9 +54,11 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   submit(): void {
     if (!this.loading) {
+      let profileData: Profile = this.profileForm.value;
+      profileData.hours = this.profile.hours;
       this.loading = true;
       this.api
-        .patch<Profile>(this.BASE_URL, this.profileForm.value, this.profile.identifier)
+        .patch<Profile>(this.BASE_URL, profileData, this.profile.identifier)
         .pipe(
           tap(_ => {},
             err => this.loading = false

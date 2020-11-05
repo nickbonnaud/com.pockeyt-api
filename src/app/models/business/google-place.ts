@@ -1,4 +1,5 @@
 import { Address } from './address';
+import { OpenHours } from './open-hours';
 export class GooglePlace {
   name: string;
   address: Address;
@@ -7,6 +8,7 @@ export class GooglePlace {
   lat: string;
   lng: string;
   phone: string;
+  hours: OpenHours;
 
   constructor(googleResponse: any) {
     this.name = googleResponse.name;
@@ -16,6 +18,7 @@ export class GooglePlace {
     this.lat = googleResponse.geometry.location.lat();
     this.lng = googleResponse.geometry.location.lng();
     this.phone = googleResponse.formatted_phone_number;
+    this.hours = this.setHours(googleResponse.opening_hours.weekday_text);
   }
 
   setAddress(addressComponents: any[]) {
@@ -37,5 +40,17 @@ export class GooglePlace {
     });
     address.address = `${streetNumber} ${road}`;
     return address;
+  }
+
+  setHours(hours: any[]) {
+    let openHours: OpenHours = new OpenHours();
+    openHours.monday = hours[0];
+    openHours.tuesday = hours[1];
+    openHours.wednesday = hours[2];
+    openHours.thursday = hours[3];
+    openHours.friday = hours[4];
+    openHours.saturday = hours[5];
+    openHours.sunday = hours[6];
+    return openHours;
   }
 }

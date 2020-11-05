@@ -177,7 +177,7 @@ export class OnBoardComponent implements OnInit, OnDestroy, AfterViewInit {
 
   uploadProfileData(business: Business): void {
     this.loading = true;
-    forkJoin([this.postProfile(), this.postLocation(business)])
+    forkJoin([this.postProfile(business), this.postLocation(business)])
       .pipe(
         tap(_ => {},
           err => this.loading = false
@@ -192,9 +192,10 @@ export class OnBoardComponent implements OnInit, OnDestroy, AfterViewInit {
       });
   }
 
-  postProfile(): Observable<Profile> {
+  postProfile(business: Business): Observable<Profile> {
     let profileData: Profile = this.profileForm.value;
     profileData.name = this.profileForm.get("name").value;
+    profileData.hours = business.profile.hours;
     return this.api.post<Profile>(urls.business.profile_store_get, profileData);
   }
 
